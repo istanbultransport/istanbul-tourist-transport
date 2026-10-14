@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "title": "Istanbul Tourist Transport Planner — 50-place manual regression set",
-  "purpose": "Validate existing registered place selection and route handoff without paid Google Places API. The catalogue entries are matched to the current places array where marked existing-catalog; business records outside the catalogue require address/coordinate verification and integration before they can be considered runnable.",
+  "title": "Istanbul Tourist Transport Planner — 51-place manual regression set",
+  "purpose": "Validate existing registered place selection and route handoff without paid Google Places API. The catalogue entries are matched to the current places array where marked existing-catalog; business records outside the catalogue require address/coordinate verification and integration before they can be considered runnable. Anadolu Hisarı Kalesi/Müzesi için kaynakla çapraz kontrol edilmiş hedef POI koordinatı ve dört yeni rota regresyon senaryosu eklendi; bunlar canlı test edilmeden PASS sayılmaz.",
   "policy": {
     "noPaidApi": true,
     "noUnverifiedCoordinates": true,
@@ -503,6 +503,21 @@
       "source": "existing-catalog",
       "lat": 41.04285,
       "lng": 29.00753
+    },
+    {
+      "id": "anadolu_hisari",
+      "name": "Anadolu Hisarı Kalesi / Müzesi",
+      "type": "tourist-attraction",
+      "side": "Anadolu Yakası",
+      "source": "existing-catalog",
+      "lat": 41.082084,
+      "lng": 29.066895,
+      "coordinateStatus": "cross-checked-not-field-surveyed",
+      "verification": "Fortress POI coordinate cross-checked with Outdooractive (41.082084,29.066895) and official IBB museum address in Anadolu Hisarı Mahallesi, Beykoz. This is a target POI coordinate, not a surveyed visitor gate; walking entrance/path must be validated on map/live route.",
+      "sources": [
+        "https://www.outdooractive.com/mobile/en/poi/istanbul/anadolu-hisari-castle/65997849/",
+        "https://ataturkkitapligi.ibb.gov.tr/tr/Kitaplik/Muzelerimiz/Anadolu-Hisari-Muzesi/15"
+      ]
     }
   ],
   "routeCases": [
@@ -745,6 +760,30 @@
       "from": "istanbul_marriott_hotel_asia",
       "to": "galata",
       "focus": "Otel başlangıcı, iki yaka ve aktarmalar."
+    },
+    {
+      "id": "R41",
+      "from": "kadikoy",
+      "to": "anadolu_hisari",
+      "focus": "Kadıköy → Anadolu Hisarı kale hedef koordinatı; uygun ana ulaşım ve son yürüme doğrulaması."
+    },
+    {
+      "id": "R42",
+      "from": "uskudar",
+      "to": "anadolu_hisari",
+      "focus": "Üsküdar → Anadolu Hisarı; gereksiz Marmaray/metro aktarması ve otobüs/vapur alternatifi kontrolü."
+    },
+    {
+      "id": "R43",
+      "from": "sabiha",
+      "to": "anadolu_hisari",
+      "focus": "Sabiha Gökçen → Anadolu Hisarı; havaalanı bağlantısı ve son erişim."
+    },
+    {
+      "id": "R44",
+      "from": "istanbul-airport",
+      "to": "anadolu_hisari",
+      "focus": "İstanbul Havalimanı → Anadolu Hisarı; iki yaka, aktarma ve son erişim."
     }
   ],
   "perCaseChecks": [
