@@ -1,0 +1,2053 @@
+{
+  "schemaVersion": 1,
+  "sourceBuild": "V230.12.24-KAYASEHIR-M11-ENTRANCE",
+  "scope": "all 217 current place cards",
+  "summary": {
+    "total": 217,
+    "duplicateCoordinatePairs": 14,
+    "missingCoordinates": 0,
+    "verifiedVisitorEntrances": 0
+  },
+  "policy": "These are existing application coordinates, not independently verified visitor entrances. Duplicate coordinates require individual review; districts and neighborhoods are representative points, not exact entrances. Do not infer walking time from straight-line distance.",
+  "duplicateCoordinatePairs": [
+    {
+      "first": "bostanci_semt",
+      "second": "bostanci",
+      "lat": 40.955,
+      "lng": 29.096
+    },
+    {
+      "first": "eminonu_semt",
+      "second": "eminonu",
+      "lat": 41.0169,
+      "lng": 28.9705
+    },
+    {
+      "first": "kadikoy",
+      "second": "kadikoy_carsi",
+      "lat": 40.99,
+      "lng": 29.03
+    },
+    {
+      "first": "karakoy_semt",
+      "second": "karakoy",
+      "lat": 41.025,
+      "lng": 28.976
+    },
+    {
+      "first": "moda_semt",
+      "second": "moda",
+      "lat": 40.984,
+      "lng": 29.027
+    },
+    {
+      "first": "ortakoy_semt",
+      "second": "ortakoy",
+      "lat": 41.047,
+      "lng": 29.027
+    },
+    {
+      "first": "mesher",
+      "second": "pera",
+      "lat": 41.032,
+      "lng": 28.977
+    },
+    {
+      "first": "rumelihisari_semt",
+      "second": "rumelihisari",
+      "lat": 41.089,
+      "lng": 29.056
+    },
+    {
+      "first": "samatya",
+      "second": "kocamustafapasa",
+      "lat": 41.002,
+      "lng": 28.93
+    },
+    {
+      "first": "ayasofya",
+      "second": "sultanahmet",
+      "lat": 41.0086,
+      "lng": 28.9802
+    },
+    {
+      "first": "ataturk_kultur_merkezi_akm",
+      "second": "taksim",
+      "lat": 41.0369,
+      "lng": 28.985
+    },
+    {
+      "first": "ataturk_kultur_merkezi_akm",
+      "second": "taksim_meydani",
+      "lat": 41.0369,
+      "lng": 28.985
+    },
+    {
+      "first": "galata_semt",
+      "second": "tunel",
+      "lat": 41.0255,
+      "lng": 28.974
+    },
+    {
+      "first": "galata_semt",
+      "second": "ashkenazi_sinagogu",
+      "lat": 41.0255,
+      "lng": 28.974
+    }
+  ],
+  "places": [
+    {
+      "id": "fenerbahce_stadyumu",
+      "name": "Fenerbahçe Stadyumu",
+      "kind": "Stadyum",
+      "lat": 40.9875,
+      "lng": 29.036,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "besiktas_stadyumu",
+      "name": "Beşiktaş Tüpraş Stadyumu",
+      "kind": "Stadyum",
+      "lat": 41.0399,
+      "lng": 29.0064,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "galatasaray_stadyumu",
+      "name": "Galatasaray RAMS Park",
+      "kind": "Stadyum",
+      "lat": 41.1034,
+      "lng": 28.991,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ataturk_olimpiyat_stadyumu",
+      "name": "Atatürk Olimpiyat Stadyumu",
+      "kind": "Stadyum",
+      "lat": 41.0719,
+      "lng": 28.7658,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul_marriott_hotel_asia",
+      "name": "Istanbul Marriott Hotel Asia",
+      "kind": "Otel",
+      "lat": 40.98078,
+      "lng": 29.10144,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "hilton_istanbul_kozyatagi",
+      "name": "Hilton Istanbul Kozyatagi",
+      "kind": "Otel",
+      "lat": 40.98722,
+      "lng": 29.0861,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "dedeman_istanbul",
+      "name": "Dedeman İstanbul",
+      "kind": "Otel",
+      "lat": 41.064043,
+      "lng": 29.009909,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "dedeman_bostanci",
+      "name": "Dedeman Bostancı",
+      "kind": "Otel",
+      "lat": 40.962297,
+      "lng": 29.110985,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "the_green_park_bostanci",
+      "name": "The Green Park Hotel Bostancı",
+      "kind": "Otel",
+      "lat": 40.96568,
+      "lng": 29.11057,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "cvk_park_bosphorus",
+      "name": "CVK Park Bosphorus Hotel Istanbul",
+      "kind": "Otel",
+      "lat": 41.03545,
+      "lng": 28.98759,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "hilton_istanbul_bosphorus",
+      "name": "Hilton Istanbul Bosphorus",
+      "kind": "Otel",
+      "lat": 41.04449,
+      "lng": 28.98959,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "doubletree_istanbul_moda",
+      "name": "DoubleTree by Hilton Istanbul - Moda",
+      "kind": "Otel",
+      "lat": 40.98847,
+      "lng": 29.02129,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "wyndham_grand_kalamis",
+      "name": "Wyndham Grand Istanbul Kalamış Marina Hotel",
+      "kind": "Otel",
+      "lat": 40.97745,
+      "lng": 29.04144,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "radisson_blu_istanbul_asia",
+      "name": "Radisson Blu Hotel, Istanbul Asia",
+      "kind": "Otel",
+      "lat": 40.99094,
+      "lng": 29.11588,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "the_green_park_pendik",
+      "name": "The Green Park Pendik",
+      "kind": "Otel",
+      "lat": 40.87251,
+      "lng": 29.25102,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "agva",
+      "name": "Ağva",
+      "kind": "Turistik nokta",
+      "lat": 41.13806,
+      "lng": 29.8566,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "anadolu_hisari",
+      "name": "Anadolu Hisarı",
+      "kind": "Turistik nokta",
+      "lat": 41.082084,
+      "lng": 29.066895,
+      "coordinateRole": "poi-candidate",
+      "verification": "source-cross-checked-poi-not-entrance-surveyed"
+    },
+    {
+      "id": "arap_camii",
+      "name": "Arap Camii",
+      "kind": "Turistik nokta",
+      "lat": 41.0244,
+      "lng": 28.9714,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "arasta_carsisi",
+      "name": "Arasta Çarşısı",
+      "kind": "Turistik nokta",
+      "lat": 41.00546,
+      "lng": 28.97841,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "arnavutkoy",
+      "name": "Arnavutköy",
+      "kind": "İlçe",
+      "lat": 41.18355,
+      "lng": 28.7402,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "asiyan_muzesi",
+      "name": "Aşiyan Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.08265,
+      "lng": 29.05345,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "atakoy_semt",
+      "name": "Ataköy",
+      "kind": "Semt",
+      "lat": 40.9871,
+      "lng": 28.8563,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "atasehir",
+      "name": "Ataşehir",
+      "kind": "İlçe",
+      "lat": 40.99294,
+      "lng": 29.11352,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ataturk_arboretumu",
+      "name": "Atatürk Arboretumu",
+      "kind": "Turistik nokta",
+      "lat": 41.175,
+      "lng": 28.9897,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ataturk_kent_ormani",
+      "name": "Atatürk Kent Ormanı",
+      "kind": "Turistik nokta",
+      "lat": 41.1343,
+      "lng": 29.0321,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ataturk_kultur_merkezi_akm",
+      "name": "Atatürk Kültür Merkezi (AKM)",
+      "kind": "Turistik nokta",
+      "lat": 41.0369,
+      "lng": 28.985,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "avcilar",
+      "name": "Avcılar",
+      "kind": "İlçe",
+      "lat": 40.9799,
+      "lng": 28.7217,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ayasofya",
+      "name": "Ayasofya",
+      "kind": "Turistik nokta",
+      "lat": 41.0086,
+      "lng": 28.9802,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "aydos_ormani",
+      "name": "Aydos Ormanı",
+      "kind": "Turistik nokta",
+      "lat": 40.9442,
+      "lng": 29.2474,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "aqua_florya",
+      "name": "Aqua Florya",
+      "kind": "Turistik nokta",
+      "lat": 40.96543,
+      "lng": 28.79774,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bagcilar",
+      "name": "Bağcılar",
+      "kind": "İlçe",
+      "lat": 41.0391,
+      "lng": 28.856,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bagdat_caddesi",
+      "name": "Bağdat Caddesi",
+      "kind": "Turistik nokta",
+      "lat": 40.95344,
+      "lng": 29.09517,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bahcelievler",
+      "name": "Bahçelievler",
+      "kind": "İlçe",
+      "lat": 41.002,
+      "lng": 28.859,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bakirkoy",
+      "name": "Bakırköy",
+      "kind": "İlçe",
+      "lat": 40.978,
+      "lng": 28.872,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "balat",
+      "name": "Balat",
+      "kind": "Semt",
+      "lat": 41.032,
+      "lng": 28.9483,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "basaksehir",
+      "name": "Başakşehir",
+      "kind": "İlçe",
+      "lat": 41.1076,
+      "lng": 28.7951,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bayrampasa",
+      "name": "Bayrampaşa",
+      "kind": "İlçe",
+      "lat": 41.0346,
+      "lng": 28.9118,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bebek",
+      "name": "Bebek",
+      "kind": "Semt",
+      "lat": 41.0765,
+      "lng": 29.0447,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bebek_sahili",
+      "name": "Bebek Sahili",
+      "kind": "Turistik nokta",
+      "lat": 41.0767,
+      "lng": 29.0442,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "belgrad_ormani",
+      "name": "Belgrad Ormanı",
+      "kind": "Turistik nokta",
+      "lat": 41.24836,
+      "lng": 28.71402,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "besiktas",
+      "name": "Beşiktaş",
+      "kind": "İlçe",
+      "lat": 41.04285,
+      "lng": 29.00753,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "beyazit_meydani",
+      "name": "Beyazıt Meydanı",
+      "kind": "Turistik nokta",
+      "lat": 41.008,
+      "lng": 28.965,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "beykoz",
+      "name": "Beykoz",
+      "kind": "İlçe",
+      "lat": 41.1343,
+      "lng": 29.092,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "beykoz_cam_ve_billur_muzesi",
+      "name": "Beykoz Cam ve Billur Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.132,
+      "lng": 29.0875,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "beykoz_mecidiye_kasri",
+      "name": "Beykoz Mecidiye Kasrı",
+      "kind": "Turistik nokta",
+      "lat": 41.1354,
+      "lng": 29.0926,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "beylerbeyi",
+      "name": "Beylerbeyi Sarayı",
+      "kind": "Turistik nokta",
+      "lat": 41.0448,
+      "lng": 29.0442,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "beylikduzu",
+      "name": "Beylikdüzü",
+      "kind": "İlçe",
+      "lat": 41.0019,
+      "lng": 28.6415,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "beyoglu",
+      "name": "Beyoğlu",
+      "kind": "İlçe",
+      "lat": 41.0379,
+      "lng": 28.9677,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bostanci_semt",
+      "name": "Bostancı",
+      "kind": "Semt",
+      "lat": 40.955,
+      "lng": 29.096,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bostanci",
+      "name": "Bostancı",
+      "kind": "Turistik nokta",
+      "lat": 40.955,
+      "lng": 29.096,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bostanci_sahili",
+      "name": "Bostancı Sahili",
+      "kind": "Turistik nokta",
+      "lat": 40.953,
+      "lng": 29.0945,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "burgazada",
+      "name": "Burgazada",
+      "kind": "Ada",
+      "lat": 40.88028,
+      "lng": 29.06949,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "buyukada",
+      "name": "Büyükada",
+      "kind": "Ada",
+      "lat": 40.855,
+      "lng": 29.123,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "buyukcekmece",
+      "name": "Büyükçekmece",
+      "kind": "İlçe",
+      "lat": 41.02,
+      "lng": 28.585,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "buyuk_saray_mozaikleri_muzesi",
+      "name": "Büyük Saray Mozaikleri Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.0064,
+      "lng": 28.9778,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "caddebostan",
+      "name": "Caddebostan",
+      "kind": "Semt",
+      "lat": 40.9683,
+      "lng": 29.067,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "cagaloglu_hamami",
+      "name": "Cağaloğlu Hamamı",
+      "kind": "Turistik nokta",
+      "lat": 41.0107,
+      "lng": 28.97568,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "cihangir",
+      "name": "Cihangir",
+      "kind": "Semt",
+      "lat": 41.0315,
+      "lng": 28.984,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "camlica_tepesi",
+      "name": "Çamlıca Tepesi",
+      "kind": "Turistik nokta",
+      "lat": 41.0275,
+      "lng": 29.0675,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "catalca",
+      "name": "Çatalca",
+      "kind": "İlçe",
+      "lat": 41.14073,
+      "lng": 28.45967,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "cekmekoy",
+      "name": "Çekmeköy",
+      "kind": "İlçe",
+      "lat": 41.035,
+      "lng": 29.18,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "cibali",
+      "name": "Cibali",
+      "kind": "Semt",
+      "lat": 41.028,
+      "lng": 28.9515,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "cemberlitas",
+      "name": "Çemberlitaş",
+      "kind": "Turistik nokta",
+      "lat": 41.0086,
+      "lng": 28.977,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "cengelkoy",
+      "name": "Çengelköy",
+      "kind": "Turistik nokta",
+      "lat": 41.0509,
+      "lng": 29.0538,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ciragan",
+      "name": "Çırağan Sarayı",
+      "kind": "Turistik nokta",
+      "lat": 41.0435,
+      "lng": 29.0153,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "cicek_pasaji",
+      "name": "Çiçek Pasajı",
+      "kind": "Turistik nokta",
+      "lat": 41.0344,
+      "lng": 28.9772,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "cukurcuma",
+      "name": "Çukurcuma",
+      "kind": "Semt",
+      "lat": 41.031,
+      "lng": 28.982,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "demokrasi_ve_ozgurlukler_adasi",
+      "name": "Demokrasi ve Özgürlükler Adası",
+      "kind": "Turistik nokta",
+      "lat": 40.875,
+      "lng": 29.114,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "dolmabahce",
+      "name": "Dolmabahçe Sarayı",
+      "kind": "Turistik nokta",
+      "lat": 41.0392,
+      "lng": 29.0007,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "dudullu_semt",
+      "name": "Dudullu",
+      "kind": "Semt",
+      "lat": 41.015,
+      "lng": 29.165,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "eminonu_semt",
+      "name": "Eminönü",
+      "kind": "Semt",
+      "lat": 41.0169,
+      "lng": 28.9705,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "eminonu",
+      "name": "Eminönü",
+      "kind": "Turistik nokta",
+      "lat": 41.0169,
+      "lng": 28.9705,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "emirgan_korusu",
+      "name": "Emirgan Korusu",
+      "kind": "Turistik nokta",
+      "lat": 41.103,
+      "lng": 29.056,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "emirgan_parki",
+      "name": "Emirgan Parkı",
+      "kind": "Turistik nokta",
+      "lat": 41.1045,
+      "lng": 29.055,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "erenkoy",
+      "name": "Erenköy",
+      "kind": "Semt",
+      "lat": 40.9733,
+      "lng": 29.0744,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "esenler",
+      "name": "Esenler",
+      "kind": "İlçe",
+      "lat": 41.0435,
+      "lng": 28.875,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "esenyurt",
+      "name": "Esenyurt",
+      "kind": "İlçe",
+      "lat": 41.034,
+      "lng": 28.68,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "eyupsultan",
+      "name": "Eyüpsultan",
+      "kind": "İlçe",
+      "lat": 41.047,
+      "lng": 28.933,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "fatih",
+      "name": "Fatih",
+      "kind": "İlçe",
+      "lat": 41.0186,
+      "lng": 28.94,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "fatih_camii",
+      "name": "Fatih Camii",
+      "kind": "Turistik nokta",
+      "lat": 41.0197,
+      "lng": 28.951,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "fener",
+      "name": "Fener",
+      "kind": "Semt",
+      "lat": 41.028,
+      "lng": 28.949,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "fenerbahce_park",
+      "name": "Fenerbahçe Parkı",
+      "kind": "Turistik nokta",
+      "lat": 40.976,
+      "lng": 29.041,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "fener_ve_balat",
+      "name": "Fener ve Balat",
+      "kind": "Turistik nokta",
+      "lat": 41.029,
+      "lng": 28.949,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "fethi_pasa_korusu",
+      "name": "Fethi Paşa Korusu",
+      "kind": "Turistik nokta",
+      "lat": 41.031,
+      "lng": 29.03,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "florya",
+      "name": "Florya",
+      "kind": "Semt",
+      "lat": 40.979,
+      "lng": 28.785,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "galata_semt",
+      "name": "Galata",
+      "kind": "Semt",
+      "lat": 41.0255,
+      "lng": 28.974,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "galataport",
+      "name": "Galataport",
+      "kind": "Turistik nokta",
+      "lat": 41.026,
+      "lng": 28.985,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "galata",
+      "name": "Galata Kulesi",
+      "kind": "Turistik nokta",
+      "lat": 41.0256,
+      "lng": 28.9741,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "galata_mevlevihanesi",
+      "name": "Galata Mevlevihanesi",
+      "kind": "Turistik nokta",
+      "lat": 41.028,
+      "lng": 28.972,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "gaziosmanpasa",
+      "name": "Gaziosmanpaşa",
+      "kind": "İlçe",
+      "lat": 41.075,
+      "lng": 28.912,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "goztepe_semt",
+      "name": "Göztepe",
+      "kind": "Semt",
+      "lat": 40.987,
+      "lng": 29.075,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "gulhane_park",
+      "name": "Gülhane Parkı",
+      "kind": "Turistik nokta",
+      "lat": 41.013,
+      "lng": 28.981,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "gungoren",
+      "name": "Güngören",
+      "kind": "İlçe",
+      "lat": 41.018,
+      "lng": 28.871,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "halic",
+      "name": "Haliç",
+      "kind": "Turistik nokta",
+      "lat": 41.03,
+      "lng": 28.96,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "haydarpasa",
+      "name": "Haydarpaşa Garı",
+      "kind": "Turistik nokta",
+      "lat": 40.995,
+      "lng": 29.021,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "heybeliada",
+      "name": "Heybeliada",
+      "kind": "Ada",
+      "lat": 40.878,
+      "lng": 29.101,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "hurrem_sultan_hamami",
+      "name": "Hürrem Sultan Hamamı",
+      "kind": "Turistik nokta",
+      "lat": 41.0065,
+      "lng": 28.98,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kadikoy",
+      "name": "Kadıköy",
+      "kind": "İlçe",
+      "lat": 40.99,
+      "lng": 29.03,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kadikoy_carsi",
+      "name": "Kadıköy Çarşı",
+      "kind": "Turistik nokta",
+      "lat": 40.99,
+      "lng": 29.03,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kagithane",
+      "name": "Kağıthane",
+      "kind": "İlçe",
+      "lat": 41.083,
+      "lng": 28.968,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kamondo_merdivenleri",
+      "name": "Kamondo Merdivenleri",
+      "kind": "Turistik nokta",
+      "lat": 41.024,
+      "lng": 28.973,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kapalicarsi",
+      "name": "Kapalıçarşı",
+      "kind": "Turistik nokta",
+      "lat": 41.01,
+      "lng": 28.968,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "karakoy_semt",
+      "name": "Karaköy",
+      "kind": "Semt",
+      "lat": 41.025,
+      "lng": 28.976,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "karakoy",
+      "name": "Karaköy",
+      "kind": "Turistik nokta",
+      "lat": 41.025,
+      "lng": 28.976,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "karakoy_rihtim",
+      "name": "Karaköy Rıhtımı",
+      "kind": "Turistik nokta",
+      "lat": 41.0225,
+      "lng": 28.978,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kariye",
+      "name": "Kariye Camii",
+      "kind": "Turistik nokta",
+      "lat": 41.0308,
+      "lng": 28.939,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kartal",
+      "name": "Kartal",
+      "kind": "İlçe",
+      "lat": 40.899,
+      "lng": 29.186,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kaynarca",
+      "name": "Kaynarca",
+      "kind": "Semt",
+      "lat": 40.875,
+      "lng": 29.236,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kemerburgaz_kent_ormani",
+      "name": "Kemerburgaz Kent Ormanı",
+      "kind": "Turistik nokta",
+      "lat": 41.153,
+      "lng": 28.902,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kilic_ali_pasa",
+      "name": "Kılıç Ali Paşa Camii",
+      "kind": "Turistik nokta",
+      "lat": 41.027,
+      "lng": 28.981,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kinaliada",
+      "name": "Kınalıada",
+      "kind": "Ada",
+      "lat": 40.913,
+      "lng": 29.052,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kiz_kulesi",
+      "name": "Kız Kulesi",
+      "kind": "Turistik nokta",
+      "lat": 41.021,
+      "lng": 29.004,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kilyos",
+      "name": "Kilyos",
+      "kind": "Turistik nokta",
+      "lat": 41.243,
+      "lng": 29.045,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kurtkoy",
+      "name": "Kurtköy",
+      "kind": "Semt",
+      "lat": 40.914,
+      "lng": 29.309,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kuzguncuk_turist",
+      "name": "Kuzguncuk",
+      "kind": "Turistik nokta",
+      "lat": 41.035,
+      "lng": 29.033,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kucukcekmece",
+      "name": "Küçükçekmece",
+      "kind": "İlçe",
+      "lat": 41,
+      "lng": 28.775,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "macka_demokrasi_parki",
+      "name": "Maçka Demokrasi Parkı",
+      "kind": "Turistik nokta",
+      "lat": 41.041,
+      "lng": 28.994,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "madame_tussauds_istanbul",
+      "name": "Madame Tussauds Istanbul",
+      "kind": "Turistik nokta",
+      "lat": 41.035,
+      "lng": 28.977,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "maltepe",
+      "name": "Maltepe",
+      "kind": "İlçe",
+      "lat": 40.935,
+      "lng": 29.13,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "masumiyet_muzesi",
+      "name": "Masumiyet Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.031,
+      "lng": 28.983,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "mecidiyekoy_semt",
+      "name": "Mecidiyeköy",
+      "kind": "Semt",
+      "lat": 41.067,
+      "lng": 28.999,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "mesher",
+      "name": "Meşher",
+      "kind": "Turistik nokta",
+      "lat": 41.032,
+      "lng": 28.977,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "misircarsisi",
+      "name": "Mısır Çarşısı",
+      "kind": "Turistik nokta",
+      "lat": 41.0169,
+      "lng": 28.969,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "miniaturk",
+      "name": "Miniatürk",
+      "kind": "Turistik nokta",
+      "lat": 41.061,
+      "lng": 28.948,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "moda_semt",
+      "name": "Moda",
+      "kind": "Semt",
+      "lat": 40.984,
+      "lng": 29.027,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "moda",
+      "name": "Moda",
+      "kind": "Turistik nokta",
+      "lat": 40.984,
+      "lng": 29.027,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "moda_sahili",
+      "name": "Moda Sahili",
+      "kind": "Turistik nokta",
+      "lat": 40.982,
+      "lng": 29.028,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "neve_salom",
+      "name": "Neve Şalom Sinagogu",
+      "kind": "Turistik nokta",
+      "lat": 41.0265,
+      "lng": 28.973,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "nevmekan_sahil",
+      "name": "Nevmekan Sahil",
+      "kind": "Turistik nokta",
+      "lat": 41.026,
+      "lng": 29.016,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "nisantasi",
+      "name": "Nişantaşı",
+      "kind": "Semt",
+      "lat": 41.047,
+      "lng": 28.994,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ortakoy_semt",
+      "name": "Ortaköy",
+      "kind": "Semt",
+      "lat": 41.047,
+      "lng": 29.027,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ortakoy",
+      "name": "Ortaköy",
+      "kind": "Turistik nokta",
+      "lat": 41.047,
+      "lng": 29.027,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ortakoy_camii",
+      "name": "Ortaköy Camii",
+      "kind": "Turistik nokta",
+      "lat": 41.048,
+      "lng": 29.0275,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ortakoy_meydani",
+      "name": "Ortaköy Meydanı",
+      "kind": "Turistik nokta",
+      "lat": 41.0475,
+      "lng": 29.027,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "pendik",
+      "name": "Pendik",
+      "kind": "İlçe",
+      "lat": 40.878,
+      "lng": 29.233,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "pendik_yht",
+      "name": "Pendik Yüksek Hızlı Tren Garı",
+      "kind": "Ulaşım noktası",
+      "lat": 40.8805,
+      "lng": 29.233,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "pera",
+      "name": "Pera",
+      "kind": "Turistik nokta",
+      "lat": 41.032,
+      "lng": 28.977,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "pera_muzesi",
+      "name": "Pera Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.031,
+      "lng": 28.979,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "pierre_loti",
+      "name": "Pierre Loti Tepesi",
+      "kind": "Turistik nokta",
+      "lat": 41.05,
+      "lng": 28.933,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "polonezkoy",
+      "name": "Polonezköy",
+      "kind": "Turistik nokta",
+      "lat": 41.112,
+      "lng": 29.215,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "rahmi_m_koc_muzesi",
+      "name": "Rahmi M. Koç Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.042,
+      "lng": 28.949,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "rumelihisari_semt",
+      "name": "Rumelihisarı",
+      "kind": "Semt",
+      "lat": 41.089,
+      "lng": 29.056,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "rumelihisari",
+      "name": "Rumeli Hisarı",
+      "kind": "Turistik nokta",
+      "lat": 41.089,
+      "lng": 29.056,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "rustem_pasa",
+      "name": "Rüstem Paşa Camii",
+      "kind": "Turistik nokta",
+      "lat": 41.0175,
+      "lng": 28.969,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sabiha",
+      "name": "Sabiha Gökçen Havalimanı",
+      "kind": "Turistik nokta",
+      "lat": 40.9072,
+      "lng": 29.3159,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sakip_sabanci_muzesi",
+      "name": "Sakıp Sabancı Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.105,
+      "lng": 29.055,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "salt_galata",
+      "name": "Salt Galata",
+      "kind": "Turistik nokta",
+      "lat": 41.025,
+      "lng": 28.974,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "samatya",
+      "name": "Samatya",
+      "kind": "Semt",
+      "lat": 41.002,
+      "lng": 28.93,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kocamustafapasa",
+      "name": "Kocamustafapaşa",
+      "kind": "Semt",
+      "lat": 41.002,
+      "lng": 28.93,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sancaktepe",
+      "name": "Sancaktepe",
+      "kind": "İlçe",
+      "lat": 41.002,
+      "lng": 29.231,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sariyer",
+      "name": "Sarıyer",
+      "kind": "İlçe",
+      "lat": 41.166,
+      "lng": 29.057,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sedef_adasi",
+      "name": "Sedef Adası",
+      "kind": "Ada",
+      "lat": 40.851,
+      "lng": 29.14,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "silivri",
+      "name": "Silivri",
+      "kind": "İlçe",
+      "lat": 41.0739,
+      "lng": 28.2464,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sirkeci_turist",
+      "name": "Sirkeci",
+      "kind": "Turistik nokta",
+      "lat": 41.014,
+      "lng": 28.976,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "suadiye",
+      "name": "Suadiye",
+      "kind": "Semt",
+      "lat": 40.965,
+      "lng": 29.085,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sultanahmet_semt",
+      "name": "Sultanahmet",
+      "kind": "Semt",
+      "lat": 41.008,
+      "lng": 28.978,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sultanahmet",
+      "name": "Sultanahmet",
+      "kind": "Turistik nokta",
+      "lat": 41.0086,
+      "lng": 28.9802,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sultanahmet_camii",
+      "name": "Sultanahmet Camii",
+      "kind": "Turistik nokta",
+      "lat": 41.0054,
+      "lng": 28.9768,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "hipodrom",
+      "name": "Sultanahmet Meydanı / Hipodrom",
+      "kind": "Turistik nokta",
+      "lat": 41.0055,
+      "lng": 28.9768,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sultanbeyli",
+      "name": "Sultanbeyli",
+      "kind": "İlçe",
+      "lat": 40.967,
+      "lng": 29.267,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sultangazi",
+      "name": "Sultangazi",
+      "kind": "İlçe",
+      "lat": 41.106,
+      "lng": 28.869,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "suleymaniye",
+      "name": "Süleymaniye Camii",
+      "kind": "Turistik nokta",
+      "lat": 41.016,
+      "lng": 28.963,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sile",
+      "name": "Şile",
+      "kind": "İlçe",
+      "lat": 41.175,
+      "lng": 29.612,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sisli",
+      "name": "Şişli",
+      "kind": "İlçe",
+      "lat": 41.06,
+      "lng": 28.987,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "taksim_semt",
+      "name": "Taksim",
+      "kind": "Semt",
+      "lat": 41.037,
+      "lng": 28.985,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "taksim",
+      "name": "Taksim",
+      "kind": "Turistik nokta",
+      "lat": 41.0369,
+      "lng": 28.985,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "taksim_meydani",
+      "name": "Taksim Meydanı",
+      "kind": "Turistik nokta",
+      "lat": 41.0369,
+      "lng": 28.985,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "tarihi_galata_koprusu",
+      "name": "Tarihi Galata Köprüsü",
+      "kind": "Turistik nokta",
+      "lat": 41.0195,
+      "lng": 28.9715,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "tarihi_yarimada",
+      "name": "Tarihi Yarımada",
+      "kind": "Turistik nokta",
+      "lat": 41.01,
+      "lng": 28.97,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "topkapi",
+      "name": "Topkapı Sarayı",
+      "kind": "Turistik nokta",
+      "lat": 41.0115,
+      "lng": 28.983,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "tuzla",
+      "name": "Tuzla",
+      "kind": "İlçe",
+      "lat": 40.815,
+      "lng": 29.3,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "tunel",
+      "name": "Tünel",
+      "kind": "Turistik nokta",
+      "lat": 41.0255,
+      "lng": 28.974,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "turk_ve_islam_eserleri_muzesi",
+      "name": "Türk ve İslam Eserleri Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.0058,
+      "lng": 28.9769,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "umraniye",
+      "name": "Ümraniye",
+      "kind": "İlçe",
+      "lat": 41.025,
+      "lng": 29.12,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "uskudar",
+      "name": "Üsküdar",
+      "kind": "İlçe",
+      "lat": 41.0255,
+      "lng": 29.015,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "uskudar_sahili",
+      "name": "Üsküdar Sahili",
+      "kind": "Turistik nokta",
+      "lat": 41.025,
+      "lng": 29.015,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "yenikoy",
+      "name": "Yeniköy",
+      "kind": "Semt",
+      "lat": 41.121,
+      "lng": 29.075,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "tarabya",
+      "name": "Tarabya",
+      "kind": "Semt",
+      "lat": 41.139,
+      "lng": 29.052,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "yapi_kredi_kultur_sanat",
+      "name": "Yapı Kredi Kültür Sanat",
+      "kind": "Turistik nokta",
+      "lat": 41.033,
+      "lng": 28.977,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "yeni_camii",
+      "name": "Yeni Camii",
+      "kind": "Turistik nokta",
+      "lat": 41.0168,
+      "lng": 28.97,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "yerebatan",
+      "name": "Yerebatan Sarnıcı",
+      "kind": "Turistik nokta",
+      "lat": 41.0084,
+      "lng": 28.9779,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "yeldegirmeni",
+      "name": "Yeldeğirmeni",
+      "kind": "Semt",
+      "lat": 40.997,
+      "lng": 29.028,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kanlica",
+      "name": "Kanlıca",
+      "kind": "Semt",
+      "lat": 41.101,
+      "lng": 29.069,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "yesilkoy",
+      "name": "Yeşilköy",
+      "kind": "Semt",
+      "lat": 40.978,
+      "lng": 28.837,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "yildiz_parki",
+      "name": "Yıldız Parkı",
+      "kind": "Turistik nokta",
+      "lat": 41.047,
+      "lng": 29.01,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "yildiz_sarayi",
+      "name": "Yıldız Sarayı",
+      "kind": "Turistik nokta",
+      "lat": 41.046,
+      "lng": 29.007,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "zeyrek",
+      "name": "Zeyrek",
+      "kind": "Semt",
+      "lat": 41.02,
+      "lng": 28.956,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "zeytinburnu",
+      "name": "Zeytinburnu",
+      "kind": "İlçe",
+      "lat": 41,
+      "lng": 28.91,
+      "coordinateRole": "area-representative",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "zeytinburnu_mozaik_muzesi",
+      "name": "Zeytinburnu Mozaik Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 40.998,
+      "lng": 28.91,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "zorlu_center",
+      "name": "Zorlu Center",
+      "kind": "Turistik nokta",
+      "lat": 41.0675,
+      "lng": 29.012,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "islam_bilim_ve_teknoloji_tarihi_muzesi",
+      "name": "İslam Bilim ve Teknoloji Tarihi Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.012,
+      "lng": 28.983,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul_akvaryum",
+      "name": "İstanbul Akvaryum",
+      "kind": "Turistik nokta",
+      "lat": 40.969,
+      "lng": 28.797,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "arkeoloji",
+      "name": "İstanbul Arkeoloji Müzeleri",
+      "kind": "Turistik nokta",
+      "lat": 41.011,
+      "lng": 28.981,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul_bogazi_yalilari",
+      "name": "İstanbul Boğazı Yalıları",
+      "kind": "Turistik nokta",
+      "lat": 41.08,
+      "lng": 29.05,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul_deniz_muzesi",
+      "name": "İstanbul Deniz Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.04,
+      "lng": 29.005,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul-airport",
+      "name": "İstanbul Havalimanı",
+      "kind": "Turistik nokta",
+      "lat": 41.2753,
+      "lng": 28.7519,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul_havalimani_muzesi",
+      "name": "İstanbul Havalimanı Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 41.274,
+      "lng": 28.743,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul_modern",
+      "name": "İstanbul Modern",
+      "kind": "Turistik nokta",
+      "lat": 41.0255,
+      "lng": 28.982,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul_oyuncak_muzesi",
+      "name": "İstanbul Oyuncak Müzesi",
+      "kind": "Turistik nokta",
+      "lat": 40.982,
+      "lng": 29.072,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul_sapphire",
+      "name": "İstanbul Sapphire",
+      "kind": "Turistik nokta",
+      "lat": 41.078,
+      "lng": 29.012,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istanbul_surlari",
+      "name": "İstanbul Surları",
+      "kind": "Turistik nokta",
+      "lat": 41.02,
+      "lng": 28.925,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istiklal",
+      "name": "İstiklal Caddesi",
+      "kind": "Turistik nokta",
+      "lat": 41.034,
+      "lng": 28.977,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "istinye_turist",
+      "name": "İstinye",
+      "kind": "Turistik nokta",
+      "lat": 41.113,
+      "lng": 29.054,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "st_antuan",
+      "name": "Aziz Antuan Bazilikası",
+      "kind": "Turistik nokta",
+      "lat": 41.0345,
+      "lng": 28.977,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "aya_trianda",
+      "name": "Aya Triada Rum Ortodoks Kilisesi",
+      "kind": "Turistik nokta",
+      "lat": 41.035,
+      "lng": 28.985,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "sveti_stefan",
+      "name": "Sveti Stefan Bulgar Ortodoks Kilisesi",
+      "kind": "Turistik nokta",
+      "lat": 41.031,
+      "lng": 28.948,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "aya_yorgi_patrikhane",
+      "name": "Aya Yorgi Rum Patrikhane Kilisesi",
+      "kind": "Turistik nokta",
+      "lat": 41.029,
+      "lng": 28.948,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "meryem_mongollar",
+      "name": "Moğolların Meryem Ana Kilisesi",
+      "kind": "Turistik nokta",
+      "lat": 41.03,
+      "lng": 28.949,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "st_esprit",
+      "name": "Saint Esprit Katedrali",
+      "kind": "Turistik nokta",
+      "lat": 41.044,
+      "lng": 28.987,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kirim_kilisesi",
+      "name": "Kırım Kilisesi",
+      "kind": "Turistik nokta",
+      "lat": 41.028,
+      "lng": 28.974,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "kadikoy_fransiz_kilisesi",
+      "name": "Kadıköy Fransız Katolik Kilisesi",
+      "kind": "Turistik nokta",
+      "lat": 40.99,
+      "lng": 29.029,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ahrida_sinagogu",
+      "name": "Ahrida Sinagogu",
+      "kind": "Turistik nokta",
+      "lat": 41.03291,
+      "lng": 28.94552,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ashkenazi_sinagogu",
+      "name": "Aşkenaz Sinagogu",
+      "kind": "Turistik nokta",
+      "lat": 41.0255,
+      "lng": 28.974,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "bet_nissim_sinagogu",
+      "name": "Bet Nissim Sinagogu",
+      "kind": "Turistik nokta",
+      "lat": 41.034,
+      "lng": 29.033,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "four_seasons_sultanahmet",
+      "name": "Four Seasons Hotel Istanbul at Sultanahmet",
+      "kind": "Otel",
+      "lat": 41.00654,
+      "lng": 28.98012,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "karakoy_lokantasi",
+      "name": "Karaköy Lokantası",
+      "kind": "Restoran",
+      "lat": 41.02349,
+      "lng": 28.97848,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    },
+    {
+      "id": "ciya_sofrasi",
+      "name": "Çiya Sofrası",
+      "kind": "Restoran",
+      "lat": 40.98932,
+      "lng": 29.0244,
+      "coordinateRole": "poi-candidate",
+      "verification": "pending-independent-poi-and-entrance-check"
+    }
+  ]
+}
