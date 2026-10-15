@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "title": "Istanbul Tourist Transport Planner — 52-place manual regression set",
+  "title": "Istanbul Tourist Transport Planner — 53-place manual regression set",
   "purpose": "Validate existing registered place selection and route handoff without paid Google Places API. The catalogue entries are matched to the current places array where marked existing-catalog; business records outside the catalogue require address/coordinate verification and integration before they can be considered runnable. Anadolu Hisarı Kalesi/Müzesi için kaynakla çapraz kontrol edilmiş hedef POI koordinatı ve dört yeni rota regresyon senaryosu eklendi; bunlar canlı test edilmeden PASS sayılmaz. İstanbul Havalimanı ↔ Atatürk Kent Ormanı için iki yönlü rota ve Hacıosman M2 son erişim süresi ayrıca regresyon kapsamına alındı.",
   "policy": {
     "noPaidApi": true,
