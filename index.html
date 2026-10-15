@@ -1325,7 +1325,7 @@ function specialFerryTouristRoute(a,b){
     'anadolu_hisari',
     'uskudar',
     'İlçe içi ulaşım',
-    `<b>📍 Anadolu Hisarı bölgesinden Üsküdar İskelesi'ne ulaş.</b><br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b>`
+    `<b>📍 Anadolu Hisarı bölgesinden Üsküdar İskelesi'ne ulaş.</b>`
   ];
 
   // Ahrida, Fener/Balat ve diğer T5 hedefleri: Üsküdar → Eminönü vapuru,
@@ -1373,7 +1373,7 @@ function anatolianToAirportRailRoute(startId,targetId){
   // ayağıyla Üsküdar'a ulaşılır; ardından ana ulaşım omurgası kullanılır.
   // Anadolu Hisarı'nı yanlışlıkla Üsküdar M5 istasyonu gibi göstermiyoruz.
   return [
-    ['anadolu_hisari','uskudar','İlçe içi ulaşım','<b>📍 Anadolu Hisarı bölgesinden Üsküdar’a ulaş.</b><br><br>🚌 <b>Otobüs/yerel ulaşım bu başlangıç erişimi için yardımcı araçtır.</b><br>🚕 <b>'+rideAppSentence()+'</b>'],
+    ['anadolu_hisari','uskudar','İlçe içi ulaşım','<b>📍 Anadolu Hisarı bölgesinden Üsküdar’a ulaş.</b>'],
     ['uskudar','yenikapi','Marmaray','<b>Üsküdar Marmaray</b> istasyonunda bin. <b>Halkalı</b> yönündeki Marmaray trenine bin. <b>Yenikapı Marmaray</b> istasyonunda in.'],
     ['yenikapi','gayrettepe','M2 Metro','<b>Yenikapı M2</b> istasyonundan <b>Hacıosman</b> yönündeki M2 Metroya bin. <b>Gayrettepe</b> istasyonunda in.'],
     ['gayrettepe','istanbul-airport','M11 Metro','<b>Gayrettepe M11</b> istasyonunda bin. <b>İstanbul Havalimanı</b> yönündeki M11 Metro trenine bin. <b>İstanbul Havalimanı</b> istasyonunda in.']
@@ -2290,6 +2290,10 @@ function adaptiveStartAccessSteps(placeId,access){
   return [[placeId,access.station,'Yerel ulaşım',`<b>${from}</b> noktasından <b>${access.label}</b> bölgesine doğrudan yürüyüş 16 dakika veya daha uzun olduğu için doğrulanmış feeder otobüs bulunamadı. Yanlış hat önerilmiyor.${nav ? `<br>${nav}`:''}`]];
 }
 function localAccessSteps(placeId, access){
+  if(access?.routeSpecific==='arap-camii-akm'){
+    const destination='Şişhane M2';
+    return [[placeId,access.station,'Yürüyüş',`🚶 <b>Arap Camii</b> noktasından <b>${destination}</b> istasyonuna yürüyerek ulaş.<br>${currentLocationWalkingNavLink(destination,'🚶 Yürü — istasyona navigasyonu aç')}`]];
+  }
   if(access?.adaptiveStart) return adaptiveStartAccessSteps(placeId,access);
   // Otel gibi fiziksel başlangıç noktalarında, raylı sisteme erişim mutlaka
   // gerçek bir yaya/otobüs bağlantısı ile açıklanmalıdır. Aksi halde motor
@@ -2305,7 +2309,7 @@ function localAccessSteps(placeId, access){
   // yanlışlıkla devreye sokmasını engeller.
   if(placeId==='aqua_florya'){
     return [[placeId,'florya_akvaryum_m','Yürüyüş',
-      `🚶 <b>Aqua Florya</b> noktasından <b>Florya Akvaryum Marmaray</b> istasyonuna yaklaşık <b>5 dakika</b> yürü.<br><br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b>`
+      `🚶 <b>Aqua Florya</b> noktasından <b>Florya Akvaryum Marmaray</b> istasyonuna yaklaşık <b>5 dakika</b> yürü.`
     ]];
   }
   const fromObj=places.find(p=>p.id===placeId);
@@ -2317,7 +2321,7 @@ function localAccessSteps(placeId, access){
   if(strategy==='FERRY'){
     const from=fromObj?.name || placeId;
     const pier=access.label || nodeLabel(access.station);
-    return [[placeId,access.station,'Vapur',`⛴️ <b>${from}</b> iskelesinden <b>${pier}</b> yönüne giden vapur/motora bin.<br><br>🚌 <b>İskeleye otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b>`]];
+    return [[placeId,access.station,'Vapur',`⛴️ <b>${from}</b> iskelesinden <b>${pier}</b> yönüne giden vapur/motora bin.`]];
   }
   if(strategy==='TRANSFER' && access?.transferRail){
     const transfer=access.transferRail;
@@ -2340,7 +2344,7 @@ function localAccessSteps(placeId, access){
     const walkText=mins>0
       ? `🚶 <b>Yaklaşık ${mins} dakika yürüyebilirsiniz.</b><br><span>${from} noktasından <b>${station}</b> istasyonuna ulaşabilirsiniz.</span>`
       : `<span>${from} noktasından <b>${station}</b> istasyonuna yerel ulaşım ile ulaşabilirsiniz.</span>`;
-    return [[placeId,access.station,mins>0?'Yürüyüş':'Yerel ulaşım',`${walkText}<br><br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b>`]];
+    return [[placeId,access.station,mins>0?'Yürüyüş':'Yerel ulaşım',`${walkText}`]];
   }
 
   // İlçe başlangıcı için ilk erişim adımını toplu taşıma adımlarından ayır.
@@ -2354,7 +2358,7 @@ function localAccessSteps(placeId, access){
       : `📍 <b>${station}</b> istasyonuna ulaşabilirsiniz.`;
     const placePhrase=fromObj.kind==='İlçe' ? `${from} bölgesinden` : `${from} noktasından`;
     const accessMode=mins ? 'Yürüyüş' : 'Yerel ulaşım';
-    const text=`${walkLine}<br><span>${placePhrase} <b>${station}</b> istasyonuna ulaşabilirsiniz.</span><br><br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b>`;
+    const text=`${walkLine}<br><span>${placePhrase} <b>${station}</b> istasyonuna ulaşabilirsiniz.</span>`;
     return [[placeId,access.station,accessMode,text]];
   }
   if(access?.transferRail){
@@ -2392,14 +2396,14 @@ function localAccessSteps(placeId, access){
     else if(isMetroModeName(access.mode)) destinationPhrase=`${baseLabel} Metro istasyonuna`;
     else if(access.mode==='Metrobüs') destinationPhrase=`${baseLabel} Metrobüs durağına`;
     else destinationPhrase=`${rawLabel} noktasına`;
-    const text=`<b>📍 ${from} bölgesinden ${destinationPhrase} ulaş.</b><br><br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b>`;
+    const text=`<b>📍 ${from} bölgesinden ${destinationPhrase} ulaş.</b>`;
     return [placeId,access.station,'İlçe içi ulaşım',text];
   }
   if(access?.stationOnly){
     const station=access.label || nodeLabel(access.station);
     const from=fromObj?.name || placeId;
     if(access.walkMinutes){
-      return [placeId,access.station,'Yürüyüş',`🚶 <b>${from}</b> noktasından en yakın raylı sistem bağlantısı olan <b>${station}</b> istasyonuna yaklaşık <b>${access.walkMinutes} dakika</b> yürü.<br><br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b>`];
+      return [placeId,access.station,'Yürüyüş',`🚶 <b>${from}</b> noktasından en yakın raylı sistem bağlantısı olan <b>${station}</b> istasyonuna yaklaşık <b>${access.walkMinutes} dakika</b> yürü.`];
     }
     return [placeId,access.station,'Yerel ulaşım',`<b>${from}</b> için en yakın raylı sistem bağlantısı <b>${station}</b> istasyonudur. Orman/park/tesis girişine kalan bölüm için <b>yerel otobüs veya taksi</b> kullan.`];
   }
@@ -3041,7 +3045,7 @@ const startLocalAccessRegistry={
       const walkToStop=currentLocationWalkingNavUrl(iettStopLabel('Konak - Kadıköy','224751')+' İstanbul');
       const walkToMetro=currentLocationWalkingNavUrl('Kadıköy M4 Metro İstasyonu İstanbul');
       const iett='https://iett.istanbul/RouteDetail?hkod=4';
-      return `<b>📍 ${hotel} içinden doğrudan Kadıköy M4'e yürümeyin.</b><br><br>🚶 <b>1. Yaklaşık 4 dakika yürüyün.</b> <b>Konak - Kadıköy (224751)</b> İETT durağına gidin.<br><a href="${walkToStop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Konak durağına yürüyüş navigasyonunu aç</a><br><br>🚌 <b>2. 4 numaralı İETT otobüsüne binin.</b> <b>Maltepe Sahil → Kadıköy Çarşı</b> yönündeki 4 numaralı otobüsü kullanın ve <b>Kadıköy Çarşı (224672)</b> durağında inin.<br><a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 4 numaralı hattı İETT'de aç</a><br><br>🚶 <b>3. Kadıköy Çarşı'dan Kadıköy M4'e yürüyün.</b><br><a href="${walkToMetro}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Kadıköy M4'e yürüyüş navigasyonunu aç</a>`;
+      return `<b>📍 ${hotel} içinden doğrudan Kadıköy M4'e yürümeyin.</b><br><br>🚶 <b>1. Yaklaşık 4 dakika yürüyün.</b> <b>Konak - Kadıköy (224751)</b> İETT durağına gidin.<br><a href="${walkToStop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Konak durağına yürüyüş navigasyonunu aç</a> <b>Maltepe Sahil → Kadıköy Çarşı</b> yönündeki 4 numaralı otobüsü kullanın ve <b>Kadıköy Çarşı (224672)</b> durağında inin.<br><a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 4 numaralı hattı İETT'de aç</a><br><br>🚶 <b>3. Kadıköy Çarşı'dan Kadıköy M4'e yürüyün.</b><br><a href="${walkToMetro}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Kadıköy M4'e yürüyüş navigasyonunu aç</a>`;
     }
   },
   radisson_blu_istanbul_asia:{
@@ -3051,7 +3055,7 @@ const startLocalAccessRegistry={
       const point='40.99094,29.11588';
       const stop=currentLocationWalkingNavUrl(iettStopLabel('Ataşehir Bulvarı - Ataşehir Yönü','205744')+' İstanbul');
       const iett=getIettStop('Kozyatağı Metro','225653').iettUrl;
-      return `<b>📍 ${hotel}</b> içinden doğrudan <b>Kozyatağı M4</b>'e yürümeyin.<br><br>🚶 <b>1. Yaklaşık 3 dakika yürüyün.</b> <b>Ataşehir Bulvarı - Ataşehir Yönü (205744)</b> durağına gidin.<br><a href="${stop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Durağa yürüyüş navigasyonunu aç</a><br><br>🚌 <b>2. 19E otobüsüne, Kozyatağı Metro yönünde binin.</b> <b>Kozyatağı Metro (225653)</b> durağında inin.<br><a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 İETT'de hat bilgisini aç</a>`;
+      return `<b>📍 ${hotel}</b> içinden doğrudan <b>Kozyatağı M4</b>'e yürümeyin.<br><br>🚶 <b>1. Yaklaşık 3 dakika yürüyün.</b> <b>Ataşehir Bulvarı - Ataşehir Yönü (205744)</b> durağına gidin.<br><a href="${stop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Durağa yürüyüş navigasyonunu aç</a> <b>Kozyatağı Metro (225653)</b> durağında inin.<br><a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 İETT'de hat bilgisini aç</a>`;
     }
   },
   the_green_park_pendik:{
@@ -3229,6 +3233,11 @@ const endRailAccess={
   gungoren:{station:'zeytinburnu_hub',mode:'Marmaray',label:'Zeytinburnu Marmaray'}
 };
 function resolveStationAccess(placeId,targetId){
+  // Rota özelinde: Arap Camii → AKM için Şişhane M2 tercih edilir.
+  // Bu kural başka hedefler için başlangıç istasyonu seçimini değiştirmez.
+  if(placeId==='arap_camii' && targetId==='ataturk_kultur_merkezi_akm'){
+    return {station:'sishane',mode:'M2 Metro',label:'Şişhane M2',direct:false,walkMinutes:0,routeSpecific:'arap-camii-akm'};
+  }
   const base=getStartRailAccess(placeId);
   if(!base || !base.candidates || base.candidates.length<2) return base;
   const end=getEndAccess(targetId);
@@ -4354,7 +4363,7 @@ function intermediateFerryRailAccessCard(ferryTo, railStation, railMode){
   const mins=ferryRailTransferWalkMinutesFor(ferryTo,railStation);
   if(mins===null || mins<=0) return '';
   const station=stepNodeLabel(railStation, railMode);
-  return `<div class="step"><div class="num">↪</div><div><span class="step-badge">SON ULAŞIM</span><p style="margin-top:10px;line-height:1.65"><b>📍 Şu an ${station} istasyonuna ulaşmanız gerekiyor.</b><br><br>🚶 <b>Yaklaşık ${mins} dakika yürüyebilirsiniz.</b><br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b></p></div></div>`;
+  return `<div class="step"><div class="num">↪</div><div><span class="step-badge">SON ULAŞIM</span><p style="margin-top:10px;line-height:1.65"><b>📍 Şu an ${station} istasyonuna ulaşmanız gerekiyor.</b><br><br>🚶 <b>Yaklaşık ${mins} dakika yürüyebilirsiniz.</b></p></div></div>`;
 }
 
 function renderPath(path,targetId){
@@ -4368,7 +4377,7 @@ function renderPath(path,targetId){
     return path.map((e,i)=>{
       const [from,to,mode,text]=e;
       if(i===0 && mode==='İlçe içi ulaşım'){
-        return `<div class="step now"><div class="num">1</div><div><span class="step-badge">ŞİMDİ</span><p style="margin-top:10px;line-height:1.65"><b>📍 Anadolu Hisarı bölgesinden Üsküdar İskelesi'ne ulaş.</b><br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b></p></div></div>`;
+        return `<div class="step now"><div class="num">1</div><div><span class="step-badge">ŞİMDİ</span><p style="margin-top:10px;line-height:1.65"><b>📍 Anadolu Hisarı bölgesinden Üsküdar İskelesi'ne ulaş.</b></p></div></div>`;
       }
       if(i===1 && mode==='Vapur' && from==='uskudar' && to==='eminonu'){
         return `<div class="step"><div class="num">2</div><div><span class="step-badge">SIRADAKİ</span><h3>🚢 Vapur</h3><div class="route-detail"><div class="info"><span class="label">📍 Bin</span><span class="value">Üsküdar İskelesi</span></div><div class="info"><span class="label">➡️ Yön</span><span class="value">Eminönü</span></div><div class="info"><span class="label">🛑 İn</span><span class="value">Eminönü İskelesi</span></div></div><p style="margin-top:10px"><b>Üsküdar İskelesi</b>nden <b>Eminönü</b> yönüne giden vapura bin. <b>Eminönü İskelesi</b>nde in.</p></div></div>`;
@@ -4404,7 +4413,7 @@ function renderPath(path,targetId){
     // gösterir; BİN/YÖN/İN kartı oluşturulmaz. Alternatif otobüs ve araç
     // uygulamaları aynı yürüyüş kartının içinde gösterilir.
     if(i===0 && from==='aqua_florya' && to==='florya_akvaryum_m' && mode==='Yürüyüş'){
-      return `<div class="step now"><div class="num">1</div><div><span class="step-badge">ŞİMDİ</span><h3>🚶 Aqua Florya → Florya Akvaryum Marmaray</h3><p style="margin-top:10px;line-height:1.65">🚶 <b>Yaklaşık 5 dakika yürüyebilirsiniz.</b><br>Aqua Florya'dan Florya Akvaryum Marmaray istasyonuna yürüyerek ulaşabilirsiniz.<br><br>${walkingNavigationForNode('florya_akvaryum_m','🚶 Yürü — hedefe navigasyonu aç','Marmaray')}<br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b></p></div></div>`;
+      return `<div class="step now"><div class="num">1</div><div><span class="step-badge">ŞİMDİ</span><h3>🚶 Aqua Florya → Florya Akvaryum Marmaray</h3><p style="margin-top:10px;line-height:1.65">🚶 <b>Yaklaşık 5 dakika yürüyebilirsiniz.</b><br>Aqua Florya'dan Florya Akvaryum Marmaray istasyonuna yürüyerek ulaşabilirsiniz.<br><br>${walkingNavigationForNode('florya_akvaryum_m','🚶 Yürü — hedefe navigasyonu aç','Marmaray')}</p></div></div>`;
     }
 
     const fromPlace=places.find(p=>p.id===from);
@@ -4471,7 +4480,7 @@ function renderPath(path,targetId){
       const minutes=ferryRailTransferWalkMinutesFor(from,to);
       if(Number.isFinite(Number(minutes)) && Number(minutes)>0){
         const station=stepNodeLabel(to,nextMode);
-        return `<div class=\"step ${i===0?'now':''}\"><div class=\"num\">${i+1}</div><div><span class=\"step-badge\">${i===0?'ŞİMDİ':'SIRADAKİ'}</span><p style=\"margin-top:10px;line-height:1.65\"><b>📍 Şu an ${station} istasyonuna ulaşmanız gerekiyor.</b><br><br>🚶 <b>Yaklaşık ${minutes} dakika yürüyebilirsiniz.</b><br>${walkingNavigationForNode(to,'🚶 Yürü — istasyona navigasyonu aç',nextMode||mode)}<br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b></p></div></div>`;
+        return `<div class=\"step ${i===0?'now':''}\"><div class=\"num\">${i+1}</div><div><span class=\"step-badge\">${i===0?'ŞİMDİ':'SIRADAKİ'}</span><p style=\"margin-top:10px;line-height:1.65\"><b>📍 Şu an ${station} istasyonuna ulaşmanız gerekiyor.</b><br><br>🚶 <b>Yaklaşık ${minutes} dakika yürüyebilirsiniz.</b><br>${walkingNavigationForNode(to,'🚶 Yürü — istasyona navigasyonu aç',nextMode||mode)}</p></div></div>`;
       }
     }
     const surfaceMeta=surfaceTransferMeta(path[i]);
@@ -4525,7 +4534,7 @@ function renderPath(path,targetId){
       return `<div class="step ${i===0?'now':''}"><div class="num">${i+1}</div><div><span class="step-badge">SON ULAŞIM</span><p style="margin-top:10px;line-height:1.65">${text}</p></div></div>`;
     }
     if((mode==='İlçe içi ulaşım' || mode==='Yerel ulaşım') && from==='anadolu_hisari' && to==='uskudar'){
-      return `<div class="step ${i===0?'now':''}"><div class="num">${i+1}</div><div><span class="step-badge">${i===0?'ŞİMDİ':'SIRADAKİ'}</span><p style="margin-top:10px;line-height:1.65"><b>📍 Anadolu Hisarı bölgesinden Üsküdar İskelesi'ne ulaş.</b><br><br>🚌 <b>Otobüsle devam edebilirsiniz.</b><br>🚕 <b>${rideAppSentence()}</b></p></div></div>`;
+      return `<div class="step ${i===0?'now':''}"><div class="num">${i+1}</div><div><span class="step-badge">${i===0?'ŞİMDİ':'SIRADAKİ'}</span><p style="margin-top:10px;line-height:1.65"><b>📍 Anadolu Hisarı bölgesinden Üsküdar İskelesi'ne ulaş.</b></p></div></div>`;
     }
     // Uzun başlangıç erişimlerinde standart BIN/YÖN/İN kutuları yerine,
     // Anadolu Hisarı'ndaki gibi sade üç satırlı yönlendirme kartı kullan.
