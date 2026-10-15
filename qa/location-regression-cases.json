@@ -118,8 +118,8 @@
       "type": "attraction",
       "side": "Avrupa Yakası",
       "source": "existing-catalog",
-      "lat": 41.0086,
-      "lng": 28.9802
+      "lat": 41.00851,
+      "lng": 28.98
     },
     {
       "id": "sultanahmet_camii",
@@ -181,8 +181,8 @@
       "type": "landmark",
       "side": "Avrupa Yakası",
       "source": "existing-catalog",
-      "lat": 41.0369,
-      "lng": 28.985
+      "lat": 41.03678,
+      "lng": 28.98663
     },
     {
       "id": "istiklal",
@@ -244,8 +244,8 @@
       "type": "tourist-area",
       "side": "Anadolu Yakası",
       "source": "existing-catalog",
-      "lat": 40.99,
-      "lng": 29.03
+      "lat": 40.990541,
+      "lng": 29.025133
     },
     {
       "id": "moda_sahili",
