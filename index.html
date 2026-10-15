@@ -1789,8 +1789,8 @@ window.v223AcceptanceQA=function(){
 
   // 13) No false short-walk regression.
   test('13-no-false-hisari-walk',
-    !Number.isFinite(Number(touristWalkTime('uskudar','anadolu_hisari'))) &&
-    !Number.isFinite(Number(lastMileWalkMinutes.anadolu_hisari)),
+    touristWalkTime('uskudar','anadolu_hisari') == null &&
+    lastMileWalkMinutes.anadolu_hisari == null,
     'Üsküdar → Anadolu Hisarı için sahte 2 dk yürüyüş değeri yok.');
 
   return out;
