@@ -490,7 +490,7 @@ try {
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the route-step-count release and includes QA fixtures',
     cacheName === 'itp-v230.12.30-routestepcount-core' &&
-    htmlBuild === 'V230.12.29-YILDIZ-STOP-STATUS' &&
+    htmlBuild === 'V230.12.30-ROUTE-STEP-COUNT' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
