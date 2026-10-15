@@ -144,6 +144,15 @@ try {
         record('live R07 Pendik YHT exposes official KM13 route and stop links without inventing walk time',
           pendikBusValid, flow.routeText.slice(-900));
       }
+      if (item.id === 'R04' || item.id === 'R20') {
+        const expectedAccess = item.id === 'R04' ? 'Kadıköy M4' : 'Kadıköy T3';
+        const firstMileValid = flow.routeText.includes('Çiya Sofrası noktasından') &&
+          flow.routeText.includes(expectedAccess) &&
+          flow.routeText.includes('dakika yürüyün') &&
+          flow.routeHtml.includes('current-location-nav');
+        record('live '+item.id+' Çiya Sofrası first-mile walk and navigation link render',
+          firstMileValid, flow.routeText.slice(0, 850));
+      }
       if (item.id === 'R27') {
         const modernAccessValid = flow.routeText.includes('Tophane T1') &&
           flow.routeText.includes('4 dakika') && !flow.routeText.includes('Kabataş T1');
