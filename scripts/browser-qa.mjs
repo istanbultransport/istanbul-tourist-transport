@@ -199,6 +199,16 @@ try {
     r.some(s=>s.from==='gayrettepe'&&s.to==='istanbul-airport'&&s.mode==='M11 Metro'),
     JSON.stringify(r.map(s=>({from:s.from,to:s.to,mode:s.mode,text:s.text.slice(0,100)}))));
 
+  // Istanbul Modern's official visitor guide lists Tophane Tram Station at 250 m.
+  const modernAccessAudit = await page.evaluate(() => {
+    const access = getEndAccess('istanbul_modern');
+    return {station:access?.station || null, mode:access?.mode || null,
+      minutes:getLastMileWalkMinutes(access,'istanbul_modern')};
+  });
+  record('Istanbul Modern uses source-verified Tophane T1 and 4-minute access',
+    modernAccessAudit.station === 'tophane_t1' && modernAccessAudit.mode === 'T1 Tramvay' && modernAccessAudit.minutes === 4,
+    JSON.stringify(modernAccessAudit));
+
   // Access policy: walking remains acceptable through 16 minutes; >16 minutes must not be auto-started as a walk. Unknown durations and non-boarding walks must not qualify.
   const firstWalkPolicy = await page.evaluate(() => ({
     at15: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:15}],['station','next','M4 Metro','ride']]),

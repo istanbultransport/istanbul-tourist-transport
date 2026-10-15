@@ -134,6 +134,12 @@ try {
         stepCards: flow.stepCards, headingStepLabel: flow.headingStepLabel,
         summaryStepCount: flow.summaryStepCount, routeText: flow.routeText.slice(0, 180)
       }));
+      if (item.id === 'R27') {
+        const modernAccessValid = flow.routeText.includes('Tophane T1') &&
+          flow.routeText.includes('4 dakika') && !flow.routeText.includes('Kabataş T1');
+        record('live Istanbul Modern route uses Tophane T1 and 4-minute final walk', modernAccessValid,
+          flow.routeText.slice(-500));
+      }
     } catch (error) {
       record('live UI route flow ' + item.id, false, error.message);
     }
