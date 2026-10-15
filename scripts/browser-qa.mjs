@@ -148,6 +148,21 @@ try {
 
   record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length >= 40, 'count='+cases.routeCases.length);
 
+  // First-station walk auto-start policy: <=15 min qualifies; unknown, >15 min,
+  // non-walk first steps, and walks not followed by main transit must not qualify.
+  const firstWalkPolicy = await page.evaluate(() => ({
+    at15: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:15}],['station','next','M4 Metro','ride']]),
+    at16: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:16}],['station','next','M4 Metro','ride']]),
+    unknown: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{}],['station','next','M4 Metro','ride']]),
+    noWalk: shouldAutoStartFirstStationWalk([['origin','station','M4 Metro','ride'],['station','next','Marmaray','ride']]),
+    walkNotToBoarding: shouldAutoStartFirstStationWalk([['origin','place','Yürüyüş','walk',{walkMinutes:5}],['place','station','Yürüyüş','walk'],['station','next','M4 Metro','ride']])
+  }));
+  record('first-station walk auto-start includes exactly 15 minutes', firstWalkPolicy.at15 === true, JSON.stringify(firstWalkPolicy));
+  record('first-station walk auto-start excludes over 15 / unknown / non-boarding walks',
+    firstWalkPolicy.at16 === false && firstWalkPolicy.unknown === false &&
+    firstWalkPolicy.noWalk === false && firstWalkPolicy.walkNotToBoarding === false,
+    JSON.stringify(firstWalkPolicy));
+
   // Corrected POI targets must feed their exact coordinates into the walking-navigation URL.
   const coordinateTargetIds = ['anadolu_hisari','ayasofya','sultanahmet','kadikoy_carsi',
     'ataturk_kultur_merkezi_akm','taksim_meydani','mesher','ashkenazi_sinagogu',

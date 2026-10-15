@@ -1,16 +1,16 @@
-<!-- V230.12.16-UI-QA-HARDENED: adaptive access + explicit starting-line + authoritative station navigation. -->
+<!-- V230.12.26-AUTO-FIRST-WALK-NAV: <=15 min first station walk auto-start. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.25-DESTINATION-COORDINATES">
+<meta name="build-id" content="V230.12.26-AUTO-FIRST-WALK-NAV">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.25</title>
+<title>Istanbul Tourist Transport Planner — V230.12.26</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.25-DESTINATION-COORDINATES';
+  window.__APP_BUILD_ID__='V230.12.26-AUTO-FIRST-WALK-NAV';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -4570,6 +4570,39 @@ function currentLocationProductionQA(){
   return out;
 }
 
+
+// V230.12.26: auto-start the first walk only when it is short and leads
+// directly to the first main-transit boarding point. Unknown durations never qualify.
+function shouldAutoStartFirstStationWalk(path){
+  if(!Array.isArray(path)||path.length<2) return false;
+  const first=path[0], next=path[1];
+  if(!Array.isArray(first)||first[2]!=='Yürüyüş'||!Array.isArray(next)) return false;
+  const explicit=first[4]?.walkMinutes;
+  const mins=explicit!==null && explicit!==undefined && Number.isFinite(Number(explicit))
+    ? Number(explicit)
+    : touristWalkTime(first[0],first[1]);
+  if(mins===null||mins===undefined||!Number.isFinite(Number(mins))||Number(mins)>15||Number(mins)<0) return false;
+  return isPrimaryTransitMode(next[2]);
+}
+function autoStartFirstStationNavigation(path){
+  if(!shouldAutoStartFirstStationWalk(path)) return false;
+  // Deterministic QA must never spawn external tabs or navigate away.
+  if(new URLSearchParams(window.location.search).has('qa') || window.__ITP_DISABLE_AUTO_WALK_NAV__===true) return false;
+  const firstStep=document.querySelector('#route .timeline .step.now');
+  const link=firstStep?.querySelector('a[href*="google.com/maps/dir/"]');
+  if(!link || !link.href) return false;
+  try{
+    const opened=window.open(link.href,'_blank');
+    if(opened){ try{opened.opener=null;}catch(_){} }
+    else window.location.assign(link.href);
+    return true;
+  }catch(error){
+    console.warn('[ITP walking navigation] Automatic launch blocked; use the Step 1 navigation link.',error);
+    link.focus();
+    return false;
+  }
+}
+
 function currentLocationPresentationQA(){
   const out={status:'PASS',tests:[],failures:[]};
   const add=(name,ok,detail)=>{out.tests.push({name,ok,detail});if(!ok){out.status='FAIL';out.failures.push({name,detail});}};
@@ -5260,6 +5293,8 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
  ${optionBlocks}
  <button class="reset" onclick="newRoute()">← Yeni rota seç</button>`;
  panel.style.display='block';panel.scrollIntoView({behavior:'smooth',block:'start'});
+ // Automatically launch navigation only for a verified <=15 minute first walk to transit.
+ autoStartFirstStationNavigation(activePath);
 }
 
 /**
