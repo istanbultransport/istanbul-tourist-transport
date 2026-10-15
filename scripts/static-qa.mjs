@@ -83,8 +83,8 @@ check('build ID and service-worker cache version match', !!buildMinor && !!cache
 
 
 if (regression) {
-  check('manual regression contains at least 52 places', Array.isArray(regression.locations) && regression.locations.length >= 52, String(regression.locations?.length));
-  check('manual regression contains at least 46 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length >= 46, String(regression.routeCases?.length));
+  check('manual regression contains at least 53 places', Array.isArray(regression.locations) && regression.locations.length >= 53, String(regression.locations?.length));
+  check('manual regression contains at least 47 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length >= 47, String(regression.routeCases?.length));
   const locationIds = new Set((regression.locations || []).map(place => place.id));
   check('manual regression location IDs are unique', locationIds.size === regression.locations?.length);
   check('all manual route endpoints reference known locations', (regression.routeCases || []).every(route => locationIds.has(route.from) && locationIds.has(route.to)));
