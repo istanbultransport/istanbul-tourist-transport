@@ -3,7 +3,10 @@
 const fs=require('node:fs');
 const assert=require('node:assert/strict');
 const html=fs.readFileSync('index.html','utf8');
-const start=html.indexOf('const places=');\nconst graphStart=html.indexOf('const graph=',start);\nconst match=start>=0&&graphStart>start? [null,html.slice(start+'const places='.length,html.lastIndexOf(';',graphStart)).trim().replace(/;$/, '')]:null;
+const start=html.indexOf('const places=');
+const graphStart=html.indexOf('const graph=',start);
+const end=graphStart>start?html.lastIndexOf(';',graphStart):-1;
+const match=start>=0&&end>start?[null,html.slice(start+'const places='.length,end).trim()]:null;
 assert(match,'places catalogue not found');
 const places=JSON.parse(match[1]);
 const audit=JSON.parse(fs.readFileSync('qa/all-place-coordinate-audit.json','utf8'));
