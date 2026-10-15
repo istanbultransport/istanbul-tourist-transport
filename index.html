@@ -1,16 +1,16 @@
-<!-- V230.12.27-ACCESS-16MIN: <=16 min first station walk auto-start. -->
+<!-- V230.12.28-YILDIZ-BUS: <=16 min first station walk auto-start. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.27-ACCESS-16MIN">
+<meta name="build-id" content="V230.12.28-YILDIZ-BUS">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.27</title>
+<title>Istanbul Tourist Transport Planner — V230.12.28</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.27-ACCESS-16MIN';
+  window.__APP_BUILD_ID__='V230.12.28-YILDIZ-BUS';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -2970,6 +2970,26 @@ const lastMileBusRegistry = {
     source: 'İETT official 15S/15 route stops; Bet Nissim location: tarihi.ist and visit.istanbul',
     verified: true
   },
+  // Source-backed access: M7 Yıldız → U1 toward Beşiktaş/Çırağan → Yahya Efendi.
+  // IETT U1's official ring route lists Yıldız Teknik Üniversitesi, Çırağan and Yahya Efendi.
+  // Stop walking estimates are secondary map references, not field-surveyed timings.
+  yildiz_sarayi_from_yildiz_m7: {
+    key: 'yildiz|yildiz_sarayi',
+    targetId: 'yildiz_sarayi',
+    station: 'yildiz',
+    stopName: 'Yıldız Teknik Üniversitesi - Beşiktaş Yönü',
+    stopQuery: 'Yıldız Teknik Üniversitesi - Beşiktaş Yönü, Beşiktaş, İstanbul',
+    walkToStopMinutes: 6,
+    line: 'U1',
+    direction: 'Beşiktaş / Çırağan',
+    boardStop: 'Yıldız Teknik Üniversitesi - Beşiktaş Yönü',
+    alightStop: 'Yahya Efendi',
+    alightQuery: 'Yahya Efendi İETT Durağı, Beşiktaş, İstanbul',
+    targetQuery: 'Yıldız Sarayı Müzesi, Yıldız, 34349 Beşiktaş, İstanbul',
+    iettUrl: 'https://iett.istanbul/RouteDetail?hkod=U1&routename=besiktas-ulus',
+    source: 'İETT U1 official stop sequence; Metro İstanbul M7; Moovit bus-stop walking references',
+    verified: true
+  },
   agva_from_uskudar_marmaray: {
     key: 'uskudar|agva', targetId: 'agva', station: 'uskudar',
     stopName: 'Şemsipaşa', stopQuery: 'Şemsipaşa, Üsküdar, İstanbul',
@@ -4624,7 +4644,7 @@ function currentLocationProductionQA(){
 }
 
 
-// V230.12.27: auto-start the first walk only when it is at most 16 minutes and leads
+// V230.12.28: auto-start the first walk only when it is at most 16 minutes and leads
 // directly to the first main-transit boarding point. Unknown durations never qualify.
 function shouldAutoStartFirstStationWalk(path){
   if(!Array.isArray(path)||path.length<2) return false;
@@ -4759,12 +4779,27 @@ function lastMilePresentationQA(){
     add(`>16-curated-tourist-walk-${key}-has-verified-bus`,!!plan,plan?.line||'No verified bus plan');
   }
 
-  const fallbackAccess=getEndAccess('yildiz_sarayi') || {station:'yildiz',mode:'M7 Metro',label:'Yıldız M7'};
-  const fallback=lastMileStep(fallbackAccess,'yildiz_sarayi');
-  const fallbackText=String(fallback?.[3]||'');
-  add('>16-unverified-bus-no-invention',!fallbackText.includes('48G')&&!fallbackText.includes('79FY')&&!fallbackText.includes('MK13'),fallbackText);
-  add('>16-fallback-discloses-missing-bus',fallbackText.includes('22 dakika')&&fallbackText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),fallbackText);
-  add('>16-fallback-no-ride-warning',!fallbackText.includes('Uber')&&!fallbackText.includes('Yandex Go')&&!fallbackText.includes('Martı TAG'),fallbackText);
+  const yildizAccess=getEndAccess('yildiz_sarayi') || {station:'yildiz',mode:'M7 Metro',label:'Yıldız M7',walkMinutes:22};
+  const yildiz=lastMileStep(yildizAccess,'yildiz_sarayi');
+  const yildizText=String(yildiz?.[3]||'');
+  add('>16-yildiz-palace-verified-U1-plan',
+    lastMileBusPlanIndex.get('yildiz|yildiz_sarayi')?.verified===true &&
+    yildizText.includes('U1 İETT') && yildizText.includes('Yahya Efendi') && yildizText.includes('Yıldız Sarayı'),
+    yildizText);
+  add('>16-yildiz-palace-boarding-stop-and-walk-navigation',
+    yildizText.includes('Yıldız Teknik Üniversitesi - Beşiktaş Yönü') &&
+    yildizText.includes('otobüs durağına navigasyonu aç') &&
+    yildizText.includes('destination=Y%C4%B1ld%C4%B1z+Teknik+%C3%9Cniversitesi'),
+    yildizText);
+  add('>16-yildiz-palace-final-walk-navigation',
+    yildizText.includes('hedefe navigasyonu aç') &&
+    yildizText.includes('Yahya+Efendi') &&
+    yildizText.includes('Y%C4%B1ld%C4%B1z+Sarayı') &&
+    (yildizText.match(/google\\.com\\/maps\\/dir\\//g)||[]).length>=2,
+    yildizText);
+  add('>16-yildiz-palace-official-iett-route-link',
+    yildizText.includes('iett.istanbul/RouteDetail?hkod=U1') && !yildizText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),
+    yildizText);
 
   const exactKey='qa_exact18_station|__qa_exact18';
   const oldExact=lastMileStationWalkMinutes[exactKey];
