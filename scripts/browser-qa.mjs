@@ -339,6 +339,60 @@ try {
     await gpsContext.close();
   }
 
+  // Deterministic GPS failure cases: denied permission, unavailable fix, and timeout.
+  for (const scenario of [
+    { code: 1, name: 'GPS permission denied', expected: 'Konum izni verilmedi.' },
+    { code: 2, name: 'GPS position unavailable', expected: 'GPS/Wi‑Fi bağlantını kontrol edip tekrar dene.' },
+    { code: 3, name: 'GPS request timeout', expected: 'Konum isteği zaman aşımına uğradı.' }
+  ]) {
+    const failureContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    try {
+      const failurePage = await failureContext.newPage();
+      await failurePage.addInitScript(code => {
+        Object.defineProperty(navigator, 'geolocation', {
+          configurable: true,
+          value: { getCurrentPosition(_success, error) { Promise.resolve().then(() => error({ code, message: 'deterministic QA error' })); } }
+        });
+      }, scenario.code);
+      await failurePage.goto('http://127.0.0.1:4173/index.html?qa=gps-error', { waitUntil: 'domcontentloaded' });
+      await failurePage.locator('#useCurrentLocationBtn').click();
+      await failurePage.waitForFunction(expected => (document.getElementById('locationStatus')?.textContent || '').includes(expected), scenario.expected, { timeout: 5000 });
+      const state = await failurePage.evaluate(() => ({
+        status: document.getElementById('locationStatus')?.textContent || '',
+        buttonEnabled: !document.getElementById('useCurrentLocationBtn')?.disabled
+      }));
+      record(scenario.name + ' shows actionable error and resets button',
+        state.status.includes(scenario.expected) && state.buttonEnabled, JSON.stringify(state));
+    } catch (error) {
+      record(scenario.name + ' error handling', false, error.message);
+    } finally {
+      await failureContext.close();
+    }
+  }
+
+  // A blocked popup must not throw: the current walking link remains the fallback.
+  const navFailureContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  try {
+    const navFailurePage = await navFailureContext.newPage();
+    await navFailurePage.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'domcontentloaded' });
+    const navState = await navFailurePage.evaluate(() => {
+      const route = document.getElementById('route');
+      route.innerHTML = '<div class="timeline"><div class="step now"><a href="https://www.google.com/maps/dir/?api=1&destination=41.0%2C29.0">Yürü — hedefe navigasyonu aç</a></div></div>';
+      window.__ITP_DISABLE_AUTO_WALK_NAV__ = false;
+      window.open = () => { throw new Error('popup blocked by deterministic QA'); };
+      const path = [['origin','station','Yürüyüş','walk',{walkMinutes:5}],['station','next','M4 Metro','ride']];
+      const returned = autoStartFirstStationNavigation(path);
+      const link = document.querySelector('#route .timeline .step.now a');
+      return { returned, focusedFallback: document.activeElement === link, linkAvailable: !!link?.href };
+    });
+    record('blocked external navigation leaves focused walking-link fallback',
+      navState.returned === false && navState.focusedFallback && navState.linkAvailable, JSON.stringify(navState));
+  } catch (error) {
+    record('blocked external navigation fallback', false, error.message);
+  } finally {
+    await navFailureContext.close();
+  }
+
   // Panels/tabs should remain clickable on a narrow viewport.
   for (const [id,panelId,label] of [
     ['cityExploreTab','cityExplorePanel','city exploration panel'],
