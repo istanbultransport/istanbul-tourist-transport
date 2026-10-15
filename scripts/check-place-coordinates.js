@@ -23,6 +23,13 @@ for(const p of places){
  else if(a.lat!==p.lat||a.lng!==p.lng)errors.push('audit coordinate stale '+p.id);
 }
 if(audit.places.length!==places.length)errors.push('catalogue/audit count mismatch');
+const coordinateGroups=new Map();
+for(const p of places){const key=p.lat+','+p.lng;if(!coordinateGroups.has(key))coordinateGroups.set(key,[]);coordinateGroups.get(key).push(p.id);}
+const actualPairs=[...coordinateGroups.entries()].filter(([,group])=>group.length>1).flatMap(([coordinates,group])=>group.slice(1).map(id=>({firstId:group[0],secondId:id,coordinates,overlapType:'requires-semantic-review'}))).map(p=>p.firstId+'|'+p.secondId+'|'+p.coordinates).sort();
+const auditedPairs=(audit.duplicateCoordinatePairs||[]).map(p=>p.firstId+'|'+p.secondId+'|'+p.coordinates).sort();
+if(JSON.stringify(actualPairs)!==JSON.stringify(auditedPairs))errors.push('duplicate coordinate report does not match current catalogue');
+if(audit.summary?.duplicateCoordinatePairs!==actualPairs.length)errors.push('duplicate coordinate summary count stale');
+for(const item of (audit.verifiedCoordinateCorrections||[])){const current=places.find(p=>p.id===item.id);if(!current||current.lat!==item.to?.lat||current.lng!==item.to?.lng)errors.push('verified correction does not match current catalogue '+item.id);}
 for(const p of scenarios.locations){
  if(p.source==='existing-catalog' && ids.has(p.id)){
   const current=places.find(x=>x.id===p.id);
