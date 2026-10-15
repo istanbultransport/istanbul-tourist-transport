@@ -6,7 +6,8 @@
     "total": 217,
     "duplicateCoordinatePairs": 14,
     "missingCoordinates": 0,
-    "verifiedVisitorEntrances": 0
+    "verifiedVisitorEntrances": 0,
+    "sourceCrossCheckedCorrections": 13
   },
   "policy": "These are existing application coordinates, not independently verified visitor entrances. Duplicate coordinates require individual review; districts and neighborhoods are representative points, not exact entrances. Do not infer walking time from straight-line distance.",
   "duplicateCoordinatePairs": [
@@ -325,10 +326,11 @@
       "id": "ataturk_kultur_merkezi_akm",
       "name": "Atatürk Kültür Merkezi (AKM)",
       "kind": "Turistik nokta",
-      "lat": 41.0369,
-      "lng": 28.985,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.03657,
+      "lng": 28.98825,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm",
+      "source": "https://mapcarta.com/29605070"
     },
     {
       "id": "avcilar",
@@ -343,10 +345,11 @@
       "id": "ayasofya",
       "name": "Ayasofya",
       "kind": "Turistik nokta",
-      "lat": 41.0086,
-      "lng": 28.9802,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.00851,
+      "lng": 28.98,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm",
+      "source": "https://mapcarta.com/26241008"
     },
     {
       "id": "aydos_ormani",
@@ -541,10 +544,11 @@
       "id": "bostanci",
       "name": "Bostancı",
       "kind": "Turistik nokta",
-      "lat": 40.955,
-      "lng": 29.096,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 40.95185,
+      "lng": 29.09426,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm-waterfront-pier",
+      "source": "https://mapcarta.com/W404524230"
     },
     {
       "id": "bostanci_sahili",
@@ -865,10 +869,11 @@
       "id": "galata_semt",
       "name": "Galata",
       "kind": "Semt",
-      "lat": 41.0255,
-      "lng": 28.974,
+      "lat": 41.02842,
+      "lng": 28.97368,
       "coordinateRole": "area-representative",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "verification": "cross-checked-mapcarta-osm-area-representative",
+      "source": "https://mapcarta.com/Istanbul/Galata"
     },
     {
       "id": "galataport",
@@ -982,10 +987,11 @@
       "id": "kadikoy_carsi",
       "name": "Kadıköy Çarşı",
       "kind": "Turistik nokta",
-      "lat": 40.99,
-      "lng": 29.03,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 40.990541,
+      "lng": 29.025133,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-secondary-place-directory",
+      "source": "https://burayagidelim.com/mekan/istanbul/kadikoy-carsi"
     },
     {
       "id": "kagithane",
@@ -1189,10 +1195,11 @@
       "id": "mesher",
       "name": "Meşher",
       "kind": "Turistik nokta",
-      "lat": 41.032,
-      "lng": 28.977,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.030473,
+      "lng": 28.97577,
+      "coordinateRole": "named-target-poi",
+      "verification": "address-coordinate-cross-check",
+      "source": "https://yandex.com.tr/maps/11508/istanbul/house/istiklal_cad_no_211/ZkEYfwBlTkIHQFprfXxycXhkZg%3D%3D/"
     },
     {
       "id": "misircarsisi",
@@ -1279,10 +1286,11 @@
       "id": "ortakoy",
       "name": "Ortaköy",
       "kind": "Turistik nokta",
-      "lat": 41.047,
-      "lng": 29.027,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.04731,
+      "lng": 29.02679,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm",
+      "source": "https://mapcarta.com/36540548"
     },
     {
       "id": "ortakoy_camii",
@@ -1378,10 +1386,11 @@
       "id": "rumelihisari",
       "name": "Rumeli Hisarı",
       "kind": "Turistik nokta",
-      "lat": 41.089,
-      "lng": 29.056,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.0847,
+      "lng": 29.0569,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-visitor-guide",
+      "source": "https://rumelifortress.com/en/map"
     },
     {
       "id": "rustem_pasa",
@@ -1423,10 +1432,11 @@
       "id": "samatya",
       "name": "Samatya",
       "kind": "Semt",
-      "lat": 41.002,
-      "lng": 28.93,
+      "lat": 41.00068,
+      "lng": 28.93267,
       "coordinateRole": "area-representative",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "verification": "cross-checked-mapcarta-osm-area-representative",
+      "source": "https://mapcarta.com/13826230"
     },
     {
       "id": "kocamustafapasa",
@@ -1504,10 +1514,11 @@
       "id": "sultanahmet",
       "name": "Sultanahmet",
       "kind": "Turistik nokta",
-      "lat": 41.0086,
-      "lng": 28.9802,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.00652,
+      "lng": 28.97605,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm",
+      "source": "https://mapcarta.com/W25512790"
     },
     {
       "id": "sultanahmet_camii",
@@ -1594,10 +1605,11 @@
       "id": "taksim_meydani",
       "name": "Taksim Meydanı",
       "kind": "Turistik nokta",
-      "lat": 41.0369,
-      "lng": 28.985,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.03678,
+      "lng": 28.98663,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm",
+      "source": "https://mapcarta.com/26241042"
     },
     {
       "id": "tarihi_galata_koprusu",
@@ -1639,10 +1651,11 @@
       "id": "tunel",
       "name": "Tünel",
       "kind": "Turistik nokta",
-      "lat": 41.0255,
-      "lng": 28.974,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.02835,
+      "lng": 28.97399,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm-station",
+      "source": "https://mapcarta.com/N31678663"
     },
     {
       "id": "turk_ve_islam_eserleri_muzesi",
@@ -2008,10 +2021,11 @@
       "id": "ashkenazi_sinagogu",
       "name": "Aşkenaz Sinagogu",
       "kind": "Turistik nokta",
-      "lat": 41.0255,
-      "lng": 28.974,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.0245,
+      "lng": 28.97508,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm",
+      "source": "https://mapcarta.com/W165517351"
     },
     {
       "id": "bet_nissim_sinagogu",
@@ -2048,6 +2062,190 @@
       "lng": 29.0244,
       "coordinateRole": "poi-candidate",
       "verification": "pending-independent-poi-and-entrance-check"
+    }
+  ],
+  "verifiedCoordinateCorrections": [
+    {
+      "id": "ayasofya",
+      "name": "Ayasofya",
+      "from": {
+        "lat": 41.0086,
+        "lng": 28.9802
+      },
+      "to": {
+        "lat": 41.00851,
+        "lng": 28.98
+      },
+      "source": "https://mapcarta.com/26241008",
+      "status": "cross-checked-mapcarta-osm"
+    },
+    {
+      "id": "sultanahmet",
+      "name": "Sultanahmet",
+      "from": {
+        "lat": 41.0086,
+        "lng": 28.9802
+      },
+      "to": {
+        "lat": 41.00652,
+        "lng": 28.97605
+      },
+      "source": "https://mapcarta.com/W25512790",
+      "status": "cross-checked-mapcarta-osm"
+    },
+    {
+      "id": "kadikoy_carsi",
+      "name": "Kadıköy Çarşı",
+      "from": {
+        "lat": 40.99,
+        "lng": 29.03
+      },
+      "to": {
+        "lat": 40.990541,
+        "lng": 29.025133
+      },
+      "source": "https://burayagidelim.com/mekan/istanbul/kadikoy-carsi",
+      "status": "cross-checked-secondary-place-directory"
+    },
+    {
+      "id": "ataturk_kultur_merkezi_akm",
+      "name": "Atatürk Kültür Merkezi (AKM)",
+      "from": {
+        "lat": 41.0369,
+        "lng": 28.985
+      },
+      "to": {
+        "lat": 41.03657,
+        "lng": 28.98825
+      },
+      "source": "https://mapcarta.com/29605070",
+      "status": "cross-checked-mapcarta-osm"
+    },
+    {
+      "id": "taksim_meydani",
+      "name": "Taksim Meydanı",
+      "from": {
+        "lat": 41.0369,
+        "lng": 28.985
+      },
+      "to": {
+        "lat": 41.03678,
+        "lng": 28.98663
+      },
+      "source": "https://mapcarta.com/26241042",
+      "status": "cross-checked-mapcarta-osm"
+    },
+    {
+      "id": "mesher",
+      "name": "Meşher",
+      "from": {
+        "lat": 41.032,
+        "lng": 28.977
+      },
+      "to": {
+        "lat": 41.030473,
+        "lng": 28.97577
+      },
+      "source": "https://yandex.com.tr/maps/11508/istanbul/house/istiklal_cad_no_211/ZkEYfwBlTkIHQFprfXxycXhkZg%3D%3D/",
+      "status": "address-coordinate-cross-check"
+    },
+    {
+      "id": "ashkenazi_sinagogu",
+      "name": "Aşkenaz Sinagogu",
+      "from": {
+        "lat": 41.0255,
+        "lng": 28.974
+      },
+      "to": {
+        "lat": 41.0245,
+        "lng": 28.97508
+      },
+      "source": "https://mapcarta.com/W165517351",
+      "status": "cross-checked-mapcarta-osm"
+    },
+    {
+      "id": "galata_semt",
+      "name": "Galata",
+      "from": {
+        "lat": 41.0255,
+        "lng": 28.974
+      },
+      "to": {
+        "lat": 41.02842,
+        "lng": 28.97368
+      },
+      "source": "https://mapcarta.com/Istanbul/Galata",
+      "status": "cross-checked-mapcarta-osm-area-representative"
+    },
+    {
+      "id": "tunel",
+      "name": "Tünel",
+      "from": {
+        "lat": 41.0255,
+        "lng": 28.974
+      },
+      "to": {
+        "lat": 41.02835,
+        "lng": 28.97399
+      },
+      "source": "https://mapcarta.com/N31678663",
+      "status": "cross-checked-mapcarta-osm-station"
+    },
+    {
+      "id": "rumelihisari",
+      "name": "Rumeli Hisarı",
+      "from": {
+        "lat": 41.089,
+        "lng": 29.056
+      },
+      "to": {
+        "lat": 41.0847,
+        "lng": 29.0569
+      },
+      "source": "https://rumelifortress.com/en/map",
+      "status": "cross-checked-visitor-guide"
+    },
+    {
+      "id": "ortakoy",
+      "name": "Ortaköy",
+      "from": {
+        "lat": 41.047,
+        "lng": 29.027
+      },
+      "to": {
+        "lat": 41.04731,
+        "lng": 29.02679
+      },
+      "source": "https://mapcarta.com/36540548",
+      "status": "cross-checked-mapcarta-osm"
+    },
+    {
+      "id": "samatya",
+      "name": "Samatya",
+      "from": {
+        "lat": 41.002,
+        "lng": 28.93
+      },
+      "to": {
+        "lat": 41.00068,
+        "lng": 28.93267
+      },
+      "source": "https://mapcarta.com/13826230",
+      "status": "cross-checked-mapcarta-osm-area-representative"
+    },
+    {
+      "id": "bostanci",
+      "name": "Bostancı",
+      "from": {
+        "lat": 40.955,
+        "lng": 29.096
+      },
+      "to": {
+        "lat": 40.95185,
+        "lng": 29.09426
+      },
+      "source": "https://mapcarta.com/W404524230",
+      "status": "cross-checked-mapcarta-osm-waterfront-pier"
     }
   ]
 }
