@@ -1,16 +1,16 @@
-<!-- V230.12.29-YILDIZ-STOP-STATUS: <=16 min first station walk auto-start. -->
+<!-- V230.12.30-ROUTE-STEP-COUNT: <=16 min first station walk auto-start. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.29-YILDIZ-STOP-STATUS">
+<meta name="build-id" content="V230.12.30-ROUTE-STEP-COUNT">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.29</title>
+<title>Istanbul Tourist Transport Planner — V230.12.30</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.29-YILDIZ-STOP-STATUS';
+  window.__APP_BUILD_ID__='V230.12.30-ROUTE-STEP-COUNT';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -4658,7 +4658,7 @@ function currentLocationProductionQA(){
 }
 
 
-// V230.12.29: auto-start the first walk only when it is at most 16 minutes and leads
+// V230.12.30: auto-start the first walk only when it is at most 16 minutes and leads
 // directly to the first main-transit boarding point. Unknown durations never qualify.
 function shouldAutoStartFirstStationWalk(path){
   if(!Array.isArray(path)||path.length<2) return false;
@@ -5462,7 +5462,7 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
  const summary=`<div class="route-summary"><div class="route-stat"><b>${est.low}–${est.high} dk</b><span>Tahmini yolculuk</span></div><div class="route-stat"><b>${est.transfers}</b><span>aktarma</span></div><div class="route-stat"><b>${displayActivePath.length}</b><span>ulaşım adımı</span></div></div>`;
  const flow=routeFlow(activePath);
  const contextHelp=routeContextHelp(stationSearchAccess[start.id]?.station || start.id,activePath);
- panel.innerHTML=`<div class="route-change"><button type="button" class="change-btn route-start-btn" onclick="changeStart()">← Başlangıç noktasını değiştir</button><button type="button" class="change-btn route-reset-btn" onclick="newRoute()">↻ Rotayı sıfırla</button><button type="button" class="change-btn route-target-btn" onclick="changeTarget()">Hedefi değiştir →</button></div><div class="routehead"><div><h2>${gpsStart ? "📍 Mevcut konumum" : start.emoji+" "+start.name} → ${target.emoji} ${target.name}</h2>${heading}</div><div class="pill">${normalizedOptions ? 'PRATİK ROTA' : normalizedPath.length+' ULAŞIM ADIMI'}</div></div>${summary}${flow}${contextHelp}
+ panel.innerHTML=`<div class="route-change"><button type="button" class="change-btn route-start-btn" onclick="changeStart()">← Başlangıç noktasını değiştir</button><button type="button" class="change-btn route-reset-btn" onclick="newRoute()">↻ Rotayı sıfırla</button><button type="button" class="change-btn route-target-btn" onclick="changeTarget()">Hedefi değiştir →</button></div><div class="routehead"><div><h2>${gpsStart ? "📍 Mevcut konumum" : start.emoji+" "+start.name} → ${target.emoji} ${target.name}</h2>${heading}</div><div class="pill">${normalizedOptions ? 'PRATİK ROTA' : displayActivePath.length+' ULAŞIM ADIMI'}</div></div>${summary}${flow}${contextHelp}
  
  ${optionBlocks}
  <button class="reset" onclick="newRoute()">← Yeni rota seç</button>`;

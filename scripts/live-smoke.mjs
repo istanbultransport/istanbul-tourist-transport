@@ -111,10 +111,16 @@ try {
         from: start?.id || null,
         to: selectedTarget?.id || null,
         routeText: document.getElementById('route')?.innerText?.trim() || '',
-        stepCards: document.querySelectorAll('#route .step').length
+        stepCards: document.querySelectorAll('#route .step').length,
+        headingStepLabel: document.querySelector('#route .routehead .pill')?.textContent?.trim() || '',
+        summaryStepCount: Number(document.querySelectorAll('#route .route-summary .route-stat b')[2]?.textContent || NaN)
       }));
+      const headingStepMatch = flow.headingStepLabel.match(/^(\\d+)\\s+ULAŞIM ADIMI$/i);
+      const stepCountConsistent = headingStepMatch
+        ? Number(headingStepMatch[1]) === flow.summaryStepCount
+        : flow.headingStepLabel === 'PRATİK ROTA';
       const valid = flow.from === item.from && flow.to === item.to &&
-        flow.routeText.length > 0 && flow.stepCards > 0;
+        flow.routeText.length > 0 && flow.stepCards > 0 && stepCountConsistent;
       if (['R01','R02','R03','R04'].includes(item.id)) {
         console.log('LIVE ROUTE AUDIT ' + item.id + ': ' + JSON.stringify({
           expectedFrom: item.from, actualFrom: flow.from,
@@ -125,7 +131,8 @@ try {
       record('live UI route flow ' + item.id, valid, JSON.stringify({
         expectedFrom: item.from, actualFrom: flow.from,
         expectedTo: item.to, actualTo: flow.to,
-        stepCards: flow.stepCards, routeText: flow.routeText.slice(0, 180)
+        stepCards: flow.stepCards, headingStepLabel: flow.headingStepLabel,
+        summaryStepCount: flow.summaryStepCount, routeText: flow.routeText.slice(0, 180)
       }));
     } catch (error) {
       record('live UI route flow ' + item.id, false, error.message);
