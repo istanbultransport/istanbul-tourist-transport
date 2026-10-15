@@ -318,6 +318,7 @@ try {
     const real = [['ayrilik','ayrilik','M4 Metro',''],['ayrilik','ayrilik','Marmaray','']];
     return {
       gpsOk: gps.length >= 10 && gps.every(x => Number.isFinite(Number(x.lat)) && Number.isFinite(Number(x.lng))) && gps.some(x => x.station === 'pendik' && x.mode === 'M4 Metro'),
+      feneryoluMarmarayNodeOk: (() => { const row = gps.find(x => x.station === 'feneryolu_m' && x.mode === 'Marmaray'); if (!row) return false; const lat = 40.9788, lng = 29.04883; const meanLat = (row.lat + lat) / 2 * Math.PI / 180; return Math.hypot((row.lat - lat) * 111320, (row.lng - lng) * 111320 * Math.cos(meanLat)) <= 80; })(),
       olimpiyatM11EntranceOk: (() => { const row = gps.find(x => x.station === 'olimpiyat' && x.mode === 'M11 Metro'); return !!row && row.label === 'Olimpiyatköy M11' && Math.abs(row.lat - 41.078967) < 0.000001 && Math.abs(row.lng - 28.768925) < 0.000001; })(),
       kagithaneM11EntranceOk: (() => { const row = gps.find(x => x.station === 'kagithane_hub' && x.mode === 'M11 Metro'); return !!row && row.label === 'Kağıthane M11' && Math.abs(row.lat - 41.08035) < 0.000001 && Math.abs(row.lng - 28.9756) < 0.000001; })(),
       kayasehirM11EntranceOk: (() => { const m11 = gps.find(x => x.station === 'kayasehir_hub' && x.mode === 'M11 Metro'); const m3 = gps.find(x => x.station === 'kayasehir_hub' && x.mode === 'M3 Metro'); return !!m11 && !!m3 && Math.abs(m11.lat - 41.117733) < 0.000001 && Math.abs(m11.lng - 28.765983) < 0.000001 && Math.hypot((m11.lat - m3.lat) * 111320, (m11.lng - m3.lng) * 111320 * Math.cos(m11.lat * Math.PI / 180)) > 100; })(),
@@ -379,11 +380,12 @@ try {
     };
   });
   record('GPS station coordinates have valid values', accessAudit.gpsOk);
+  record('Feneryolu Marmaray fallback matches cross-checked station-node references', accessAudit.feneryoluMarmarayNodeOk);
   record('M11 Olimpiyatköy fallback targets geotagged entrance', accessAudit.olimpiyatM11EntranceOk);
   record('M11 Kağıthane fallback targets geotagged Entrance 1', accessAudit.kagithaneM11EntranceOk);
   record('M11 Kayaşehir entrance is distinct from M3 Kayaşehir Merkez', accessAudit.kayasehirM11EntranceOk);
   record('four same-name cross-line station coordinate pairs preserve correct geometry', accessAudit.crossLineStationPairsOk);
-  record('four Marmaray station nodes remain within secondary-map tolerances', accessAudit.marmarayNodeChecksOk);
+  record('five Marmaray station nodes remain within secondary-map tolerances', accessAudit.marmarayNodeChecksOk);
   record('four M11/M3/M7/M9 line-specific points preserve expected geometry', accessAudit.m11LinePairGeometryOk);
   record('station exit registry entries have names and IDs', accessAudit.exitsOk);
   record('Metro İstanbul exit records link authoritative source PDF', accessAudit.exitSourcesOk);
