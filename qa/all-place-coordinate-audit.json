@@ -4,96 +4,18 @@
   "scope": "all 217 current place cards",
   "summary": {
     "total": 217,
-    "duplicateCoordinatePairs": 14,
+    "duplicateCoordinatePairs": 1,
     "missingCoordinates": 0,
     "verifiedVisitorEntrances": 0,
-    "sourceCrossCheckedCorrections": 13
+    "sourceCrossCheckedCorrections": 16
   },
   "policy": "These are existing application coordinates, not independently verified visitor entrances. Duplicate coordinates require individual review; districts and neighborhoods are representative points, not exact entrances. Do not infer walking time from straight-line distance.",
   "duplicateCoordinatePairs": [
     {
-      "first": "bostanci_semt",
-      "second": "bostanci",
-      "lat": 40.955,
-      "lng": 29.096
-    },
-    {
-      "first": "eminonu_semt",
-      "second": "eminonu",
-      "lat": 41.0169,
-      "lng": 28.9705
-    },
-    {
-      "first": "kadikoy",
-      "second": "kadikoy_carsi",
-      "lat": 40.99,
-      "lng": 29.03
-    },
-    {
-      "first": "karakoy_semt",
-      "second": "karakoy",
-      "lat": 41.025,
-      "lng": 28.976
-    },
-    {
-      "first": "moda_semt",
-      "second": "moda",
-      "lat": 40.984,
-      "lng": 29.027
-    },
-    {
-      "first": "ortakoy_semt",
-      "second": "ortakoy",
-      "lat": 41.047,
-      "lng": 29.027
-    },
-    {
-      "first": "mesher",
-      "second": "pera",
-      "lat": 41.032,
-      "lng": 28.977
-    },
-    {
-      "first": "rumelihisari_semt",
-      "second": "rumelihisari",
-      "lat": 41.089,
-      "lng": 29.056
-    },
-    {
-      "first": "samatya",
-      "second": "kocamustafapasa",
-      "lat": 41.002,
-      "lng": 28.93
-    },
-    {
-      "first": "ayasofya",
-      "second": "sultanahmet",
-      "lat": 41.0086,
-      "lng": 28.9802
-    },
-    {
-      "first": "ataturk_kultur_merkezi_akm",
-      "second": "taksim",
-      "lat": 41.0369,
-      "lng": 28.985
-    },
-    {
-      "first": "ataturk_kultur_merkezi_akm",
-      "second": "taksim_meydani",
-      "lat": 41.0369,
-      "lng": 28.985
-    },
-    {
-      "first": "galata_semt",
-      "second": "tunel",
-      "lat": 41.0255,
-      "lng": 28.974
-    },
-    {
-      "first": "galata_semt",
-      "second": "ashkenazi_sinagogu",
-      "lat": 41.0255,
-      "lng": 28.974
+      "firstId": "karakoy_semt",
+      "secondId": "karakoy",
+      "coordinates": "41.025,28.976",
+      "overlapType": "requires-semantic-review"
     }
   ],
   "places": [
@@ -743,10 +665,11 @@
       "id": "eminonu",
       "name": "Eminönü",
       "kind": "Turistik nokta",
-      "lat": 41.0169,
-      "lng": 28.9705,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.01713,
+      "lng": 28.97627,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm-pier",
+      "source": "https://mapcarta.com/N5672864364"
     },
     {
       "id": "emirgan_korusu",
@@ -1232,10 +1155,11 @@
       "id": "moda",
       "name": "Moda",
       "kind": "Turistik nokta",
-      "lat": 40.984,
-      "lng": 29.027,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 40.98049,
+      "lng": 29.02123,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-park-map",
+      "source": "https://www.mypacer.com/parks/220201/moda-sahil-park-istanbul"
     },
     {
       "id": "moda_sahili",
@@ -1596,10 +1520,11 @@
       "id": "taksim",
       "name": "Taksim",
       "kind": "Turistik nokta",
-      "lat": 41.0369,
-      "lng": 28.985,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.0342,
+      "lng": 28.9789,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-mapcarta-osm-street",
+      "source": "https://mapcarta.com/27551382"
     },
     {
       "id": "taksim_meydani",
@@ -2246,6 +2171,48 @@
       },
       "source": "https://mapcarta.com/W404524230",
       "status": "cross-checked-mapcarta-osm-waterfront-pier"
+    },
+    {
+      "id": "taksim",
+      "name": "Taksim",
+      "from": {
+        "lat": 41.0369,
+        "lng": 28.985
+      },
+      "to": {
+        "lat": 41.0342,
+        "lng": 28.9789
+      },
+      "source": "https://mapcarta.com/27551382",
+      "status": "cross-checked-mapcarta-osm-street"
+    },
+    {
+      "id": "eminonu",
+      "name": "Eminönü",
+      "from": {
+        "lat": 41.0169,
+        "lng": 28.9705
+      },
+      "to": {
+        "lat": 41.01713,
+        "lng": 28.97627
+      },
+      "source": "https://mapcarta.com/N5672864364",
+      "status": "cross-checked-mapcarta-osm-pier"
+    },
+    {
+      "id": "moda",
+      "name": "Moda",
+      "from": {
+        "lat": 40.984,
+        "lng": 29.027
+      },
+      "to": {
+        "lat": 40.98049,
+        "lng": 29.02123
+      },
+      "source": "https://www.mypacer.com/parks/220201/moda-sahil-park-istanbul",
+      "status": "cross-checked-park-map"
     }
   ]
 }
