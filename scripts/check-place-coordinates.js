@@ -3,7 +3,7 @@
 const fs=require('node:fs');
 const assert=require('node:assert/strict');
 const html=fs.readFileSync('index.html','utf8');
-const match=html.match(/const places=(\[[^;]+\]);/);
+const match=html.match(/const places=(\[[\s\S]*?\]);\s*(?:const |function )/);
 assert(match,'places catalogue not found');
 const places=JSON.parse(match[1]);
 const audit=JSON.parse(fs.readFileSync('qa/all-place-coordinate-audit.json','utf8'));
