@@ -4577,10 +4577,11 @@ function shouldAutoStartFirstStationWalk(path){
   if(!Array.isArray(path)||path.length<2) return false;
   const first=path[0], next=path[1];
   if(!Array.isArray(first)||first[2]!=='Yürüyüş'||!Array.isArray(next)) return false;
-  const mins=Number.isFinite(Number(first[4]?.walkMinutes))
-    ? Number(first[4].walkMinutes)
+  const explicit=first[4]?.walkMinutes;
+  const mins=explicit!==null && explicit!==undefined && Number.isFinite(Number(explicit))
+    ? Number(explicit)
     : touristWalkTime(first[0],first[1]);
-  if(!Number.isFinite(Number(mins))||Number(mins)>15||Number(mins)<0) return false;
+  if(mins===null||mins===undefined||!Number.isFinite(Number(mins))||Number(mins)>15||Number(mins)<0) return false;
   return isPrimaryTransitMode(next[2]);
 }
 function autoStartFirstStationNavigation(path){
