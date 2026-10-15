@@ -121,7 +121,7 @@ try {
         : flow.headingStepLabel === 'PRATİK ROTA';
       const valid = flow.from === item.from && flow.to === item.to &&
         flow.routeText.length > 0 && flow.stepCards > 0 && stepCountConsistent;
-      if (['R01','R02','R03','R04'].includes(item.id)) {
+      if (['R01','R02','R03','R04','R05','R06','R07','R08'].includes(item.id)) {
         console.log('LIVE ROUTE AUDIT ' + item.id + ': ' + JSON.stringify({
           expectedFrom: item.from, actualFrom: flow.from,
           expectedTo: item.to, actualTo: flow.to,
