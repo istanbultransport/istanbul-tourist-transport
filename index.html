@@ -1,16 +1,16 @@
-<!-- V230.12.32-PENDIK-YHT-BUS: source-backed KM13 surface transfer; boarding walk remains unverified. -->
+<!-- V230.12.33-MARRIOTT-ACCESS: source-backed KM13 surface transfer; boarding walk remains unverified. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.32-PENDIK-YHT-BUS">
+<meta name="build-id" content="V230.12.33-MARRIOTT-ACCESS">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.32</title>
+<title>Istanbul Tourist Transport Planner — V230.12.33</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.32-PENDIK-YHT-BUS';
+  window.__APP_BUILD_ID__='V230.12.33-MARRIOTT-ACCESS';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -4398,7 +4398,7 @@ function compressConsecutiveTransitStepsForDisplay(path){
 }
 function surfaceMetaForDisplay(step){ try{return surfaceTransferMeta(step)||null;}catch(_){return null;} }
 
-function routeFlow(path){
+function routeFlow(path,startId=null){
   if(!path||!path.length) return '';
   path=compressConsecutiveTransitStepsForDisplay(path);
   const labels=[];
@@ -4406,7 +4406,9 @@ function routeFlow(path){
     const [from,to,mode,txt,meta]=e;
     const gpsWalkLabel=(mode==='Yürüyüş' && from==='current_location' && i===0 && meta?.walkStationLabel) ? meta.walkStationLabel : null;
     const fromLabel=stepNodeLabel(from,mode);
-    const toLabel=gpsWalkLabel || stepNodeLabel(to,mode);
+    const registeredStartAccess=startId && typeof startLocalAccessRegistry!=='undefined' ? startLocalAccessRegistry[startId] : null;
+    const registeredWalkLabel=i===0 && mode==='Yürüyüş' && registeredStartAccess?.label ? registeredStartAccess.label : null;
+    const toLabel=gpsWalkLabel || registeredWalkLabel || stepNodeLabel(to,mode);
     if(i===0) labels.push(`<span class="flow-node start">${fromLabel}</span>`);
     labels.push(`<span class="flow-arrow">↓</span><span class="flow-node ${i===path.length-1?'end':''}">${toLabel}</span>`);
   });
@@ -5358,7 +5360,7 @@ async function buildRouteToTarget(target){
     adaptiveStartAccessOverrides.delete('current_location');
     return;
   }
-  if(start && specialStartIds.has(start.id)){
+  if(start && specialStartIds.has(start.id) && !(typeof startLocalAccessRegistry!=='undefined' && startLocalAccessRegistry[start.id])){
     const adaptive=await buildAdaptiveStartAccess(start.id,target,specialStartMeta(start.id));
     if(adaptive){
       adaptiveStartAccessOverrides.set(start.id,adaptive);
@@ -5473,7 +5475,7 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
  const heading=normalizedOptions ? '' : `<p>Her adımda <b>nereden bineceğin, hangi yöne gideceğin ve nerede ineceğin</b> gösterilir.</p>`;
  const displayActivePath=compressConsecutiveTransitStepsForDisplay(activePath);
  const summary=`<div class="route-summary"><div class="route-stat"><b>${est.low}–${est.high} dk</b><span>Tahmini yolculuk</span></div><div class="route-stat"><b>${est.transfers}</b><span>aktarma</span></div><div class="route-stat"><b>${displayActivePath.length}</b><span>ulaşım adımı</span></div></div>`;
- const flow=routeFlow(activePath);
+ const flow=routeFlow(activePath,start.id);
  const contextHelp=routeContextHelp(stationSearchAccess[start.id]?.station || start.id,activePath);
  panel.innerHTML=`<div class="route-change"><button type="button" class="change-btn route-start-btn" onclick="changeStart()">← Başlangıç noktasını değiştir</button><button type="button" class="change-btn route-reset-btn" onclick="newRoute()">↻ Rotayı sıfırla</button><button type="button" class="change-btn route-target-btn" onclick="changeTarget()">Hedefi değiştir →</button></div><div class="routehead"><div><h2>${gpsStart ? "📍 Mevcut konumum" : start.emoji+" "+start.name} → ${target.emoji} ${target.name}</h2>${heading}</div><div class="pill">${normalizedOptions ? 'PRATİK ROTA' : displayActivePath.length+' ULAŞIM ADIMI'}</div></div>${summary}${flow}${contextHelp}
  
