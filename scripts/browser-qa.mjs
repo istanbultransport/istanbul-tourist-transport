@@ -158,6 +158,15 @@ try {
         record('R07 Pendik YHT exposes official KM13 route and stop links without inventing walk time',
           pendikBusValid, flow.routeText.slice(-900));
       }
+      if (item.id === 'R04' || item.id === 'R20') {
+        const expectedAccess = item.id === 'R04' ? 'Kadıköy M4' : 'Kadıköy T3';
+        const firstMileValid = flow.routeText.includes('Çiya Sofrası noktasından') &&
+          flow.routeText.includes(expectedAccess) &&
+          flow.routeText.includes('dakika yürüyün') &&
+          flow.routeHtml.includes('current-location-nav');
+        record(item.id+' Çiya Sofrası first-mile walk and navigation link render',
+          firstMileValid, flow.routeText.slice(0, 850));
+      }
       record('UI route flow '+item.id, valid, JSON.stringify({
         expectedFrom: item.from, actualFrom: flow.from,
         expectedTo: item.to, actualTo: flow.to,
