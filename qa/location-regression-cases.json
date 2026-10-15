@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "title": "Istanbul Tourist Transport Planner — 51-place manual regression set",
-  "purpose": "Validate existing registered place selection and route handoff without paid Google Places API. The catalogue entries are matched to the current places array where marked existing-catalog; business records outside the catalogue require address/coordinate verification and integration before they can be considered runnable. Anadolu Hisarı Kalesi/Müzesi için kaynakla çapraz kontrol edilmiş hedef POI koordinatı ve dört yeni rota regresyon senaryosu eklendi; bunlar canlı test edilmeden PASS sayılmaz.",
+  "title": "Istanbul Tourist Transport Planner — 52-place manual regression set",
+  "purpose": "Validate existing registered place selection and route handoff without paid Google Places API. The catalogue entries are matched to the current places array where marked existing-catalog; business records outside the catalogue require address/coordinate verification and integration before they can be considered runnable. Anadolu Hisarı Kalesi/Müzesi için kaynakla çapraz kontrol edilmiş hedef POI koordinatı ve dört yeni rota regresyon senaryosu eklendi; bunlar canlı test edilmeden PASS sayılmaz. İstanbul Havalimanı ↔ Atatürk Kent Ormanı için iki yönlü rota ve Hacıosman M2 son erişim süresi ayrıca regresyon kapsamına alındı.",
   "policy": {
     "noPaidApi": true,
     "noUnverifiedCoordinates": true,
@@ -518,6 +518,15 @@
         "https://www.outdooractive.com/mobile/en/poi/istanbul/anadolu-hisari-castle/65997849/",
         "https://ataturkkitapligi.ibb.gov.tr/tr/Kitaplik/Muzelerimiz/Anadolu-Hisari-Muzesi/15"
       ]
+    },
+    {
+      "id": "ataturk_kent_ormani",
+      "name": "Atatürk Kent Ormanı",
+      "type": "tourist-attraction",
+      "side": "Avrupa Yakası",
+      "source": "existing-catalog",
+      "lat": 41.1343,
+      "lng": 29.0321
     }
   ],
   "routeCases": [
@@ -784,6 +793,18 @@
       "from": "istanbul-airport",
       "to": "anadolu_hisari",
       "focus": "İstanbul Havalimanı → Anadolu Hisarı; iki yaka, aktarma ve son erişim."
+    },
+    {
+      "id": "R45",
+      "from": "istanbul-airport",
+      "to": "ataturk_kent_ormani",
+      "focus": "İstanbul Havalimanı → Atatürk Kent Ormanı; M11→M2 koridoru ve Hacıosman'dan gerçekçi son yürüyüş süresi."
+    },
+    {
+      "id": "R46",
+      "from": "ataturk_kent_ormani",
+      "to": "istanbul-airport",
+      "focus": "Atatürk Kent Ormanı → İstanbul Havalimanı; başlangıç yürüyüşü ve ters yönde M2→M11 bağlantısı."
     }
   ],
   "perCaseChecks": [
