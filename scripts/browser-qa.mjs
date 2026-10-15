@@ -226,6 +226,17 @@ try {
     engineAcceptance.tests.every(t => t.status === 'PASS'),
     JSON.stringify({status:engineAcceptance.status,tests:engineAcceptance.tests?.length,failures:engineAcceptance.failures}));
 
+  const lastMileAcceptance = await page.evaluate(() => {
+    if (typeof window.lastMilePresentationQA !== 'function') return { status:'FAIL', failures:[{name:'suite-not-exposed'}] };
+    return window.lastMilePresentationQA();
+  });
+  record('last-mile 16-minute threshold and verified-bus suite',
+    lastMileAcceptance.status === 'PASS' &&
+    Array.isArray(lastMileAcceptance.tests) &&
+    lastMileAcceptance.tests.length >= 15 &&
+    lastMileAcceptance.tests.every(t => t.ok === true),
+    JSON.stringify({status:lastMileAcceptance.status,tests:lastMileAcceptance.tests?.length,failures:lastMileAcceptance.failures}));
+
   // Source-backed correction ledger IDs should all pass coordinate handoff.
   const correctionIds = coordinateAudit.verifiedCoordinateCorrections.map(item => item.id);
   const checkedIds = new Set(coordinateTargetIds);
