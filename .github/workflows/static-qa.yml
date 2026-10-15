@@ -13,6 +13,7 @@ jobs:
         with:
           node-version: 22
       - run: node scripts/static-qa.mjs
+      - run: node scripts/check-place-coordinates.js
       - run: node --check scripts/live-smoke.mjs
 
   browser-qa:
