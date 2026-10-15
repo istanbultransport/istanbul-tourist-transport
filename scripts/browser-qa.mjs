@@ -6,6 +6,7 @@ const passed = [];
 const record = (name, ok, detail = '') => (ok ? passed : failures).push(ok ? name : `${name}: ${detail}`);
 const read = p => fs.readFileSync(p, 'utf8');
 const cases = JSON.parse(read('qa/location-regression-cases.json'));
+const coordinateAudit = JSON.parse(read('qa/all-place-coordinate-audit.json'));
 const appHtml = read('index.html');
 const htmlBuild = (appHtml.match(/<meta name="build-id" content="([^"]+)"/) || [])[1] || '';
 
@@ -150,7 +151,7 @@ try {
   // Corrected POI targets must feed their exact coordinates into the walking-navigation URL.
   const coordinateTargetIds = ['anadolu_hisari','ayasofya','sultanahmet','kadikoy_carsi',
     'ataturk_kultur_merkezi_akm','taksim_meydani','mesher','ashkenazi_sinagogu',
-    'galata_semt','tunel','rumelihisari','ortakoy','samatya','bostanci','taksim','eminonu','moda'];
+    'galata_semt','tunel','rumelihisari','ortakoy','samatya','bostanci','taksim','eminonu','moda','karakoy'];
   for (const targetId of coordinateTargetIds) {
     const result = await page.evaluate(id => {
       const target = places.find(p => p.id === id);
@@ -164,6 +165,23 @@ try {
     }, targetId);
     record('POI walking navigation uses stored target coordinates '+targetId, result.ok === true, JSON.stringify(result));
   }
+
+  // Run the app's own targeted route-engine acceptance suite, not only generic route existence.
+  const engineAcceptance = await page.evaluate(() => {
+    if (typeof window.v223AcceptanceQA !== 'function') return { status:'FAIL', reason:'suite not exposed', tests:[] };
+    return window.v223AcceptanceQA();
+  });
+  record('route-engine targeted acceptance suite', engineAcceptance.status === 'PASS' &&
+    Array.isArray(engineAcceptance.tests) && engineAcceptance.tests.length >= 13 &&
+    engineAcceptance.tests.every(t => t.status === 'PASS'),
+    JSON.stringify({status:engineAcceptance.status,tests:engineAcceptance.tests?.length,failures:engineAcceptance.failures}));
+
+  // Source-backed correction ledger IDs should all pass coordinate handoff.
+  const correctionIds = coordinateAudit.verifiedCoordinateCorrections.map(item => item.id);
+  const checkedIds = new Set(coordinateTargetIds);
+  record('all source-backed coordinate corrections have navigation coverage',
+    correctionIds.every(id => checkedIds.has(id)),
+    'covered=' + [...checkedIds].filter(id => correctionIds.includes(id)).length + '/' + correctionIds.length);
 
   const accessAudit = await page.evaluate(() => {
     const gps = typeof staticGpsStationCoordinates === 'function' ? staticGpsStationCoordinates() : [];
