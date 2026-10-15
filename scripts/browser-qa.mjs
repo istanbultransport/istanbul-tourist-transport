@@ -158,6 +158,15 @@ try {
         record('R07 Pendik YHT exposes official KM13 route and stop links without inventing walk time',
           pendikBusValid, flow.routeText.slice(-900));
       }
+      if (item.id === 'R04' || item.id === 'R20') {
+        const expectedAccess = item.id === 'R04' ? 'Kadıköy M4' : 'Kadıköy T3';
+        const firstMileValid = flow.routeText.includes('Çiya Sofrası noktasından') &&
+          flow.routeText.includes(expectedAccess) &&
+          flow.routeText.includes('dakika yürüyün') &&
+          flow.routeHtml.includes('current-location-nav');
+        record(item.id+' Çiya Sofrası first-mile walk and navigation link render',
+          firstMileValid, flow.routeText.slice(0, 850));
+      }
       record('UI route flow '+item.id, valid, JSON.stringify({
         expectedFrom: item.from, actualFrom: flow.from,
         expectedTo: item.to, actualTo: flow.to,
@@ -508,8 +517,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the Istanbul Modern Tophane-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.32-pendikyht-core' &&
-    htmlBuild === 'V230.12.32-PENDIK-YHT-BUS' &&
+    cacheName === 'itp-v230.12.33-ciya-first-mile-core' &&
+    htmlBuild === 'V230.12.33-CIYA-FIRST-MILE' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {

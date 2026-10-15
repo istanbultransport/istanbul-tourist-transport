@@ -1,16 +1,16 @@
-<!-- V230.12.32-PENDIK-YHT-BUS: source-backed KM13 surface transfer; boarding walk remains unverified. -->
+<!-- V230.12.33-CIYA-FIRST-MILE: evaluate M4/T3 access from stored Çiya coordinates; entrance remains unverified. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.32-PENDIK-YHT-BUS">
+<meta name="build-id" content="V230.12.33-CIYA-FIRST-MILE">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.32</title>
+<title>Istanbul Tourist Transport Planner — V230.12.33</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.32-PENDIK-YHT-BUS';
+  window.__APP_BUILD_ID__='V230.12.33-CIYA-FIRST-MILE';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -511,6 +511,7 @@ const categorizedIds=new Set(Object.values(categoryIds).flatMap(set=>[...set]));
  * Kaynaklar web QA sırasında doğrulanmış referanslardır.
  */
 const specialStartCoordinates={
+  ciya_sofrasi:{lat:40.98932,lng:29.0244,source:'Çiya Sofrası kayıtlı işyeri koordinatı; yaya girişi sahada doğrulanmadı',status:'WARNING'},
   ataturk_arboretumu:{lat:41.17663,lng:28.98541,source:'OSM/Wikidata — Atatürk Arboretumu giriş/ticket noktası',status:'PASS'},
   ataturk_kent_ormani:{lat:41.134449,lng:29.032179,source:'İBB açık veri ağırlık merkezi — Hacıosman Atatürk Kent Ormanı',status:'PASS'},
   aydos_ormani:{lat:40.9395,lng:29.2189,source:'Aydos Piknik Alanı / 3 nolu giriş bölgesi referansı',status:'WARNING'},
@@ -2168,12 +2169,21 @@ function stationCoordinateForAdaptiveAccess(station,mode){
 }
 function adaptiveStationCandidatesForStart(placeId,target){
   const base=getStartRailAccess(placeId);
-  const ids=[];
-  if(placeId==='aydos_ormani') ids.push('kartal_hub','yakacik');
-  if(base?.station) ids.push(base.station);
-  return [...new Set(ids)].map(station=>{
-    const coord=stationCoordinateForAdaptiveAccess(station);
-    const accessMode=(station==='kartal_hub'||station==='yakacik')?'M4 Metro':(base?.mode||null);
+  const specs=[];
+  if(placeId==='aydos_ormani') specs.push({station:'kartal_hub',mode:'M4 Metro'},{station:'yakacik',mode:'M4 Metro'});
+  // Çiya Sofrası is close to both Kadıköy M4 and T3; evaluate each real line
+  // so the route can include a first-mile walk to the best corridor for target.
+  if(placeId==='ciya_sofrasi') specs.push({station:'kadikoy',mode:'M4 Metro'},{station:'kadikoy',mode:'T3 Tramvay'});
+  if(base?.station) specs.push({station:base.station,mode:base.mode||null});
+  const seen=new Set();
+  return specs.filter(spec=>{
+    const key=spec.station+'|'+(spec.mode||'');
+    if(seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).map(({station,mode})=>{
+    const coord=stationCoordinateForAdaptiveAccess(station,mode);
+    const accessMode=(station==='kartal_hub'||station==='yakacik')?'M4 Metro':(mode||base?.mode||null);
     if(!coord) return null;
     let path=null;
     try{ path=minimumRailRoute(station,target?.id,4,null,accessMode); }catch(_){ path=null; }
