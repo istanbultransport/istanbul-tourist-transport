@@ -273,7 +273,8 @@ try {
         ['pendik','Marmaray',40.88024,29.23165,20],
         ['erenkoy_m','Marmaray',40.97167,29.07638,10],
         ['sogutlucesme','Marmaray',40.99065,29.03791,75],
-        ['ayrilik','Marmaray',41.00015,29.03010,60]
+        ['ayrilik','Marmaray',41.00015,29.03010,60],
+        ['feneryolu_m','Marmaray',40.9788,29.04883,80]
       ];
       const marmarayNodeChecks = marmarayNodeTargets.map(([station, mode, lat, lng, tolerance]) => {
         const local = fallback.find(row => row.station === station && row.mode === mode);
@@ -341,7 +342,7 @@ try {
   record('four same-name cross-line station pairs preserve correct geometry',
     gpsRegistryAudit.crossLineStationPairsOk,
     JSON.stringify(gpsRegistryAudit.crossLineStationChecks));
-  record('four Marmaray station nodes remain within secondary-map tolerances',
+  record('five Marmaray station nodes remain within secondary-map tolerances',
     gpsRegistryAudit.marmarayNodeChecksOk,
     JSON.stringify(gpsRegistryAudit.marmarayNodeChecks));
   record('four M11/M3/M7/M9 line-specific points preserve expected geometry',
