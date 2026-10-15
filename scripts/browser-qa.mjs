@@ -302,6 +302,11 @@ try {
         });
       })(),
       exitsOk: exits.length > 0 && exits.every(x => x.no !== undefined && !!x.name),
+      exitSourcesOk: (() => {
+        const officialUrl = 'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf';
+        const sourced = exits.filter(x => x.source === 'Metro İstanbul PDF');
+        return sourced.length === 80 && sourced.every(x => x.sourceUrl === officialUrl);
+      })(),
       transferGuardOk: hasVerifiedTransitTransfers(fake) === false && hasVerifiedTransitTransfers(real) === true,
       falseWalkGuardOk: (touristWalkTime('uskudar','anadolu_hisari') == null) && (lastMileWalkMinutes.anadolu_hisari == null)
     };
@@ -314,6 +319,7 @@ try {
   record('four Marmaray station nodes remain within secondary-map tolerances', accessAudit.marmarayNodeChecksOk);
   record('four M11/M3/M7/M9 line-specific points preserve expected geometry', accessAudit.m11LinePairGeometryOk);
   record('station exit registry entries have names and IDs', accessAudit.exitsOk);
+  record('Metro İstanbul exit records link authoritative source PDF', accessAudit.exitSourcesOk);
   record('unverified same-node transfer is blocked', accessAudit.transferGuardOk);
   record('unverified short walking link is not invented', accessAudit.falseWalkGuardOk);
 
