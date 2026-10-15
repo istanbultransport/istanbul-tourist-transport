@@ -188,13 +188,16 @@ try {
     at15: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:15}],['station','next','M4 Metro','ride']]),
     at16: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:16}],['station','next','M4 Metro','ride']]),
     at17: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:17}],['station','next','M4 Metro','ride']]),
+    nullDuration: shouldAutoStartFirstStationWalk([['qa_unknown_origin','qa_unknown_station','Yürüyüş','walk',{walkMinutes:null}],['qa_unknown_station','next','M4 Metro','ride']]),
+    emptyDuration: shouldAutoStartFirstStationWalk([['qa_unknown_origin','qa_unknown_station','Yürüyüş','walk',{walkMinutes:''}],['qa_unknown_station','next','M4 Metro','ride']]),
     unknown: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{}],['station','next','M4 Metro','ride']]),
     noWalk: shouldAutoStartFirstStationWalk([['origin','station','M4 Metro','ride'],['station','next','Marmaray','ride']]),
     walkNotToBoarding: shouldAutoStartFirstStationWalk([['origin','place','Yürüyüş','walk',{walkMinutes:5}],['place','station','Yürüyüş','walk'],['station','next','M4 Metro','ride']])
   }));
   record('first-station walk auto-start includes 15 and exactly 16 minutes', firstWalkPolicy.at15 === true && firstWalkPolicy.at16 === true, JSON.stringify(firstWalkPolicy));
   record('first-station walk auto-start excludes over 16 / unknown / non-boarding walks',
-    firstWalkPolicy.at17 === false && firstWalkPolicy.unknown === false &&
+    firstWalkPolicy.at17 === false && firstWalkPolicy.nullDuration === false &&
+    firstWalkPolicy.emptyDuration === false && firstWalkPolicy.unknown === false &&
     firstWalkPolicy.noWalk === false && firstWalkPolicy.walkNotToBoarding === false,
     JSON.stringify(firstWalkPolicy));
 
