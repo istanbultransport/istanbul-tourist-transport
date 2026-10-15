@@ -2924,6 +2924,52 @@ const lastMileBusRegistry = {
     iettUrl: 'https://iett.istanbul/RouteDetail?hkod=15F',
     source: 'İETT 15 / 15F official route', verified: true
   },
+  // Official IETT pages list FB1/FB2 at Kadıköy Çarşı (224672) and
+  // Şükrü Saraçoğlu Stadı (224723); both routes serve the stadium stop.
+  fenerbahce_stadyumu_from_kadikoy: {
+    key: 'kadikoy|fenerbahce_stadyumu',
+    targetId: 'fenerbahce_stadyumu',
+    station: 'kadikoy',
+    stopName: 'Kadıköy Çarşı (224672)',
+    stopQuery: 'Kadıköy Çarşı (224672), Kadıköy, İstanbul',
+    walkToStopMinutes: 4,
+    line: 'FB1 / FB2',
+    direction: 'Fenerbahçe',
+    boardStop: 'Kadıköy Çarşı (224672)',
+    alightStop: 'Şükrü Saraçoğlu Stadı (224723)',
+    alightQuery: 'Şükrü Saraçoğlu Stadı (224723), Kadıköy, İstanbul',
+    targetQuery: 'Şükrü Saraçoğlu Stadyumu, Kadıköy, İstanbul',
+    iettUrl: 'https://iett.istanbul/RouteDetail?hkod=FB2&routename=KADIK%C3%96Y+-+FENERBAH%C3%87E',
+    alternatives: [
+      { line: 'FB1', iettUrl: 'https://iett.istanbul/RouteDetail?hkod=FB1&routename=KADIK%C3%96Y+-+FENERBAH%C3%87E' },
+      { line: 'FB2', iettUrl: 'https://iett.istanbul/RouteDetail?hkod=FB2&routename=KADIK%C3%96Y+-+FENERBAH%C3%87E' }
+    ],
+    source: 'İETT official route pages FB1/FB2 and stop pages 224672/224723',
+    verified: true
+  },
+  // İETT 15S and 15 both serve Üsküdar Camii Önü and Kuzguncuk-Şehit Samet Uslu.
+  // The target address is cross-checked against the Istanbul city heritage listing.
+  bet_nissim_from_uskudar: {
+    key: 'uskudar|bet_nissim_sinagogu',
+    targetId: 'bet_nissim_sinagogu',
+    station: 'uskudar',
+    stopName: 'Üsküdar Camii Önü',
+    stopQuery: 'Üsküdar Camii Önü, Üsküdar, İstanbul',
+    walkToStopMinutes: 4,
+    line: '15S / 15',
+    direction: 'Kuzguncuk / Sultan Murat',
+    boardStop: 'Üsküdar Camii Önü',
+    alightStop: 'Kuzguncuk — Şehit Samet Uslu',
+    alightQuery: 'Kuzguncuk - Şehit Samet Uslu, Üsküdar, İstanbul',
+    targetQuery: 'Bet Nissim Sinagogu, İcadiye Caddesi, Kuzguncuk, Üsküdar, İstanbul',
+    iettUrl: 'https://www.iett.istanbul/RouteDetail?hkod=15S&routename=SULTANMURAT+-+ÜSKÜDAR',
+    alternatives: [
+      { line: '15S', iettUrl: 'https://www.iett.istanbul/RouteDetail?hkod=15S&routename=SULTANMURAT+-+ÜSKÜDAR' },
+      { line: '15', iettUrl: 'https://www.iett.istanbul/RouteDetail?hkod=15' }
+    ],
+    source: 'İETT official 15S/15 route stops; Bet Nissim location: tarihi.ist and visit.istanbul',
+    verified: true
+  },
   agva_from_uskudar_marmaray: {
     key: 'uskudar|agva', targetId: 'agva', station: 'uskudar',
     stopName: 'Şemsipaşa', stopQuery: 'Şemsipaşa, Üsküdar, İstanbul',
@@ -2986,7 +3032,9 @@ function renderLastMileBusPlan(plan, target) {
     plan.targetQuery,
     '🚶 Yürü — hedefe navigasyonu aç'
   );
-  const iett = `<a href="${plan.iettUrl}" target="_blank" rel="noopener noreferrer" title="İETT resmi hat bilgisi"><b>${plan.line} İETT</b></a>`;
+  const iett = Array.isArray(plan.alternatives) && plan.alternatives.length
+    ? plan.alternatives.map(option => `<a href="${option.iettUrl}" target="_blank" rel="noopener noreferrer" title="İETT resmi hat bilgisi"><b>${option.line} İETT</b></a>`).join(' / ')
+    : `<a href="${plan.iettUrl}" target="_blank" rel="noopener noreferrer" title="İETT resmi hat bilgisi"><b>${plan.line} İETT</b></a>`;
   return [
     `🚶 <b>${plan.stationLabel}</b> istasyonundan <b>${plan.boardStop}</b> durağına yaklaşık <b>${plan.walkToStopMinutes} dakika</b> yürüyün.`,
     boardWalk,
@@ -4657,6 +4705,30 @@ function lastMilePresentationQA(){
   add('>16-boarding-navigation',busText.includes('otobüs durağına navigasyonu aç'),busText);
   add('>16-final-navigation',busText.includes('hedefe navigasyonu aç'),busText);
   add('>16-official-iett-link',busText.includes('iett.istanbul/RouteDetail?hkod=48G'),busText);
+
+  const fenerAccess={station:'kadikoy',mode:'M4 Metro',label:'Kadıköy M4',walkMinutes:18};
+  const fener=lastMileStep(fenerAccess,'fenerbahce_stadyumu');
+  const fenerText=String(fener?.[3]||'');
+  add('>16-fenerbahce-offers-verified-bus-alternatives',
+    fenerText.includes('FB1 İETT')&&fenerText.includes('FB2 İETT')&&
+    fenerText.includes('Kadıköy Çarşı (224672)')&&fenerText.includes('Şükrü Saraçoğlu Stadı (224723)'),
+    fenerText);
+  add('>16-fenerbahce-board-and-destination-navigation',
+    fenerText.includes('otobüs durağına navigasyonu aç')&&fenerText.includes('hedefe navigasyonu aç')&&
+    (fenerText.match(/google\.com\/maps\/dir\//g)||[]).length>=2,
+    fenerText);
+
+  const betAccess={station:'uskudar',mode:'Marmaray',label:'Üsküdar Marmaray',walkMinutes:18};
+  const bet=lastMileStep(betAccess,'bet_nissim_sinagogu');
+  const betText=String(bet?.[3]||'');
+  add('>16-bet-nissim-offers-verified-bus-alternatives',
+    betText.includes('15S İETT')&&betText.includes('15 İETT')&&
+    betText.includes('Kuzguncuk — Şehit Samet Uslu')&&betText.includes('Bet Nissim Sinagogu'),
+    betText);
+  add('>16-bet-nissim-board-and-destination-navigation',
+    betText.includes('otobüs durağına navigasyonu aç')&&betText.includes('hedefe navigasyonu aç')&&
+    (betText.match(/google\.com\/maps\/dir\//g)||[]).length>=2,
+    betText);
 
   const fallbackAccess=getEndAccess('yildiz_sarayi') || {station:'yildiz',mode:'M7 Metro',label:'Yıldız M7'};
   const fallback=lastMileStep(fallbackAccess,'yildiz_sarayi');
