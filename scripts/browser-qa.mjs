@@ -147,6 +147,24 @@ try {
 
   record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length >= 40, 'count='+cases.routeCases.length);
 
+  // Corrected POI targets must feed their exact coordinates into the walking-navigation URL.
+  const coordinateTargetIds = ['anadolu_hisari','ayasofya','sultanahmet','kadikoy_carsi',
+    'ataturk_kultur_merkezi_akm','taksim_meydani','mesher','ashkenazi_sinagogu',
+    'galata_semt','tunel','rumelihisari','ortakoy','samatya','bostanci','taksim','eminonu','moda'];
+  for (const targetId of coordinateTargetIds) {
+    const result = await page.evaluate(id => {
+      const target = places.find(p => p.id === id);
+      if (!target) return { ok:false, reason:'target missing' };
+      const html = lastMileTargetNavigationHtml({ station:'uskudar', mode:'Vapur', label:'Üsküdar İskelesi' }, id, target.name);
+      const href = (html.match(/href="([^"]+)"/) || [])[1];
+      if (!href) return { ok:false, reason:'navigation link missing' };
+      const url = new URL(href);
+      const expected = target.lat + ',' + target.lng;
+      return { ok:url.searchParams.get('destination') === expected, expected, actual:url.searchParams.get('destination') };
+    }, targetId);
+    record('POI walking navigation uses stored target coordinates '+targetId, result.ok === true, JSON.stringify(result));
+  }
+
   const accessAudit = await page.evaluate(() => {
     const gps = typeof staticGpsStationCoordinates === 'function' ? staticGpsStationCoordinates() : [];
     const exits = Object.values(stationExitRegistry || {}).flatMap(x => x.exits || []);
