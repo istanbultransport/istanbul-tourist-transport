@@ -2657,49 +2657,29 @@ function lastMileTargetNavigationHtml(access,targetId,target){
     : (targetObj && Number.isFinite(Number(targetObj.lat)) && Number.isFinite(Number(targetObj.lng))
       ? `${targetObj.lat},${targetObj.lng}`
       : `${target} İstanbul`);
-  return currentLocationWalkingNavLink(destination,'🚶 Yürü — hedefe navigasyonu aç');
+  return currentLocationWalkingNavLink(destination,'Hedefinize yürüyerek ulaşmak için tıklayınız.');
 }
 function lastMileStep(access,targetId){
   const targetObj=places.find(p=>p.id===targetId);
   const target=targetObj?.name || targetId;
   const station=access?.label || nodeLabel(access?.station);
   const mins=getLastMileWalkMinutes(access,targetId);
-  // Last-mile cards need only the target navigation button. The full exit
-  // renderer also contains its own explanatory sentence, which previously
-  // caused the same station→target sentence to render twice.
   const nav=lastMileTargetNavigationHtml(access,targetId,target);
 
-  /*
-   * Critical V230.10 rule:
-   * <=18 minutes => walk-only final-mile card. Do not show bus/ride-app
-   * warnings because they add noise when the walk is already practical.
-   */
+  // Son ulaşım kartı iki cümleyle sınırlı: istasyon durumu ve yürüyüş talimatı.
+  // Ayrı "yürüyebilirsiniz" satırı kaldırıldı; navigasyon bağlantısı ikinci cümleye eklenir.
   if(Number.isFinite(Number(mins)) && Number(mins)<=18){
-    const walkLine=`🚶 <b>Yaklaşık ${Math.round(Number(mins))} dakika yürüyebilirsiniz.</b>`;
-    const sentence=`🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yürüyebilirsiniz.`;
+    const walkSentence=`🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine <b>yaklaşık ${Math.round(Number(mins))} dakika yürümelisiniz.</b>`;
     return [access.station,targetId,'Son ulaşım',
-      `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkLine}<br><br>${sentence}${nav}`];
+      `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} ${nav}`];
   }
 
-  /*
-   * >18 minutes => inspect only verified bus/stop plans. If a verified
-   * connection exists, guide the user to the boarding stop, then the bus,
-   * then the alighting stop, then the target. If no verified plan exists,
-   * never invent one; fall back to a clean direct-walk alternative.
-   */
-  const busPlan=lastMileBusPlanFor(access,targetId);
-  if(busPlan){
-    const busText=renderLastMileBusPlan(busPlan,target);
-    return [access.station,targetId,'Son ulaşım',
-      `<b>📍 ${target} için son ulaşım bağlantısı ${station} istasyonundan başlıyor.</b><br><br>${busText}`];
-  }
-
-  const walkLine=Number.isFinite(Number(mins))
-    ? `🚶 <b>Yaklaşık ${Math.round(Number(mins))} dakika yürüyebilirsiniz.</b>`
-    : `🚶 <b>Yürüyüş süresi uygulama içinde doğrulanmadı.</b> Güncel yaya rotasını navigasyondan kontrol edin.`;
-  const sentence=`🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yürüyebilirsiniz.`;
+  // Süre doğrulanmamış/uzun olsa bile uydurma aktarma veya araç önerisi üretme.
+  const walkSentence=Number.isFinite(Number(mins))
+    ? `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine <b>yaklaşık ${Math.round(Number(mins))} dakika yürümelisiniz.</b>`
+    : `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yürüyerek ulaşın; yürüyüş süresini navigasyondan kontrol edin.`;
   return [access.station,targetId,'Son ulaşım',
-    `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkLine}<br><br>${sentence}${nav}`];
+    `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} ${nav}`];
 }
 
 const touristWalkDistanceKmMap = {
