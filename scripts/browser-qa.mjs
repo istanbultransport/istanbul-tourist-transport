@@ -149,6 +149,15 @@ try {
       const valid = flow.from === item.from && flow.to === item.to &&
         flow.routeText.length > 0 && flow.routeHtml.length > 0 &&
         flow.stepCards > 0 && hasJourneySummary && stepCountConsistent;
+      if (item.id === 'R07') {
+        const pendikBusValid = flow.routeText.includes('KM13') &&
+          flow.routeText.includes('PENDİK YHT İSTASYONU') &&
+          flow.routeText.includes('yürüme süresi doğrulanmadı') &&
+          flow.routeHtml.includes('RouteDetail?hkod=KM13') &&
+          flow.routeHtml.includes('StationDetail?dkod=227794');
+        record('R07 Pendik YHT exposes official KM13 route and stop links without inventing walk time',
+          pendikBusValid, flow.routeText.slice(-900));
+      }
       record('UI route flow '+item.id, valid, JSON.stringify({
         expectedFrom: item.from, actualFrom: flow.from,
         expectedTo: item.to, actualTo: flow.to,
@@ -499,8 +508,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the Istanbul Modern Tophane-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.31-istanbulmodern-core' &&
-    htmlBuild === 'V230.12.31-ISTANBULMODERN' &&
+    cacheName === 'itp-v230.12.32-pendikyht-core' &&
+    htmlBuild === 'V230.12.32-PENDIK-YHT-BUS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
