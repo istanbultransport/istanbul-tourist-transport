@@ -1,16 +1,16 @@
-<!-- V230.12.26-AUTO-FIRST-WALK-NAV: <=15 min first station walk auto-start. -->
+<!-- V230.12.27-ACCESS-16MIN: <=16 min first station walk auto-start. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.26-AUTO-FIRST-WALK-NAV">
+<meta name="build-id" content="V230.12.27-ACCESS-16MIN">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.26</title>
+<title>Istanbul Tourist Transport Planner — V230.12.27</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.26-AUTO-FIRST-WALK-NAV';
+  window.__APP_BUILD_ID__='V230.12.27-ACCESS-16MIN';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -814,30 +814,30 @@ function stepNodeLabel(id,mode){
    point; otherwise navigation uses an unambiguous map query instead of inventing
    coordinates. */
 const stationExitRegistry={
-  kadikoy:{station:'Kadıköy M4',exits:[{no:1,name:'İDO Girişi',source:'Metro İstanbul PDF',navQuery:'Kadıköy M4 Çıkış 1 İDO Girişi İstanbul'},{no:2,name:'Moda Girişi',source:'Metro İstanbul PDF',navQuery:'Kadıköy M4 Çıkış 2 Moda Girişi İstanbul'},{no:3,name:'Bahariye Girişi',source:'Metro İstanbul PDF',navQuery:'Kadıköy M4 Çıkış 3 Bahariye Girişi İstanbul'},{no:4,name:'Haldun Taner Girişi',source:'Metro İstanbul PDF',navQuery:'Kadıköy M4 Çıkış 4 Haldun Taner Girişi İstanbul'}]},
-  ayrilik:{station:'Ayrılık Çeşmesi M4',exits:[{no:1,name:'Üsküdar Yolu Girişi - Hastaneler',source:'Metro İstanbul PDF',navQuery:'Ayrılık Çeşmesi M4 Çıkış 1 Üsküdar Yolu Girişi - Hastaneler İstanbul'},{no:2,name:'Kızıltoprak - AVM Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Ayrılık Çeşmesi M4 Çıkış 2 Kızıltoprak - AVM Yönü Girişi İstanbul'},{no:3,name:'AVM Girişi',source:'Metro İstanbul PDF',navQuery:'Ayrılık Çeşmesi M4 Çıkış 3 AVM Girişi İstanbul'}]},
-  acibadem:{station:'Acıbadem M4',exits:[{no:1,name:'Koşuyolu Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Acıbadem M4 Çıkış 1 Koşuyolu Mahallesi Girişi İstanbul'},{no:2,name:'Acıbadem Caddesi Girişi',source:'Metro İstanbul PDF',navQuery:'Acıbadem M4 Çıkış 2 Acıbadem Caddesi Girişi İstanbul'},{no:3,name:'Üniversite Girişi',source:'Metro İstanbul PDF',navQuery:'Acıbadem M4 Çıkış 3 Üniversite Girişi İstanbul'}]},
-  unalan:{station:'Ünalan M4',exits:[{no:1,name:'Ünalan Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Ünalan M4 Çıkış 1 Ünalan Mahallesi Girişi İstanbul'},{no:2,name:'Akasya AVM Girişi',source:'Metro İstanbul PDF',navQuery:'Ünalan M4 Çıkış 2 Akasya AVM Girişi İstanbul'},{no:3,name:'Metrobüs Girişi',source:'Metro İstanbul PDF',navQuery:'Ünalan M4 Çıkış 3 Metrobüs Girişi İstanbul'},{no:4,name:'E-5 Kartal Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Ünalan M4 Çıkış 4 E-5 Kartal Yönü Girişi İstanbul'},{no:5,name:'Yeni Metrobüs Çıkışı Girişi',source:'Metro İstanbul PDF',navQuery:'Ünalan M4 Çıkış 5 Yeni Metrobüs Çıkışı Girişi İstanbul'}]},
-  goztepe:{station:'Göztepe M4',exits:[{no:1,name:'Libadiye Cad. Girişi',source:'Metro İstanbul PDF',navQuery:'Göztepe M4 Çıkış 1 Libadiye Cad. Girişi İstanbul'},{no:2,name:'Oto Sanayi Girişi',source:'Metro İstanbul PDF',navQuery:'Göztepe M4 Çıkış 2 Oto Sanayi Girişi İstanbul'},{no:3,name:'Üniversite Girişi',source:'Metro İstanbul PDF',navQuery:'Göztepe M4 Çıkış 3 Üniversite Girişi İstanbul'}]},
-  yenisahra:{station:'Yenisahra M4',exits:[{no:1,name:'Atatürk Caddesi Girişi',source:'Metro İstanbul PDF',navQuery:'Yenisahra M4 Çıkış 1 Atatürk Caddesi Girişi İstanbul'},{no:2,name:'Yenisahra Alt Geçit Girişi',source:'Metro İstanbul PDF',navQuery:'Yenisahra M4 Çıkış 2 Yenisahra Alt Geçit Girişi İstanbul'},{no:3,name:'Plazalar - AVM Girişi',source:'Metro İstanbul PDF',navQuery:'Yenisahra M4 Çıkış 3 Plazalar - AVM Girişi İstanbul'}]},
-  kozyatagi:{station:'Kozyatağı M4',exits:[{no:1,name:'Kozyatağı Meydanı Girişi',source:'Metro İstanbul PDF',navQuery:'Kozyatağı M4 Çıkış 1 Kozyatağı Meydanı Girişi İstanbul'},{no:2,name:'ODEABANK Girişi',source:'Metro İstanbul PDF',navQuery:'Kozyatağı M4 Çıkış 2 ODEABANK Girişi İstanbul'},{no:3,name:'İçerenköy Caddesi Girişi',source:'Metro İstanbul PDF',navQuery:'Kozyatağı M4 Çıkış 3 İçerenköy Caddesi Girişi İstanbul'},{no:4,name:'Hal Yolu Caddesi Girişi',source:'Metro İstanbul PDF',navQuery:'Kozyatağı M4 Çıkış 4 Hal Yolu Caddesi Girişi İstanbul'},{no:5,name:'Alışveriş Merkezi Girişi',source:'Metro İstanbul PDF',navQuery:'Kozyatağı M4 Çıkış 5 Alışveriş Merkezi Girişi İstanbul'}]},
-  bostanci:{station:'Bostancı M4',exits:[{no:1,name:'Kartal Yönü E-5 (D-100) Girişi',source:'Metro İstanbul PDF',navQuery:'Bostancı M4 Çıkış 1 Kartal Yönü E-5 (D-100) Girişi İstanbul'},{no:2,name:'İçerenköy Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Bostancı M4 Çıkış 2 İçerenköy Mahallesi Girişi İstanbul'},{no:3,name:'Bostancı Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Bostancı M4 Çıkış 3 Bostancı Mahallesi Girişi İstanbul'},{no:4,name:'Altıntepe Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Bostancı M4 Çıkış 4 Altıntepe Mahallesi Girişi İstanbul'},{no:5,name:'Oto Sanayi Girişi',source:'Metro İstanbul PDF',navQuery:'Bostancı M4 Çıkış 5 Oto Sanayi Girişi İstanbul'}]},
-  kucukyali:{station:'Küçükyalı M4',exits:[{no:1,name:'Küçükyalı Merkez Girişi',source:'Metro İstanbul PDF',navQuery:'Küçükyalı M4 Çıkış 1 Küçükyalı Merkez Girişi İstanbul'},{no:2,name:'Aydınevler Mah. Girişi',source:'Metro İstanbul PDF',navQuery:'Küçükyalı M4 Çıkış 2 Aydınevler Mah. Girişi İstanbul'},{no:3,name:'İdealtepe Mah. Girişi',source:'Metro İstanbul PDF',navQuery:'Küçükyalı M4 Çıkış 3 İdealtepe Mah. Girişi İstanbul'}]},
-  maltepe_hub:{station:'Maltepe M4',exits:[{no:1,name:'Girne Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Maltepe M4 Çıkış 1 Girne Mahallesi Girişi İstanbul'},{no:2,name:'Kadıköy Yönü E-5 (D-100) Girişi',source:'Metro İstanbul PDF',navQuery:'Maltepe M4 Çıkış 2 Kadıköy Yönü E-5 (D-100) Girişi İstanbul'},{no:3,name:'Kartal Yönü E-5 (D-100) Girişi',source:'Metro İstanbul PDF',navQuery:'Maltepe M4 Çıkış 3 Kartal Yönü E-5 (D-100) Girişi İstanbul'},{no:4,name:'Zümrüt Evler Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Maltepe M4 Çıkış 4 Zümrüt Evler Mahallesi Girişi İstanbul'},{no:5,name:'Maltepe Devlet Hastanesi - Altayçeşme Mahallesi',source:'Metro İstanbul PDF',navQuery:'Maltepe M4 Çıkış 5 Maltepe Devlet Hastanesi - Altayçeşme Mahallesi İstanbul'},{no:6,name:'Kadıköy Yönü E-5 - Girne Mahallesi',source:'Metro İstanbul PDF',navQuery:'Maltepe M4 Çıkış 6 Kadıköy Yönü E-5 - Girne Mahallesi İstanbul'}]},
-  huzurevi:{station:'Huzurevi M4',exits:[{no:1,name:'Zümrüt Evler Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Huzurevi M4 Çıkış 1 Zümrüt Evler Mahallesi Girişi İstanbul'},{no:2,name:'Kartal Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Huzurevi M4 Çıkış 2 Kartal Yönü Girişi İstanbul'}]},
-  gulsuyu:{station:'Gülsuyu M4',exits:[{no:1,name:'Kartal Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Gülsuyu M4 Çıkış 1 Kartal Yönü Girişi İstanbul'},{no:2,name:'Kültür Merkezi (Kadıköy Yönü)',source:'Metro İstanbul PDF',navQuery:'Gülsuyu M4 Çıkış 2 Kültür Merkezi (Kadıköy Yönü) İstanbul'}]},
-  esenkent:{station:'Esenkent M4',exits:[{no:1,name:'Esenkent Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Esenkent M4 Çıkış 1 Esenkent Mahallesi Girişi İstanbul'},{no:2,name:'Kadıköy Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Esenkent M4 Çıkış 2 Kadıköy Yönü Girişi İstanbul'},{no:3,name:'Kartal Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Esenkent M4 Çıkış 3 Kartal Yönü Girişi İstanbul'}]},
-  hastane_adliye:{station:'Hastane-Adliye M4',exits:[{no:1,name:'Hastane Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Hastane-Adliye M4 Çıkış 1 Hastane Yönü Girişi İstanbul'},{no:2,name:'Adliye Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Hastane-Adliye M4 Çıkış 2 Adliye Yönü Girişi İstanbul'},{no:3,name:'İBB Bakım Onarım - Kartal Yönü E-5',source:'Metro İstanbul PDF',navQuery:'Hastane-Adliye M4 Çıkış 3 İBB Bakım Onarım - Kartal Yönü E-5 İstanbul'},{no:4,name:'D100 Yan Yol Kadıköy Yönü E-5',source:'Metro İstanbul PDF',navQuery:'Hastane-Adliye M4 Çıkış 4 D100 Yan Yol Kadıköy Yönü E-5 İstanbul'}]},
-  soganlik:{station:'Soğanlık M4',exits:[{no:1,name:'Darülaceze Girişi',source:'Metro İstanbul PDF',navQuery:'Soğanlık M4 Çıkış 1 Darülaceze Girişi İstanbul'},{no:2,name:'Oto Sanayi Girişi',source:'Metro İstanbul PDF',navQuery:'Soğanlık M4 Çıkış 2 Oto Sanayi Girişi İstanbul'},{no:3,name:'İSKİ Girişi',source:'Metro İstanbul PDF',navQuery:'Soğanlık M4 Çıkış 3 İSKİ Girişi İstanbul'}]},
-  kartal_hub:{station:'Kartal M4',exits:[{no:1,name:'Kartal Meydan Yönü (Yakacık Polis Karakolu)',source:'Metro İstanbul PDF',navQuery:'Kartal M4 Çıkış 1 Kartal Meydan Yönü (Yakacık Polis Karakolu) İstanbul'},{no:2,name:'E5 D-100 Pendik Yönü (Kartal Köprüsü)',source:'Metro İstanbul PDF',navQuery:'Kartal M4 Çıkış 2 E5 D-100 Pendik Yönü (Kartal Köprüsü) İstanbul'},{no:3,name:'E5 D-100 Kadıköy Yönü (Kartal Köprüsü)',source:'Metro İstanbul PDF',navQuery:'Kartal M4 Çıkış 3 E5 D-100 Kadıköy Yönü (Kartal Köprüsü) İstanbul'},{no:4,name:'İETT Aktarma Merkezi Girişi',source:'Metro İstanbul PDF',navQuery:'Kartal M4 Çıkış 4 İETT Aktarma Merkezi Girişi İstanbul'}]},
-  yakacik:{station:'Yakacık-Adnan Kahveci M4',exits:[{no:1,name:'E5 Kadıköy Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Yakacık-Adnan Kahveci M4 Çıkış 1 E5 Kadıköy Yönü Girişi İstanbul'},{no:2,name:'E5 Pendik Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Yakacık-Adnan Kahveci M4 Çıkış 2 E5 Pendik Yönü Girişi İstanbul'},{no:3,name:'Kurfalı Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Yakacık-Adnan Kahveci M4 Çıkış 3 Kurfalı Mahallesi Girişi İstanbul'}]},
+  kadikoy:{station:'Kadıköy M4',exits:[{no:1,name:'İDO Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kadıköy M4 Çıkış 1 İDO Girişi İstanbul'},{no:2,name:'Moda Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kadıköy M4 Çıkış 2 Moda Girişi İstanbul'},{no:3,name:'Bahariye Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kadıköy M4 Çıkış 3 Bahariye Girişi İstanbul'},{no:4,name:'Haldun Taner Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kadıköy M4 Çıkış 4 Haldun Taner Girişi İstanbul'}]},
+  ayrilik:{station:'Ayrılık Çeşmesi M4',exits:[{no:1,name:'Üsküdar Yolu Girişi - Hastaneler',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Ayrılık Çeşmesi M4 Çıkış 1 Üsküdar Yolu Girişi - Hastaneler İstanbul'},{no:2,name:'Kızıltoprak - AVM Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Ayrılık Çeşmesi M4 Çıkış 2 Kızıltoprak - AVM Yönü Girişi İstanbul'},{no:3,name:'AVM Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Ayrılık Çeşmesi M4 Çıkış 3 AVM Girişi İstanbul'}]},
+  acibadem:{station:'Acıbadem M4',exits:[{no:1,name:'Koşuyolu Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Acıbadem M4 Çıkış 1 Koşuyolu Mahallesi Girişi İstanbul'},{no:2,name:'Acıbadem Caddesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Acıbadem M4 Çıkış 2 Acıbadem Caddesi Girişi İstanbul'},{no:3,name:'Üniversite Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Acıbadem M4 Çıkış 3 Üniversite Girişi İstanbul'}]},
+  unalan:{station:'Ünalan M4',exits:[{no:1,name:'Ünalan Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Ünalan M4 Çıkış 1 Ünalan Mahallesi Girişi İstanbul'},{no:2,name:'Akasya AVM Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Ünalan M4 Çıkış 2 Akasya AVM Girişi İstanbul'},{no:3,name:'Metrobüs Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Ünalan M4 Çıkış 3 Metrobüs Girişi İstanbul'},{no:4,name:'E-5 Kartal Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Ünalan M4 Çıkış 4 E-5 Kartal Yönü Girişi İstanbul'},{no:5,name:'Yeni Metrobüs Çıkışı Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Ünalan M4 Çıkış 5 Yeni Metrobüs Çıkışı Girişi İstanbul'}]},
+  goztepe:{station:'Göztepe M4',exits:[{no:1,name:'Libadiye Cad. Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Göztepe M4 Çıkış 1 Libadiye Cad. Girişi İstanbul'},{no:2,name:'Oto Sanayi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Göztepe M4 Çıkış 2 Oto Sanayi Girişi İstanbul'},{no:3,name:'Üniversite Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Göztepe M4 Çıkış 3 Üniversite Girişi İstanbul'}]},
+  yenisahra:{station:'Yenisahra M4',exits:[{no:1,name:'Atatürk Caddesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Yenisahra M4 Çıkış 1 Atatürk Caddesi Girişi İstanbul'},{no:2,name:'Yenisahra Alt Geçit Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Yenisahra M4 Çıkış 2 Yenisahra Alt Geçit Girişi İstanbul'},{no:3,name:'Plazalar - AVM Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Yenisahra M4 Çıkış 3 Plazalar - AVM Girişi İstanbul'}]},
+  kozyatagi:{station:'Kozyatağı M4',exits:[{no:1,name:'Kozyatağı Meydanı Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kozyatağı M4 Çıkış 1 Kozyatağı Meydanı Girişi İstanbul'},{no:2,name:'ODEABANK Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kozyatağı M4 Çıkış 2 ODEABANK Girişi İstanbul'},{no:3,name:'İçerenköy Caddesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kozyatağı M4 Çıkış 3 İçerenköy Caddesi Girişi İstanbul'},{no:4,name:'Hal Yolu Caddesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kozyatağı M4 Çıkış 4 Hal Yolu Caddesi Girişi İstanbul'},{no:5,name:'Alışveriş Merkezi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kozyatağı M4 Çıkış 5 Alışveriş Merkezi Girişi İstanbul'}]},
+  bostanci:{station:'Bostancı M4',exits:[{no:1,name:'Kartal Yönü E-5 (D-100) Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Bostancı M4 Çıkış 1 Kartal Yönü E-5 (D-100) Girişi İstanbul'},{no:2,name:'İçerenköy Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Bostancı M4 Çıkış 2 İçerenköy Mahallesi Girişi İstanbul'},{no:3,name:'Bostancı Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Bostancı M4 Çıkış 3 Bostancı Mahallesi Girişi İstanbul'},{no:4,name:'Altıntepe Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Bostancı M4 Çıkış 4 Altıntepe Mahallesi Girişi İstanbul'},{no:5,name:'Oto Sanayi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Bostancı M4 Çıkış 5 Oto Sanayi Girişi İstanbul'}]},
+  kucukyali:{station:'Küçükyalı M4',exits:[{no:1,name:'Küçükyalı Merkez Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Küçükyalı M4 Çıkış 1 Küçükyalı Merkez Girişi İstanbul'},{no:2,name:'Aydınevler Mah. Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Küçükyalı M4 Çıkış 2 Aydınevler Mah. Girişi İstanbul'},{no:3,name:'İdealtepe Mah. Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Küçükyalı M4 Çıkış 3 İdealtepe Mah. Girişi İstanbul'}]},
+  maltepe_hub:{station:'Maltepe M4',exits:[{no:1,name:'Girne Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Maltepe M4 Çıkış 1 Girne Mahallesi Girişi İstanbul'},{no:2,name:'Kadıköy Yönü E-5 (D-100) Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Maltepe M4 Çıkış 2 Kadıköy Yönü E-5 (D-100) Girişi İstanbul'},{no:3,name:'Kartal Yönü E-5 (D-100) Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Maltepe M4 Çıkış 3 Kartal Yönü E-5 (D-100) Girişi İstanbul'},{no:4,name:'Zümrüt Evler Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Maltepe M4 Çıkış 4 Zümrüt Evler Mahallesi Girişi İstanbul'},{no:5,name:'Maltepe Devlet Hastanesi - Altayçeşme Mahallesi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Maltepe M4 Çıkış 5 Maltepe Devlet Hastanesi - Altayçeşme Mahallesi İstanbul'},{no:6,name:'Kadıköy Yönü E-5 - Girne Mahallesi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Maltepe M4 Çıkış 6 Kadıköy Yönü E-5 - Girne Mahallesi İstanbul'}]},
+  huzurevi:{station:'Huzurevi M4',exits:[{no:1,name:'Zümrüt Evler Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Huzurevi M4 Çıkış 1 Zümrüt Evler Mahallesi Girişi İstanbul'},{no:2,name:'Kartal Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Huzurevi M4 Çıkış 2 Kartal Yönü Girişi İstanbul'}]},
+  gulsuyu:{station:'Gülsuyu M4',exits:[{no:1,name:'Kartal Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Gülsuyu M4 Çıkış 1 Kartal Yönü Girişi İstanbul'},{no:2,name:'Kültür Merkezi (Kadıköy Yönü)',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Gülsuyu M4 Çıkış 2 Kültür Merkezi (Kadıköy Yönü) İstanbul'}]},
+  esenkent:{station:'Esenkent M4',exits:[{no:1,name:'Esenkent Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Esenkent M4 Çıkış 1 Esenkent Mahallesi Girişi İstanbul'},{no:2,name:'Kadıköy Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Esenkent M4 Çıkış 2 Kadıköy Yönü Girişi İstanbul'},{no:3,name:'Kartal Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Esenkent M4 Çıkış 3 Kartal Yönü Girişi İstanbul'}]},
+  hastane_adliye:{station:'Hastane-Adliye M4',exits:[{no:1,name:'Hastane Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Hastane-Adliye M4 Çıkış 1 Hastane Yönü Girişi İstanbul'},{no:2,name:'Adliye Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Hastane-Adliye M4 Çıkış 2 Adliye Yönü Girişi İstanbul'},{no:3,name:'İBB Bakım Onarım - Kartal Yönü E-5',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Hastane-Adliye M4 Çıkış 3 İBB Bakım Onarım - Kartal Yönü E-5 İstanbul'},{no:4,name:'D100 Yan Yol Kadıköy Yönü E-5',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Hastane-Adliye M4 Çıkış 4 D100 Yan Yol Kadıköy Yönü E-5 İstanbul'}]},
+  soganlik:{station:'Soğanlık M4',exits:[{no:1,name:'Darülaceze Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Soğanlık M4 Çıkış 1 Darülaceze Girişi İstanbul'},{no:2,name:'Oto Sanayi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Soğanlık M4 Çıkış 2 Oto Sanayi Girişi İstanbul'},{no:3,name:'İSKİ Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Soğanlık M4 Çıkış 3 İSKİ Girişi İstanbul'}]},
+  kartal_hub:{station:'Kartal M4',exits:[{no:1,name:'Kartal Meydan Yönü (Yakacık Polis Karakolu)',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kartal M4 Çıkış 1 Kartal Meydan Yönü (Yakacık Polis Karakolu) İstanbul'},{no:2,name:'E5 D-100 Pendik Yönü (Kartal Köprüsü)',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kartal M4 Çıkış 2 E5 D-100 Pendik Yönü (Kartal Köprüsü) İstanbul'},{no:3,name:'E5 D-100 Kadıköy Yönü (Kartal Köprüsü)',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kartal M4 Çıkış 3 E5 D-100 Kadıköy Yönü (Kartal Köprüsü) İstanbul'},{no:4,name:'İETT Aktarma Merkezi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kartal M4 Çıkış 4 İETT Aktarma Merkezi Girişi İstanbul'}]},
+  yakacik:{station:'Yakacık-Adnan Kahveci M4',exits:[{no:1,name:'E5 Kadıköy Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Yakacık-Adnan Kahveci M4 Çıkış 1 E5 Kadıköy Yönü Girişi İstanbul'},{no:2,name:'E5 Pendik Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Yakacık-Adnan Kahveci M4 Çıkış 2 E5 Pendik Yönü Girişi İstanbul'},{no:3,name:'Kurfalı Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Yakacık-Adnan Kahveci M4 Çıkış 3 Kurfalı Mahallesi Girişi İstanbul'}]},
   taksim:{station:'Taksim M2',exits:[{no:'—',name:'İstiklal Caddesi yönü çıkışı',source:'Taksim station access / Metro İstanbul M2 integration',navQuery:'Taksim Metro İstiklal Caddesi çıkışı İstanbul',verified:true},{no:'—',name:'Taksim Meydanı yönü çıkışı',source:'Taksim station access',navQuery:'Taksim Meydanı İstanbul'},{no:'—',name:'Gezi Parkı yönü çıkışı',source:'Taksim station access',navQuery:'Taksim Gezi Parkı İstanbul'},{no:'—',name:'Atatürk Kültür Merkezi yönü çıkışı',source:'Taksim station access',navQuery:'Atatürk Kültür Merkezi İstanbul'},{no:'—',name:'Talimhane yönü çıkışı',source:'Taksim station access',navQuery:'Talimhane Taksim İstanbul'}]},
-  pendik:{station:'Pendik M4',exits:[{no:1,name:'E5 D-100 Kurtköy Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Pendik M4 Çıkış 1 E5 D-100 Kurtköy Yönü Girişi İstanbul'},{no:2,name:'E5 D-100 Tuzla Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Pendik M4 Çıkış 2 E5 D-100 Tuzla Yönü Girişi İstanbul'},{no:3,name:'Başak Sokak Girişi',source:'Metro İstanbul PDF',navQuery:'Pendik M4 Çıkış 3 Başak Sokak Girişi İstanbul'},{no:4,name:'Oto Sanayi Girişi',source:'Metro İstanbul PDF',navQuery:'Pendik M4 Çıkış 4 Oto Sanayi Girişi İstanbul'},{no:5,name:'E5 D-100 Kadıköy Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Pendik M4 Çıkış 5 E5 D-100 Kadıköy Yönü Girişi İstanbul'},{no:6,name:'E5 D-100 Pendik Köprüsü (Alt Geçit)',source:'Metro İstanbul PDF',navQuery:'Pendik M4 Çıkış 6 E5 D-100 Pendik Köprüsü (Alt Geçit) İstanbul'},{no:7,name:'E5 D-100 Sabiha Gökçen (Alt Geçit)',source:'Metro İstanbul PDF',navQuery:'Pendik M4 Çıkış 7 E5 D-100 Sabiha Gökçen (Alt Geçit) İstanbul'}]},
-  tavsantepe:{station:'Tavşantepe M4',exits:[{no:1,name:'E5 Yan Yol Kadıköy Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Tavşantepe M4 Çıkış 1 E5 Yan Yol Kadıköy Yönü Girişi İstanbul'},{no:2,name:'E5 Yan Yol Tuzla Yönü Girişi',source:'Metro İstanbul PDF',navQuery:'Tavşantepe M4 Çıkış 2 E5 Yan Yol Tuzla Yönü Girişi İstanbul'}]},
-  fevzi_cakmak:{station:'Fevzi Çakmak-Hastane M4',exits:[{no:1,name:'Mimar Sinan Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Fevzi Çakmak-Hastane M4 Çıkış 1 Mimar Sinan Mahallesi Girişi İstanbul'},{no:2,name:'Botaş Parkı Girişi',source:'Metro İstanbul PDF',navQuery:'Fevzi Çakmak-Hastane M4 Çıkış 2 Botaş Parkı Girişi İstanbul'},{no:3,name:'Pendik Eğitim ve Araştırma Hastanesi Girişi',source:'Metro İstanbul PDF',navQuery:'Fevzi Çakmak-Hastane M4 Çıkış 3 Pendik Eğitim ve Araştırma Hastanesi Girişi İstanbul'}]},
-  yayalar:{station:'Yayalar-Şeyhli M4',exits:[{no:1,name:'Yayalar-Şeyhli Mahallesi Girişi',source:'Metro İstanbul PDF',navQuery:'Yayalar-Şeyhli M4 Çıkış 1 Yayalar-Şeyhli Mahallesi Girişi İstanbul'},{no:2,name:'Ankara Cad. Üniversite Girişi',source:'Metro İstanbul PDF',navQuery:'Yayalar-Şeyhli M4 Çıkış 2 Ankara Cad. Üniversite Girişi İstanbul'}]},
-  kurtkoy:{station:'Kurtköy M4',exits:[{no:1,name:'Hastane Girişi',source:'Metro İstanbul PDF',navQuery:'Kurtköy M4 Çıkış 1 Hastane Girişi İstanbul'},{no:2,name:'Ankara Caddesi Girişi',source:'Metro İstanbul PDF',navQuery:'Kurtköy M4 Çıkış 2 Ankara Caddesi Girişi İstanbul'}]},
-  sabiha:{station:'Sabiha Gökçen Havalimanı M4',exits:[{no:1,name:'İç Hatlar CIP Salonu - Otopark Girişi',source:'Metro İstanbul PDF',navQuery:'Sabiha Gökçen Havalimanı M4 Çıkış 1 İç Hatlar CIP Salonu - Otopark Girişi İstanbul'},{no:2,name:'Airport Hotel Girişi',source:'Metro İstanbul PDF',navQuery:'Sabiha Gökçen Havalimanı M4 Çıkış 2 Airport Hotel Girişi İstanbul'},{no:3,name:'Havalimanı Girişi',source:'Metro İstanbul PDF',navQuery:'Sabiha Gökçen Havalimanı M4 Çıkış 3 Havalimanı Girişi İstanbul'}]}
+  pendik:{station:'Pendik M4',exits:[{no:1,name:'E5 D-100 Kurtköy Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Pendik M4 Çıkış 1 E5 D-100 Kurtköy Yönü Girişi İstanbul'},{no:2,name:'E5 D-100 Tuzla Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Pendik M4 Çıkış 2 E5 D-100 Tuzla Yönü Girişi İstanbul'},{no:3,name:'Başak Sokak Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Pendik M4 Çıkış 3 Başak Sokak Girişi İstanbul'},{no:4,name:'Oto Sanayi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Pendik M4 Çıkış 4 Oto Sanayi Girişi İstanbul'},{no:5,name:'E5 D-100 Kadıköy Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Pendik M4 Çıkış 5 E5 D-100 Kadıköy Yönü Girişi İstanbul'},{no:6,name:'E5 D-100 Pendik Köprüsü (Alt Geçit)',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Pendik M4 Çıkış 6 E5 D-100 Pendik Köprüsü (Alt Geçit) İstanbul'},{no:7,name:'E5 D-100 Sabiha Gökçen (Alt Geçit)',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Pendik M4 Çıkış 7 E5 D-100 Sabiha Gökçen (Alt Geçit) İstanbul'}]},
+  tavsantepe:{station:'Tavşantepe M4',exits:[{no:1,name:'E5 Yan Yol Kadıköy Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Tavşantepe M4 Çıkış 1 E5 Yan Yol Kadıköy Yönü Girişi İstanbul'},{no:2,name:'E5 Yan Yol Tuzla Yönü Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Tavşantepe M4 Çıkış 2 E5 Yan Yol Tuzla Yönü Girişi İstanbul'}]},
+  fevzi_cakmak:{station:'Fevzi Çakmak-Hastane M4',exits:[{no:1,name:'Mimar Sinan Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Fevzi Çakmak-Hastane M4 Çıkış 1 Mimar Sinan Mahallesi Girişi İstanbul'},{no:2,name:'Botaş Parkı Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Fevzi Çakmak-Hastane M4 Çıkış 2 Botaş Parkı Girişi İstanbul'},{no:3,name:'Pendik Eğitim ve Araştırma Hastanesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Fevzi Çakmak-Hastane M4 Çıkış 3 Pendik Eğitim ve Araştırma Hastanesi Girişi İstanbul'}]},
+  yayalar:{station:'Yayalar-Şeyhli M4',exits:[{no:1,name:'Yayalar-Şeyhli Mahallesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Yayalar-Şeyhli M4 Çıkış 1 Yayalar-Şeyhli Mahallesi Girişi İstanbul'},{no:2,name:'Ankara Cad. Üniversite Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Yayalar-Şeyhli M4 Çıkış 2 Ankara Cad. Üniversite Girişi İstanbul'}]},
+  kurtkoy:{station:'Kurtköy M4',exits:[{no:1,name:'Hastane Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kurtköy M4 Çıkış 1 Hastane Girişi İstanbul'},{no:2,name:'Ankara Caddesi Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Kurtköy M4 Çıkış 2 Ankara Caddesi Girişi İstanbul'}]},
+  sabiha:{station:'Sabiha Gökçen Havalimanı M4',exits:[{no:1,name:'İç Hatlar CIP Salonu - Otopark Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Sabiha Gökçen Havalimanı M4 Çıkış 1 İç Hatlar CIP Salonu - Otopark Girişi İstanbul'},{no:2,name:'Airport Hotel Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Sabiha Gökçen Havalimanı M4 Çıkış 2 Airport Hotel Girişi İstanbul'},{no:3,name:'Havalimanı Girişi',source:'Metro İstanbul PDF',sourceUrl:'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf',navQuery:'Sabiha Gökçen Havalimanı M4 Çıkış 3 Havalimanı Girişi İstanbul'}]}
 };
 
 const surfaceTransferRegistry={
@@ -2203,7 +2203,7 @@ async function buildAdaptiveStartAccess(placeId,target,origin){
     const base=getStartRailAccess(placeId);
     if(base?.station && Number.isFinite(Number(base.walkMinutes))){
       const coord=stationCoordinateForAdaptiveAccess(base.station,base.mode);
-      if(Number(base.walkMinutes)<=15) return {type:'walk',station:base.station,mode:base.mode,label:base.label,lat:coord?.lat,lng:coord?.lng,walkMinutes:Number(base.walkMinutes),walkDistanceKm:null,walkSource:'existing_verified_access_registry',path:null,adaptiveStart:true,direct:false};
+      if(Number(base.walkMinutes)<=16) return {type:'walk',station:base.station,mode:base.mode,label:base.label,lat:coord?.lat,lng:coord?.lng,walkMinutes:Number(base.walkMinutes),walkDistanceKm:null,walkSource:'existing_verified_access_registry',path:null,adaptiveStart:true,direct:false};
       return {type:'no-feeder',station:base.station,mode:base.mode,label:base.label,lat:coord?.lat,lng:coord?.lng,walkMinutes:Number(base.walkMinutes),walkDistanceKm:null,walkSource:'existing_verified_access_registry',path:null,adaptiveStart:true,direct:false};
     }
     return null;
@@ -2223,13 +2223,13 @@ async function buildAdaptiveStartAccess(placeId,target,origin){
   // normal scoring so a failed/weak scoring signal cannot silently revert to
   // the nearest station.
   if(target?.id==='istanbul-airport'){
-    const sameNodeMarmaray=scored.find(c=>c.mode==='Marmaray' && c.walkMinutes<=15 && c.path &&
+    const sameNodeMarmaray=scored.find(c=>c.mode==='Marmaray' && c.walkMinutes<=16 && c.path &&
       scored.some(x=>x!==c && x.station===c.station && x.mode==='M4 Metro' && x.path));
     if(sameNodeMarmaray){
       return {type:'walk',...sameNodeMarmaray,adaptiveStart:true,direct:false,boardingPreference:'same-node-marmaray-airport'};
     }
   }
-  const direct=scored.filter(c=>c.walkMinutes<=15).sort((a,b)=>a.score-b.score||a.walkMinutes-b.walkMinutes)[0];
+  const direct=scored.filter(c=>c.walkMinutes<=16).sort((a,b)=>a.score-b.score||a.walkMinutes-b.walkMinutes)[0];
   if(direct) return {type:'walk',...direct,adaptiveStart:true,direct:false};
   for(const c of scored.sort((a,b)=>a.score-b.score)){
     const feeders=verifiedFeederCandidates(placeId,c.station);
@@ -2624,12 +2624,17 @@ const lastMileStationWalkMinutes = {
   'halic|arap_camii': 2
 };
 
+function hasKnownWalkMinutes(value){
+  return value!==null && value!==undefined && value!=='' &&
+    Number.isFinite(Number(value)) && Number(value)>=0;
+}
+
 function getLastMileWalkMinutes(access,targetId){
-  if(Number.isFinite(Number(access?.walkMinutes))) return Number(access.walkMinutes);
+  if(hasKnownWalkMinutes(access?.walkMinutes)) return Number(access.walkMinutes);
 
   const station=access?.station;
   const stationSpecific=station ? lastMileStationWalkMinutes[`${station}|${targetId}`] : null;
-  if(stationSpecific!==null && stationSpecific!==undefined && Number.isFinite(Number(stationSpecific))) return Number(stationSpecific);
+  if(hasKnownWalkMinutes(stationSpecific)) return Number(stationSpecific);
 
   const inferred=touristWalkTime(station,targetId);
   if(inferred!==null && inferred!==undefined && Number.isFinite(Number(inferred))) return Number(inferred);
@@ -2641,11 +2646,11 @@ function getLastMileWalkMinutes(access,targetId){
   if(station && typeof getEndAccess==='function'){
     const verifiedEnd=getEndAccess(targetId);
     const legacy=lastMileWalkMinutes[targetId];
-    if(verifiedEnd?.station===station && Number.isFinite(Number(legacy))) return Number(legacy);
+    if(verifiedEnd?.station===station && hasKnownWalkMinutes(legacy)) return Number(legacy);
   }
   if(!station){
     const legacy=lastMileWalkMinutes[targetId];
-    if(Number.isFinite(Number(legacy))) return Number(legacy);
+    if(hasKnownWalkMinutes(legacy)) return Number(legacy);
   }
   return null;
 }
@@ -2665,22 +2670,29 @@ function lastMileStep(access,targetId){
   const target=targetObj?.name || targetId;
   const station=access?.label || nodeLabel(access?.station);
   const mins=getLastMileWalkMinutes(access,targetId);
+  const hasKnownMins=hasKnownWalkMinutes(mins);
   const nav=lastMileTargetNavigationHtml(access,targetId,target);
 
-  // Son ulaşım kartı iki cümleyle sınırlı: istasyon durumu ve yürüyüş talimatı.
-  // Ayrı "yürüyebilirsiniz" satırı kaldırıldı; navigasyon bağlantısı ikinci cümleye eklenir.
-  if(Number.isFinite(Number(mins)) && Number(mins)<=18){
+  // Ortak erişim eşiği: 16 dakika dahil yürüyüş; 16 dakikadan uzunsa doğrulanmış otobüs planını kullan.
+  // null/undefined/empty values must remain unknown; Number(null) and Number('') both coerce to 0.
+  const busPlan=lastMileBusPlanFor(access,targetId);
+  if(busPlan && (!hasKnownMins || Number(mins)>16)){
+    return [access.station,targetId,'Son ulaşım',
+      `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${renderLastMileBusPlan(busPlan,target)}`];
+  }
+  if(hasKnownMins && Number(mins)<=16){
     const walkSentence=`🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine <b>yaklaşık ${Math.round(Number(mins))} dakika yürümelisiniz.</b>`;
     return [access.station,targetId,'Son ulaşım',
       `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} ${nav}`];
   }
 
-  // Süre doğrulanmamış/uzun olsa bile uydurma aktarma veya araç önerisi üretme.
-  const walkSentence=Number.isFinite(Number(mins))
-    ? `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine <b>yaklaşık ${Math.round(Number(mins))} dakika yürümelisiniz.</b>`
-    : `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yürüyerek ulaşın; yürüyüş süresini navigasyondan kontrol edin.`;
+  // 16 dakikayı aşan erişimde doğrulanmış otobüs kaydı yoksa hat uydurma.
+  const walkSentence=hasKnownMins
+    ? `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yaklaşık <b>${Math.round(Number(mins))} dakika</b> yürüyüş var.`
+    : `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yürüyüş süresi doğrulanamadı.`;
+  const fallback=hasKnownMins ? ` ${nav}` : ` Doğrulanmış yaya süresi bulunmadığından tahmini süre vermiyorum.`;
   return [access.station,targetId,'Son ulaşım',
-    `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} ${nav}`];
+    `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} 16 dakikayı aşan bu erişim için doğrulanmış otobüs bağlantısı bulunamadı; yanlış hat önermiyorum.${fallback}`];
 }
 
 const touristWalkDistanceKmMap = {
@@ -2912,6 +2924,52 @@ const lastMileBusRegistry = {
     iettUrl: 'https://iett.istanbul/RouteDetail?hkod=15F',
     source: 'İETT 15 / 15F official route', verified: true
   },
+  // Official IETT pages list FB1/FB2 at Kadıköy Çarşı (224672) and
+  // Şükrü Saraçoğlu Stadı (224723); both routes serve the stadium stop.
+  fenerbahce_stadyumu_from_kadikoy: {
+    key: 'kadikoy|fenerbahce_stadyumu',
+    targetId: 'fenerbahce_stadyumu',
+    station: 'kadikoy',
+    stopName: 'Kadıköy Çarşı (224672)',
+    stopQuery: 'Kadıköy Çarşı (224672), Kadıköy, İstanbul',
+    walkToStopMinutes: 4,
+    line: 'FB1 / FB2',
+    direction: 'Fenerbahçe',
+    boardStop: 'Kadıköy Çarşı (224672)',
+    alightStop: 'Şükrü Saraçoğlu Stadı (224723)',
+    alightQuery: 'Şükrü Saraçoğlu Stadı (224723), Kadıköy, İstanbul',
+    targetQuery: 'Şükrü Saraçoğlu Stadyumu, Kadıköy, İstanbul',
+    iettUrl: 'https://iett.istanbul/RouteDetail?hkod=FB2&routename=KADIK%C3%96Y+-+FENERBAH%C3%87E',
+    alternatives: [
+      { line: 'FB1', iettUrl: 'https://iett.istanbul/RouteDetail?hkod=FB1&routename=KADIK%C3%96Y+-+FENERBAH%C3%87E' },
+      { line: 'FB2', iettUrl: 'https://iett.istanbul/RouteDetail?hkod=FB2&routename=KADIK%C3%96Y+-+FENERBAH%C3%87E' }
+    ],
+    source: 'İETT official route pages FB1/FB2 and stop pages 224672/224723',
+    verified: true
+  },
+  // İETT 15S and 15 both serve Üsküdar Camii Önü and Kuzguncuk-Şehit Samet Uslu.
+  // The target address is cross-checked against the Istanbul city heritage listing.
+  bet_nissim_from_uskudar: {
+    key: 'uskudar|bet_nissim_sinagogu',
+    targetId: 'bet_nissim_sinagogu',
+    station: 'uskudar',
+    stopName: 'Üsküdar Camii Önü',
+    stopQuery: 'Üsküdar Camii Önü, Üsküdar, İstanbul',
+    walkToStopMinutes: 4,
+    line: '15S / 15',
+    direction: 'Kuzguncuk / Sultan Murat',
+    boardStop: 'Üsküdar Camii Önü',
+    alightStop: 'Kuzguncuk — Şehit Samet Uslu',
+    alightQuery: 'Kuzguncuk - Şehit Samet Uslu, Üsküdar, İstanbul',
+    targetQuery: 'Bet Nissim Sinagogu, İcadiye Caddesi, Kuzguncuk, Üsküdar, İstanbul',
+    iettUrl: 'https://www.iett.istanbul/RouteDetail?hkod=15S&routename=SULTANMURAT+-+ÜSKÜDAR',
+    alternatives: [
+      { line: '15S', iettUrl: 'https://www.iett.istanbul/RouteDetail?hkod=15S&routename=SULTANMURAT+-+ÜSKÜDAR' },
+      { line: '15', iettUrl: 'https://www.iett.istanbul/RouteDetail?hkod=15' }
+    ],
+    source: 'İETT official 15S/15 route stops; Bet Nissim location: tarihi.ist and visit.istanbul',
+    verified: true
+  },
   agva_from_uskudar_marmaray: {
     key: 'uskudar|agva', targetId: 'agva', station: 'uskudar',
     stopName: 'Şemsipaşa', stopQuery: 'Şemsipaşa, Üsküdar, İstanbul',
@@ -2926,12 +2984,15 @@ const lastMileBusRegistry = {
     key: 'gokturk_m11|kemerburgaz_kent_ormani',
     targetId: 'kemerburgaz_kent_ormani',
     station: 'gokturk_m11',
-    stopName: 'Göktürk Deresi - Kemerburgaz Yönü',
-    stopQuery: 'Göktürk Deresi - Kemerburgaz Yönü, İstanbul',
+    stopName: 'Göktürk Deresi — Kemerburgaz yönü (İETT durak 118272)',
+    stopCode: '118272',
+    stopLat: 41.17660,
+    stopLng: 28.89078,
+    stopQuery: '41.17660,28.89078',
     walkToStopMinutes: 8,
     line: '48G',
     direction: 'Mescid-i Selam',
-    boardStop: 'Göktürk Deresi - Kemerburgaz Yönü',
+    boardStop: 'Göktürk Deresi — Kemerburgaz yönü (İETT durak 118272)',
     alightStop: 'Kent Ormanı',
     alightQuery: 'Kent Ormanı İETT Durağı, İstanbul',
     targetQuery: 'Kemerburgaz Kent Ormanı, İstanbul',
@@ -2971,7 +3032,9 @@ function renderLastMileBusPlan(plan, target) {
     plan.targetQuery,
     '🚶 Yürü — hedefe navigasyonu aç'
   );
-  const iett = `<a href="${plan.iettUrl}" target="_blank" rel="noopener noreferrer" title="İETT resmi hat bilgisi"><b>${plan.line} İETT</b></a>`;
+  const iett = Array.isArray(plan.alternatives) && plan.alternatives.length
+    ? plan.alternatives.map(option => `<a href="${option.iettUrl}" target="_blank" rel="noopener noreferrer" title="İETT resmi hat bilgisi"><b>${option.line} İETT</b></a>`).join(' / ')
+    : `<a href="${plan.iettUrl}" target="_blank" rel="noopener noreferrer" title="İETT resmi hat bilgisi"><b>${plan.line} İETT</b></a>`;
   return [
     `🚶 <b>${plan.stationLabel}</b> istasyonundan <b>${plan.boardStop}</b> durağına yaklaşık <b>${plan.walkToStopMinutes} dakika</b> yürüyün.`,
     boardWalk,
@@ -4561,17 +4624,17 @@ function currentLocationProductionQA(){
 }
 
 
-// V230.12.26: auto-start the first walk only when it is short and leads
+// V230.12.27: auto-start the first walk only when it is at most 16 minutes and leads
 // directly to the first main-transit boarding point. Unknown durations never qualify.
 function shouldAutoStartFirstStationWalk(path){
   if(!Array.isArray(path)||path.length<2) return false;
   const first=path[0], next=path[1];
   if(!Array.isArray(first)||first[2]!=='Yürüyüş'||!Array.isArray(next)) return false;
   const explicit=first[4]?.walkMinutes;
-  const mins=explicit!==null && explicit!==undefined && Number.isFinite(Number(explicit))
+  const mins=explicit!==null && explicit!==undefined && explicit!=='' && Number.isFinite(Number(explicit))
     ? Number(explicit)
     : touristWalkTime(first[0],first[1]);
-  if(mins===null||mins===undefined||!Number.isFinite(Number(mins))||Number(mins)>15||Number(mins)<0) return false;
+  if(mins===null||mins===undefined||!Number.isFinite(Number(mins))||Number(mins)>16||Number(mins)<0) return false;
   return isPrimaryTransitMode(next[2]);
 }
 function autoStartFirstStationNavigation(path){
@@ -4583,8 +4646,13 @@ function autoStartFirstStationNavigation(path){
   if(!link || !link.href) return false;
   try{
     const opened=window.open(link.href,'_blank');
-    if(opened){ try{opened.opener=null;}catch(_){} }
-    else window.location.assign(link.href);
+    if(!opened){
+      // A popup blocker often returns null instead of throwing. Keep the current
+      // route visible and let the user activate the explicit walking link.
+      link.focus();
+      return false;
+    }
+    try{opened.opener=null;}catch(_){}
     return true;
   }catch(error){
     console.warn('[ITP walking navigation] Automatic launch blocked; use the Step 1 navigation link.',error);
@@ -4608,44 +4676,102 @@ function lastMilePresentationQA(){
   const add=(name,ok,detail)=>{out.tests.push({name,ok,detail});if(!ok){out.status='FAIL';out.failures.push({name,detail});}};
   const short=lastMileStep({station:'halic',mode:'M2 Metro',label:'Haliç M2',local:true},'arap_camii');
   const shortText=String(short?.[3]||'');
-  add('<=18-has-walk-time',/Yaklaşık 2 dakika yürüyebilirsiniz/.test(shortText),shortText);
-  add('<=18-no-bus-warning',!shortText.includes('Otobüsle devam edebilirsiniz.'),shortText);
-  add('<=18-no-ride-warning',!shortText.includes('Uber')&&!shortText.includes('Yandex Go')&&!shortText.includes('Martı TAG'),shortText);
-  add('<=18-has-target-navigation',shortText.includes('google.com/maps/dir/'),shortText);
-  add('<=18-no-duplicate-walk-sentence',(shortText.match(/Haliç M2<\/b> istasyonundan <b>Arap Camii<\/b> hedefine yürüyebilirsiniz\./g)||[]).length===1,shortText);
+  add('<=16-has-walk-time',/<b>yaklaşık 2 dakika yürümelisiniz\.<\/b>/.test(shortText),shortText);
+  add('<=16-no-bus-warning',!shortText.includes('Otobüsle devam edebilirsiniz.'),shortText);
+  add('<=16-no-ride-warning',!shortText.includes('Uber')&&!shortText.includes('Yandex Go')&&!shortText.includes('Martı TAG'),shortText);
+  add('<=16-has-target-navigation',shortText.includes('google.com/maps/dir/'),shortText);
+  add('<=16-no-duplicate-walk-sentence',(shortText.match(/Haliç M2<\/b> istasyonundan <b>Arap Camii<\/b> hedefine/g)||[]).length===1,shortText);
+
+  // null and empty strings are unknown, not zero-minute walks (Number(null) === 0).
+  const unknown=lastMileStep({station:'qa_unknown_station',mode:'M2 Metro',label:'QA Unknown',walkMinutes:null},'__qa_unknown_target');
+  const unknownText=String(unknown?.[3]||'');
+  add('unknown-walk-duration-not-coerced-to-zero',unknownText.includes('yürüyüş süresi doğrulanamadı')&&!unknownText.includes('0 dakika'),unknownText);
+  const empty=lastMileStep({station:'qa_empty_station',mode:'M2 Metro',label:'QA Empty',walkMinutes:''},'__qa_empty_target');
+  const emptyText=String(empty?.[3]||'');
+  add('empty-walk-duration-not-coerced-to-zero',emptyText.includes('yürüyüş süresi doğrulanamadı')&&!emptyText.includes('0 dakika'),emptyText);
+  add('walk-minute-validator-rejects-unknown-values',!hasKnownWalkMinutes(null)&&!hasKnownWalkMinutes(undefined)&&!hasKnownWalkMinutes('')&&hasKnownWalkMinutes(0)&&hasKnownWalkMinutes(16),'unknown values rejected; 0 and 16 remain valid');
 
   // Regression guard: a station-specific value must beat a legacy target-only
   // value. This is the critical 18-minute-threshold protection.
   const mismatch=lastMileStep({station:'qa_station',mode:'M2 Metro',label:'QA Station',walkMinutes:19},'arap_camii');
   const mismatchText=String(mismatch?.[3]||'');
-  add('station-walk-time-wins-over-target-legacy',mismatchText.includes('Yaklaşık 19 dakika yürüyebilirsiniz.'),mismatchText);
+  add('over-16-without-verified-bus-discloses-fallback',mismatchText.includes('19 dakika')&&mismatchText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),mismatchText);
 
   add('bus-registry-indexed',lastMileBusPlanIndex.get('gokturk_m11|kemerburgaz_kent_ormani')?.verified===true,'verified bus plan index');
 
   const busAccess=getEndAccess('kemerburgaz_kent_ormani') || {station:'gokturk_m11',mode:'M11 Metro',label:'Göktürk M11',walkMinutes:21};
   const bus=lastMileStep(busAccess,'kemerburgaz_kent_ormani');
   const busText=String(bus?.[3]||'');
-  add('>18-verified-bus-plan',busText.includes('48G')&&busText.includes('Kent Ormanı'),busText);
-  add('>18-board-stop',busText.includes('Göktürk Deresi - Kemerburgaz Yönü'),busText);
-  add('>18-bus-direction',busText.includes('Mescid-i Selam'),busText);
-  add('>18-alight-stop',busText.includes('Kent Ormanı'),busText);
-  add('>18-boarding-navigation',busText.includes('otobüs durağına navigasyonu aç'),busText);
-  add('>18-final-navigation',busText.includes('hedefe navigasyonu aç'),busText);
-  add('>18-official-iett-link',busText.includes('iett.istanbul/RouteDetail?hkod=48G'),busText);
+  add('>16-verified-bus-plan',busText.includes('48G')&&busText.includes('Kent Ormanı'),busText);
+  add('>16-board-stop',busText.includes('Göktürk Deresi — Kemerburgaz yönü (İETT durak 118272)'),busText);
+  add('>16-boarding-navigation-uses-stop-coordinates',busText.includes('destination=41.17660%2C28.89078')&&lastMileBusPlanIndex.get('gokturk_m11|kemerburgaz_kent_ormani')?.stopCode==='118272',busText);
+  add('>16-bus-direction',busText.includes('Mescid-i Selam'),busText);
+  add('>16-alight-stop',busText.includes('Kent Ormanı'),busText);
+  add('>16-boarding-navigation',busText.includes('otobüs durağına navigasyonu aç'),busText);
+  add('>16-final-navigation',busText.includes('hedefe navigasyonu aç'),busText);
+  add('>16-official-iett-link',busText.includes('iett.istanbul/RouteDetail?hkod=48G'),busText);
+
+  const fenerAccess={station:'kadikoy',mode:'M4 Metro',label:'Kadıköy M4',walkMinutes:18};
+  const fener=lastMileStep(fenerAccess,'fenerbahce_stadyumu');
+  const fenerText=String(fener?.[3]||'');
+  add('>16-fenerbahce-offers-verified-bus-alternatives',
+    fenerText.includes('FB1 İETT')&&fenerText.includes('FB2 İETT')&&
+    fenerText.includes('Kadıköy Çarşı (224672)')&&fenerText.includes('Şükrü Saraçoğlu Stadı (224723)'),
+    fenerText);
+  add('>16-fenerbahce-board-and-destination-navigation',
+    fenerText.includes('otobüs durağına navigasyonu aç')&&fenerText.includes('hedefe navigasyonu aç')&&
+    (fenerText.match(/google\.com\/maps\/dir\//g)||[]).length>=2,
+    fenerText);
+
+  const betAccess={station:'uskudar',mode:'Marmaray',label:'Üsküdar Marmaray',walkMinutes:18};
+  const bet=lastMileStep(betAccess,'bet_nissim_sinagogu');
+  const betText=String(bet?.[3]||'');
+  add('>16-bet-nissim-offers-verified-bus-alternatives',
+    betText.includes('15S İETT')&&betText.includes('15 İETT')&&
+    betText.includes('Kuzguncuk — Şehit Samet Uslu')&&betText.includes('Bet Nissim Sinagogu'),
+    betText);
+  add('>16-bet-nissim-board-and-destination-navigation',
+    betText.includes('otobüs durağına navigasyonu aç')&&betText.includes('hedefe navigasyonu aç')&&
+    (betText.match(/google\.com\/maps\/dir\//g)||[]).length>=2,
+    betText);
+
+  // Audit every curated legacy long-walk target against the station actually selected.
+  // The old target-only value must not override a station-specific duration.
+  for(const [targetId,legacyMinutes] of Object.entries(lastMileWalkMinutes||{})){
+    if(!hasKnownWalkMinutes(legacyMinutes)||Number(legacyMinutes)<=16) continue;
+    const access=getEndAccess(targetId);
+    add(`>16-registry-target-${targetId}-has-access`,!!access?.station,JSON.stringify({targetId,access}));
+    if(!access?.station) continue;
+    const actualMinutes=getLastMileWalkMinutes(access,targetId);
+    if(!hasKnownWalkMinutes(actualMinutes)||Number(actualMinutes)<=16) continue;
+    const plan=lastMileBusPlanFor(access,targetId);
+    const rendered=String(lastMileStep(access,targetId)?.[3]||'');
+    const safe=plan
+      ? rendered.includes('otobüs durağına navigasyonu aç')&&rendered.includes('hedefe navigasyonu aç')&&rendered.includes('iett.istanbul')
+      : rendered.includes('doğrulanmış otobüs bağlantısı bulunamadı');
+    add(`>16-registry-target-${targetId}-bus-or-explicit-fallback`,safe,rendered);
+  }
+  // Every curated tourist access estimate over 16 minutes must have a verified bus plan.
+  for(const [key,minutes] of Object.entries(touristWalkMinutes||{})){
+    if(!hasKnownWalkMinutes(minutes)||Number(minutes)<=16) continue;
+    const [station,targetId]=key.split('|');
+    const plan=lastMileBusPlanFor({station,label:nodeLabel(station)},targetId);
+    add(`>16-curated-tourist-walk-${key}-has-verified-bus`,!!plan,plan?.line||'No verified bus plan');
+  }
 
   const fallbackAccess=getEndAccess('yildiz_sarayi') || {station:'yildiz',mode:'M7 Metro',label:'Yıldız M7'};
   const fallback=lastMileStep(fallbackAccess,'yildiz_sarayi');
   const fallbackText=String(fallback?.[3]||'');
-  add('>18-unverified-bus-no-invention',!fallbackText.includes('48G')&&!fallbackText.includes('79FY')&&!fallbackText.includes('MK13'),fallbackText);
-  add('>18-fallback-has-walk',fallbackText.includes('Yaklaşık 22 dakika yürüyebilirsiniz.'),fallbackText);
-  add('>18-fallback-no-ride-warning',!fallbackText.includes('Uber')&&!fallbackText.includes('Yandex Go')&&!fallbackText.includes('Martı TAG'),fallbackText);
+  add('>16-unverified-bus-no-invention',!fallbackText.includes('48G')&&!fallbackText.includes('79FY')&&!fallbackText.includes('MK13'),fallbackText);
+  add('>16-fallback-discloses-missing-bus',fallbackText.includes('22 dakika')&&fallbackText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),fallbackText);
+  add('>16-fallback-no-ride-warning',!fallbackText.includes('Uber')&&!fallbackText.includes('Yandex Go')&&!fallbackText.includes('Martı TAG'),fallbackText);
 
   const exactKey='qa_exact18_station|__qa_exact18';
   const oldExact=lastMileStationWalkMinutes[exactKey];
-  lastMileStationWalkMinutes[exactKey]=18;
+  lastMileStationWalkMinutes[exactKey]=16;
   const exact=lastMileStep({station:'qa_exact18_station',mode:'M2 Metro',label:'QA Exact18'},'__qa_exact18');
   const exactText=String(exact?.[3]||'');
-  add('exactly-18-walk-only',exactText.includes('Yaklaşık 18 dakika yürüyebilirsiniz.')&&!exactText.includes('Otobüsle devam edebilirsiniz.'),exactText);
+  add('exactly-16-walk-only',exactText.includes('<b>yaklaşık 16 dakika yürümelisiniz.</b>')&&!exactText.includes('48G'),exactText);
   if(oldExact===undefined) delete lastMileStationWalkMinutes[exactKey]; else lastMileStationWalkMinutes[exactKey]=oldExact;
 
   return out;
@@ -4789,7 +4915,7 @@ function resolveCurrentLocationStation(stationsOverride=null){
   }
   if(!best) return null;
   const walkMinutes=Math.max(1,Math.round(best.distanceKm*1000/80));
-  if(walkMinutes>15) return null;
+  if(walkMinutes>16) return null;
   return best;
 }
 
@@ -4803,7 +4929,7 @@ function currentLocationAccessCandidates(target){
     // Yürüyüş erişiminde 15 dakikaya kadar gerçek raylı sistem adaylarını
     // değerlendirelim. Bu sert bir seçim değil; yalnızca aday havuzudur.
     const walkMinutes=Math.max(1,Math.round(distanceKm*1000/80));
-    if(walkMinutes>15) continue;
+    if(walkMinutes>16) continue;
     const key=`${st.station}|${st.mode}`;
     if(seen.has(key)) continue;
     seen.add(key);
@@ -4880,7 +5006,7 @@ function useCurrentLocation(){
       const lowAccuracy=Number.isFinite(Number(currentLocation.accuracy)) && Number(currentLocation.accuracy)>1000;
       setLocationStatus(lowAccuracy
         ? `📍 GPS alındı ancak doğruluk düşük (±${Math.round(currentLocation.accuracy)} m). Telefonunda/Chrome'da konum hizmetini açıp tekrar dene.`
-        : '📍 Konum alındı ancak 15 dakika yürüme içinde doğrulanabilir bir raylı sistem istasyonu bulunamadı. Başlangıç istasyonunu arama kutusundan seçebilirsin.');
+        : '📍 Konum alındı ancak 16 dakika yürüme içinde doğrulanabilir bir raylı sistem istasyonu bulunamadı. Başlangıç istasyonunu arama kutusundan seçebilirsin.');
       resetCurrentLocationButton();return;
     }
     start={id:'current_location',name:'Mevcut konumum',side:'İstanbul',emoji:'📍',desc:'Telefonun konumundan alındı',isCurrentLocation:true};

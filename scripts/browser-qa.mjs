@@ -183,18 +183,21 @@ try {
     r.some(s=>s.from==='gayrettepe'&&s.to==='istanbul-airport'&&s.mode==='M11 Metro'),
     JSON.stringify(r.map(s=>({from:s.from,to:s.to,mode:s.mode,text:s.text.slice(0,100)}))));
 
-  // First-station walk auto-start policy: <=15 min qualifies; unknown, >15 min,
-  // non-walk first steps, and walks not followed by main transit must not qualify.
+  // Access policy: walking remains acceptable through 16 minutes; >16 minutes must not be auto-started as a walk. Unknown durations and non-boarding walks must not qualify.
   const firstWalkPolicy = await page.evaluate(() => ({
     at15: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:15}],['station','next','M4 Metro','ride']]),
     at16: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:16}],['station','next','M4 Metro','ride']]),
+    at17: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:17}],['station','next','M4 Metro','ride']]),
+    nullDuration: shouldAutoStartFirstStationWalk([['qa_unknown_origin','qa_unknown_station','Yürüyüş','walk',{walkMinutes:null}],['qa_unknown_station','next','M4 Metro','ride']]),
+    emptyDuration: shouldAutoStartFirstStationWalk([['qa_unknown_origin','qa_unknown_station','Yürüyüş','walk',{walkMinutes:''}],['qa_unknown_station','next','M4 Metro','ride']]),
     unknown: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{}],['station','next','M4 Metro','ride']]),
     noWalk: shouldAutoStartFirstStationWalk([['origin','station','M4 Metro','ride'],['station','next','Marmaray','ride']]),
     walkNotToBoarding: shouldAutoStartFirstStationWalk([['origin','place','Yürüyüş','walk',{walkMinutes:5}],['place','station','Yürüyüş','walk'],['station','next','M4 Metro','ride']])
   }));
-  record('first-station walk auto-start includes exactly 15 minutes', firstWalkPolicy.at15 === true, JSON.stringify(firstWalkPolicy));
-  record('first-station walk auto-start excludes over 15 / unknown / non-boarding walks',
-    firstWalkPolicy.at16 === false && firstWalkPolicy.unknown === false &&
+  record('first-station walk auto-start includes 15 and exactly 16 minutes', firstWalkPolicy.at15 === true && firstWalkPolicy.at16 === true, JSON.stringify(firstWalkPolicy));
+  record('first-station walk auto-start excludes over 16 / unknown / non-boarding walks',
+    firstWalkPolicy.at17 === false && firstWalkPolicy.nullDuration === false &&
+    firstWalkPolicy.emptyDuration === false && firstWalkPolicy.unknown === false &&
     firstWalkPolicy.noWalk === false && firstWalkPolicy.walkNotToBoarding === false,
     JSON.stringify(firstWalkPolicy));
 
@@ -225,6 +228,17 @@ try {
     Array.isArray(engineAcceptance.tests) && engineAcceptance.tests.length >= 13 &&
     engineAcceptance.tests.every(t => t.status === 'PASS'),
     JSON.stringify({status:engineAcceptance.status,tests:engineAcceptance.tests?.length,failures:engineAcceptance.failures}));
+
+  const lastMileAcceptance = await page.evaluate(() => {
+    if (typeof window.lastMilePresentationQA !== 'function') return { status:'FAIL', failures:[{name:'suite-not-exposed'}] };
+    return window.lastMilePresentationQA();
+  });
+  record('last-mile 16-minute threshold and verified-bus suite',
+    lastMileAcceptance.status === 'PASS' &&
+    Array.isArray(lastMileAcceptance.tests) &&
+    lastMileAcceptance.tests.length >= 15 &&
+    lastMileAcceptance.tests.every(t => t.ok === true),
+    JSON.stringify({status:lastMileAcceptance.status,tests:lastMileAcceptance.tests?.length,failures:lastMileAcceptance.failures}));
 
   // Source-backed correction ledger IDs should all pass coordinate handoff.
   const correctionIds = coordinateAudit.verifiedCoordinateCorrections.map(item => item.id);
@@ -291,6 +305,11 @@ try {
         });
       })(),
       exitsOk: exits.length > 0 && exits.every(x => x.no !== undefined && !!x.name),
+      exitSourcesOk: (() => {
+        const officialUrl = 'https://www.metro.istanbul/dosyalar/bilgilendirme/Gece-Metrosu-Kapal%C4%B1-Giri%C5%9Fler.pdf';
+        const sourced = exits.filter(x => x.source === 'Metro İstanbul PDF');
+        return sourced.length === 80 && sourced.every(x => x.sourceUrl === officialUrl);
+      })(),
       transferGuardOk: hasVerifiedTransitTransfers(fake) === false && hasVerifiedTransitTransfers(real) === true,
       falseWalkGuardOk: (touristWalkTime('uskudar','anadolu_hisari') == null) && (lastMileWalkMinutes.anadolu_hisari == null)
     };
@@ -303,6 +322,7 @@ try {
   record('four Marmaray station nodes remain within secondary-map tolerances', accessAudit.marmarayNodeChecksOk);
   record('four M11/M3/M7/M9 line-specific points preserve expected geometry', accessAudit.m11LinePairGeometryOk);
   record('station exit registry entries have names and IDs', accessAudit.exitsOk);
+  record('Metro İstanbul exit records link authoritative source PDF', accessAudit.exitSourcesOk);
   record('unverified same-node transfer is blocked', accessAudit.transferGuardOk);
   record('unverified short walking link is not invented', accessAudit.falseWalkGuardOk);
 
@@ -322,6 +342,66 @@ try {
     await gpsContext.close();
   }
 
+  // Deterministic GPS failure cases: denied permission, unavailable fix, and timeout.
+  for (const scenario of [
+    { code: 1, name: 'GPS permission denied', expected: 'Konum izni verilmedi.' },
+    { code: 2, name: 'GPS position unavailable', expected: 'GPS/Wi‑Fi bağlantını kontrol edip tekrar dene.' },
+    { code: 3, name: 'GPS request timeout', expected: 'Konum isteği zaman aşımına uğradı.' }
+  ]) {
+    const failureContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    try {
+      const failurePage = await failureContext.newPage();
+      await failurePage.addInitScript(code => {
+        Object.defineProperty(navigator, 'geolocation', {
+          configurable: true,
+          value: { getCurrentPosition(_success, error) { Promise.resolve().then(() => error({ code, message: 'deterministic QA error' })); } }
+        });
+      }, scenario.code);
+      await failurePage.goto('http://127.0.0.1:4173/index.html?qa=gps-error', { waitUntil: 'domcontentloaded' });
+      await failurePage.locator('#useCurrentLocationBtn').click();
+      await failurePage.waitForFunction(expected => (document.getElementById('locationStatus')?.textContent || '').includes(expected), scenario.expected, { timeout: 5000 });
+      const state = await failurePage.evaluate(() => ({
+        status: document.getElementById('locationStatus')?.textContent || '',
+        buttonEnabled: !document.getElementById('useCurrentLocationBtn')?.disabled
+      }));
+      record(scenario.name + ' shows actionable error and resets button',
+        state.status.includes(scenario.expected) && state.buttonEnabled, JSON.stringify(state));
+    } catch (error) {
+      record(scenario.name + ' error handling', false, error.message);
+    } finally {
+      await failureContext.close();
+    }
+  }
+
+  // Popup blockers may throw or return null; either way preserve the in-app walking link.
+  for (const [blockMode,blockPopup] of [
+    ['throws', () => { throw new Error('popup blocked by deterministic QA'); }],
+    ['returns-null', () => null]
+  ]) {
+    const navFailureContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    try {
+      const navFailurePage = await navFailureContext.newPage();
+      await navFailurePage.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'domcontentloaded' });
+      const navState = await navFailurePage.evaluate(mode => {
+        const route = document.getElementById('route');
+        route.innerHTML = '<div class="timeline"><div class="step now"><a href="https://www.google.com/maps/dir/?api=1&destination=41.0%2C29.0">Yürü — hedefe navigasyonu aç</a></div></div>';
+        route.style.display = 'block';
+        window.__ITP_DISABLE_AUTO_WALK_NAV__ = false;
+        window.open = mode === 'throws' ? () => { throw new Error('popup blocked by deterministic QA'); } : () => null;
+        const path = [['origin','station','Yürüyüş','walk',{walkMinutes:5}],['station','next','M4 Metro','ride']];
+        const returned = autoStartFirstStationNavigation(path);
+        const link = document.querySelector('#route .timeline .step.now a');
+        return { returned, focusedFallback: document.activeElement === link, linkAvailable: !!link?.href };
+      }, blockMode);
+      record('blocked external navigation (' + blockMode + ') leaves focused walking-link fallback',
+        navState.returned === false && navState.focusedFallback && navState.linkAvailable, JSON.stringify(navState));
+    } catch (error) {
+      record('blocked external navigation fallback (' + blockMode + ')', false, error.message);
+    } finally {
+      await navFailureContext.close();
+    }
+  }
+
   // Panels/tabs should remain clickable on a narrow viewport.
   for (const [id,panelId,label] of [
     ['cityExploreTab','cityExplorePanel','city exploration panel'],
@@ -337,10 +417,15 @@ try {
   // Verify service-worker install, core cache population and offline navigation.
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
-  record('versioned PWA cache includes QA fixtures', !!cacheName && sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
+  record('versioned PWA cache matches the 16-minute release and includes QA fixtures',
+    cacheName === 'itp-v230.12.27-access16-core' &&
+    htmlBuild === 'V230.12.27-ACCESS-16MIN' &&
+    sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
     const offlinePage = await offlineContext.newPage();
+    await offlinePage.goto('http://127.0.0.1:4173/manifest.json', { waitUntil: 'domcontentloaded' });
+    await offlinePage.evaluate(async () => { await caches.open('itp-v230.12.26-core'); });
     await offlinePage.goto('http://127.0.0.1:4173/index.html?qa=offline', { waitUntil: 'domcontentloaded' });
     await offlinePage.evaluate(async () => {
       const reg = await navigator.serviceWorker.ready;
@@ -353,12 +438,17 @@ try {
     });
     await offlinePage.reload({ waitUntil: 'domcontentloaded' });
     await offlinePage.waitForSelector('#list .place[data-id]', { timeout: 10000 });
-    const cacheState = await offlinePage.evaluate(async cacheName => ({
-      controlled: !!navigator.serviceWorker.controller,
-      cache: (await caches.keys()).some(k => k === cacheName),
-      cachedIndex: !!(await (await caches.open(cacheName)).match('./index.html'))
-    }), cacheName);
-    record('PWA service worker controls page and caches app shell', cacheState.controlled && cacheState.cache && cacheState.cachedIndex, JSON.stringify(cacheState));
+    const cacheState = await offlinePage.evaluate(async cacheName => {
+      const keys = await caches.keys();
+      return {
+        controlled: !!navigator.serviceWorker.controller,
+        cache: keys.includes(cacheName),
+        cachedIndex: !!(await (await caches.open(cacheName)).match('./index.html')),
+        oldCacheRemoved: !keys.includes('itp-v230.12.26-core')
+      };
+    }, cacheName);
+    record('PWA service worker controls page, caches app shell, and removes stale release cache',
+      cacheState.controlled && cacheState.cache && cacheState.cachedIndex && cacheState.oldCacheRemoved, JSON.stringify(cacheState));
     await offlineContext.setOffline(true);
     await offlinePage.reload({ waitUntil: 'domcontentloaded' });
     await offlinePage.waitForSelector('#list .place[data-id]', { timeout: 10000 });

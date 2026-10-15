@@ -1,7 +1,7 @@
-# 50-place / 40-route manual regression
+# 52-place / 46-route manual regression
 
 ## Purpose
-Run a controlled no-paid-API regression pass before deciding whether to integrate Google Places. Dataset: `qa/location-regression-cases.json` (50 places, 40 route scenarios).
+Run a controlled no-paid-API regression pass before deciding whether to integrate Google Places. Dataset: `qa/location-regression-cases.json` (52 places, 46 route scenarios).
 
 ## Coverage and limits
 - 46 entries match the current in-app place catalogue by ID/name and have the catalogue's stored coordinates.
@@ -13,11 +13,11 @@ Run a controlled no-paid-API regression pass before deciding whether to integrat
 ## Execution order
 1. Record deployed build ID and confirm it matches the intended GitHub commit.
 2. Open the live app in a fresh browser session; record whether place cards and search are visible.
-3. For each route case R01–R40, set the origin and destination, calculate the route, and record the actual result.
+3. For each route case R01–R46, set the origin and destination, calculate the route, and record the actual result.
 4. Verify origin/destination identity, coordinates or place ID handoff, selected station, transfers, pier/exit instructions, walking time, and error handling.
 5. Repeat the route with origin/destination reversed when meaningful.
 6. Test clear/reset, rapid repeated search, and mobile layout.
-7. Fix each failure, rerun the failed case, then rerun all 40 cases as regression.
+7. Fix each failure, rerun the failed case, then rerun all 46 cases as regression.
 8. Separately test PWA cache/offline behavior after route regression passes.
 
 ## Result record
