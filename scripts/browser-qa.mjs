@@ -240,6 +240,61 @@ try {
     lastMileAcceptance.tests.every(t => t.ok === true),
     JSON.stringify({status:lastMileAcceptance.status,tests:lastMileAcceptance.tests?.length,failures:lastMileAcceptance.failures}));
 
+  // Deterministic network-failure and malformed-data cases for optional external APIs.
+  const networkFailureContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  try {
+    const networkFailurePage = await networkFailureContext.newPage();
+    await networkFailurePage.goto('http://127.0.0.1:4173/index.html?qa=network-failure', { waitUntil: 'domcontentloaded' });
+    const networkState = await networkFailurePage.evaluate(async () => {
+      const originalFetch = window.fetch;
+      window.fetch = async () => { throw new TypeError('Failed to fetch (deterministic QA)'); };
+      try {
+        const liveStations = await fetchGpsStationCoordinates();
+        const stationFallback = gpsStationCoordinates();
+        const walking = await exactWalkingEstimate({ lat: 41, lng: 29 }, { lat: 41.01, lng: 29.01 });
+        const unresolved = await resolvePlaceCoordinate({
+          id: 'qa_network_failure_place',
+          name: 'QA Missing Place',
+          kind: 'Turistik nokta'
+        });
+        return {
+          stationApiFailureUsesStaticFallback: liveStations.length === 0 && stationFallback.length > 0,
+          walkingApiFailureUsesGeodesicFallback: walking?.source === 'fallback-geodesic-estimate' &&
+            Number.isFinite(walking.minutes) && walking.minutes > 0,
+          failedGeocodingDoesNotInventCoordinates: unresolved === null
+        };
+      } finally {
+        window.fetch = originalFetch;
+      }
+    });
+    record('station API network failure keeps audited static station coordinates',
+      networkState.stationApiFailureUsesStaticFallback, JSON.stringify(networkState));
+    record('walking API network failure uses explicit geodesic fallback',
+      networkState.walkingApiFailureUsesGeodesicFallback, JSON.stringify(networkState));
+    record('failed place geocoding remains unresolved instead of inventing coordinates',
+      networkState.failedGeocodingDoesNotInventCoordinates, JSON.stringify(networkState));
+
+    const malformedState = await networkFailurePage.evaluate(async () => {
+      const originalFetch = window.fetch;
+      window.fetch = async () => ({ ok: true, json: async () => ({ trip: { summary: { time: 'unknown', length: null } } }) });
+      try {
+        const walking = await exactWalkingEstimate({ lat: 41.02, lng: 29.02 }, { lat: 41.03, lng: 29.03 });
+        return {
+          malformedApiUsesFallback: walking?.source === 'fallback-geodesic-estimate' &&
+            Number.isFinite(walking.minutes) && walking.minutes > 0
+        };
+      } finally {
+        window.fetch = originalFetch;
+      }
+    });
+    record('malformed walking API response uses fallback instead of crashing',
+      malformedState.malformedApiUsesFallback, JSON.stringify(malformedState));
+  } catch (error) {
+    record('external API network/missing-data fallback checks', false, error.message);
+  } finally {
+    await networkFailureContext.close();
+  }
+
   // Source-backed correction ledger IDs should all pass coordinate handoff.
   const correctionIds = coordinateAudit.verifiedCoordinateCorrections.map(item => item.id);
   const checkedIds = new Set(coordinateTargetIds);
