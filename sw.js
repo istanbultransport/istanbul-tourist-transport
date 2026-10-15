@@ -1,4 +1,4 @@
-const CACHE_NAME='itp-v230.12.25-core';
+const CACHE_NAME='itp-v230.12.26-core';
 const CORE_ASSETS=['./','./index.html','./manifest.json','./sw.js','./qa.html','./qa/location-regression-cases.json','./qa/20-location-manual-regression.md','./icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS)).then(()=>self.skipWaiting()));
