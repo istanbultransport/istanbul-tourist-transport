@@ -2990,28 +2990,23 @@ const lastMileBusRegistry = {
     source: 'İETT U1 official stop sequence; Metro İstanbul M7; Moovit bus-stop walking references',
     verified: true
   },
-  // Source-backed: IETT 79K/79FY list both STAD YOLU and OLİMPİYAT STADI.
-  // IETT stop 102202 identifies Stad Yolu; walk estimates are secondary map estimates,
-  // not field-surveyed, and this option is not a faster-arrival promise.
+  // Source-backed: IETT MK13 runs from Olimpiyatköy Metro to Kuzey Girişi.
+  // Walking estimates are secondary map estimates, not field-surveyed.
   ataturk_olimpiyat_stadyumu_from_olimpiyat: {
     key: 'olimpiyat|ataturk_olimpiyat_stadyumu',
     targetId: 'ataturk_olimpiyat_stadyumu',
     station: 'olimpiyat',
-    stopName: 'Stad Yolu - Bakırköy Yönü (İETT durak 102202)',
-    stopQuery: 'Stad Yolu - Bakırköy Yönü, Başakşehir, İstanbul',
-    walkToStopMinutes: 3,
-    line: '79K / 79FY',
-    direction: 'Yenibosna / Bakırköy',
-    boardStop: 'Stad Yolu - Bakırköy Yönü (İETT durak 102202)',
-    alightStop: 'Olimpiyat Stadı - Bakırköy Yönü',
-    alightQuery: 'Olimpiyat Stadı - Bakırköy Yönü, Başakşehir, İstanbul',
+    stopName: 'Olimpiyatköy Metro (İETT)',
+    stopQuery: 'Olimpiyatköy Metro, Başakşehir, İstanbul',
+    walkToStopMinutes: 1,
+    line: 'MK13',
+    direction: 'Şahintepe İGTOT',
+    boardStop: 'Olimpiyatköy Metro',
+    alightStop: 'Kuzey Girişi',
+    alightQuery: 'Kuzey Girişi, Başakşehir, İstanbul',
     targetQuery: 'Atatürk Olimpiyat Stadyumu, Başakşehir, İstanbul',
-    iettUrl: 'https://iett.istanbul/RouteDetail?hkod=79K&routename=KAYA%C5%9EEH%C4%B0R+-+YEN%C4%B0BOSNA+METRO',
-    alternatives: [
-      { line: '79K', iettUrl: 'https://iett.istanbul/RouteDetail?hkod=79K&routename=KAYA%C5%9EEH%C4%B0R+-+YEN%C4%B0BOSNA+METRO' },
-      { line: '79FY', iettUrl: 'https://iett.istanbul/RouteDetail?hkod=79FY&routename=fenertepe-yenibosna-metro' }
-    ],
-    source: 'İETT official 79K/79FY routes and stop 102202; Moovit walk estimates (not field-surveyed)',
+    iettUrl: 'https://www.iett.istanbul/EnRouteDetail?hkod=MK13&routename=OL%C4%B0MP%C4%B0YATK%C3%96Y+METRO+-+%C4%B0GTOT',
+    source: 'İETT MK13 official stop sequence (Olimpiyatköy Metro → Kuzey Girişi); Moovit walking estimates (not field-surveyed)',
     verified: true
   },
   agva_from_uskudar_marmaray: {
@@ -4828,21 +4823,21 @@ function lastMilePresentationQA(){
   const olimpiyatAccess=getEndAccess('ataturk_olimpiyat_stadyumu') || {station:'olimpiyat',mode:'M9 Metro',label:'Olimpiyat M9',walkMinutes:20};
   const olimpiyat=lastMileStep(olimpiyatAccess,'ataturk_olimpiyat_stadyumu');
   const olimpiyatText=String(olimpiyat?.[3]||'');
-  add('>16-ataturk-olimpiyat-verified-79K-79FY-plan',
+  add('>16-ataturk-olimpiyat-verified-MK13-plan',
     lastMileBusPlanIndex.get('olimpiyat|ataturk_olimpiyat_stadyumu')?.verified===true &&
-    olimpiyatText.includes('79K İETT') && olimpiyatText.includes('79FY İETT') &&
-    olimpiyatText.includes('Olimpiyat Stadı - Bakırköy Yönü') &&
+    olimpiyatText.includes('MK13 İETT') &&
+    olimpiyatText.includes('Kuzey Girişi') &&
     olimpiyatText.includes('Atatürk Olimpiyat Stadyumu'),
     olimpiyatText);
   add('>16-ataturk-olimpiyat-board-and-target-navigation',
-    olimpiyatText.includes('Stad Yolu - Bakırköy Yönü') &&
+    olimpiyatText.includes('Olimpiyatköy Metro') &&
+    olimpiyatText.includes('Kuzey Girişi') &&
     olimpiyatText.includes('otobüs durağına navigasyonu aç') &&
     olimpiyatText.includes('hedefe navigasyonu aç') &&
-    (olimpiyatText.match(/google\.com\/maps\/dir/g)||[]).length>=2,
+    (olimpiyatText.match(/google\\.com\\/maps\\/dir/g)||[]).length>=2,
     olimpiyatText);
-  add('>16-ataturk-olimpiyat-official-route-links',
-    olimpiyatText.includes('iett.istanbul/RouteDetail?hkod=79K') &&
-    olimpiyatText.includes('iett.istanbul/RouteDetail?hkod=79FY') &&
+  add('>16-ataturk-olimpiyat-official-route-link',
+    olimpiyatText.includes('iett.istanbul/EnRouteDetail?hkod=MK13') &&
     !olimpiyatText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),
     olimpiyatText);
 
