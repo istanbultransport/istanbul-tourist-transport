@@ -7,7 +7,7 @@
     "duplicateCoordinatePairs": 1,
     "missingCoordinates": 0,
     "verifiedVisitorEntrances": 0,
-    "sourceCrossCheckedCorrections": 16
+    "sourceCrossCheckedCorrections": 17
   },
   "policy": "These are existing application coordinates, not independently verified visitor entrances. Duplicate coordinates require individual review; districts and neighborhoods are representative points, not exact entrances. Do not infer walking time from straight-line distance.",
   "duplicateCoordinatePairs": [
@@ -2213,6 +2213,20 @@
       },
       "source": "https://www.mypacer.com/parks/220201/moda-sahil-park-istanbul",
       "status": "cross-checked-park-map"
+    },
+    {
+      "id": "anadolu_hisari",
+      "name": "Anadolu Hisarı",
+      "from": {
+        "lat": 41.0864,
+        "lng": 29.0713
+      },
+      "to": {
+        "lat": 41.082084,
+        "lng": 29.066895
+      },
+      "source": "https://www.outdooractive.com/mobile/en/poi/istanbul/anadolu-hisari-castle/65997849/",
+      "status": "cross-checked-poi-not-entrance-surveyed"
     }
   ]
 }
