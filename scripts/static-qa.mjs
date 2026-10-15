@@ -58,7 +58,7 @@ const required = [
   ['last-mile bus registry', 'lastMileBusRegistry'],
 ];
 for (const [name, needle] of required) check(name, html.includes(needle));
-check('Atatürk Olimpiyat Stadyumu has a verified 79K/79FY last-mile bus plan', html.includes("key: 'olimpiyat|ataturk_olimpiyat_stadyumu'") && html.includes('Stad Yolu - Bakırköy Yönü (İETT durak 102202)') && html.includes('hkod=79K') && html.includes('hkod=79FY'));
+check('Atatürk Olimpiyat Stadyumu has a verified MK13 last-mile bus plan', html.includes("key: 'olimpiyat|ataturk_olimpiyat_stadyumu'") && html.includes('Olimpiyatköy Metro') && html.includes('Kuzey Girişi') && html.includes('hkod=MK13'));
 
 try {
   const inline = [...qa.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1]);
