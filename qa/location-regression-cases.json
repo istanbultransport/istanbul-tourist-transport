@@ -537,11 +537,12 @@
       "lat": 41.046,
       "lng": 29.007,
       "coordinateStatus": "catalogue-point-not-verified-visitor-entrance",
-      "verification": "Catalogue coordinate only. Exact visitor entrance and pedestrian path require independent verification. The U1 route/stop sequence is source-backed; walking times remain secondary-map estimates, not a field survey.",
+      "verification": "Catalogue coordinate only; exact visitor entrance and pedestrian path remain unverified. The Moovit listing matching the museum-specific target reports a different M7 walking estimate than the generic Yıldız Sarayı listing, so the 22-minute value must remain explicitly source-ambiguous until the visitor entrance is confirmed. The U1 route/stop sequence is source-backed; walking estimates are secondary-map estimates, not field survey.",
       "sources": [
         "https://www.metro.istanbul/Hatlarimiz/HatDetay?hat=M7",
         "https://iett.istanbul/RouteDetail?hkod=U1&routename=besiktas-ulus",
-        "https://moovitapp.com/index/tr/toplu_ta%C5%9F%C4%B1ma-Y%C4%B1ld%C4%B1z_Saray%C4%B1_Milli_Saraylar-Istanbul-site_43221241-1563"
+        "https://moovitapp.com/index/tr/toplu_ta%C5%9F%C4%B1ma-Y%C4%B1ld%C4%B1z_Saray%C4%B1_Milli_Saraylar-Istanbul-site_43221241-1563",
+        "https://moovitapp.com/index/tr/toplu_ta%C5%9F%C4%B1ma-Y%C4%B1ld%C4%B1z_Saray%C4%B1_M%C3%BCzesi-Istanbul-site_231397636-1563"
       ]
     }
   ],
