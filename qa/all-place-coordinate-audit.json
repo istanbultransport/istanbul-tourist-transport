@@ -4,20 +4,13 @@
   "scope": "all 217 current place cards",
   "summary": {
     "total": 217,
-    "duplicateCoordinatePairs": 1,
+    "duplicateCoordinatePairs": 0,
     "missingCoordinates": 0,
     "verifiedVisitorEntrances": 0,
-    "sourceCrossCheckedCorrections": 17
+    "sourceCrossCheckedCorrections": 18
   },
   "policy": "These are existing application coordinates, not independently verified visitor entrances. Duplicate coordinates require individual review; districts and neighborhoods are representative points, not exact entrances. Do not infer walking time from straight-line distance.",
-  "duplicateCoordinatePairs": [
-    {
-      "firstId": "karakoy_semt",
-      "secondId": "karakoy",
-      "coordinates": "41.025,28.976",
-      "overlapType": "requires-semantic-review"
-    }
-  ],
+  "duplicateCoordinatePairs": [],
   "places": [
     {
       "id": "fenerbahce_stadyumu",
@@ -956,10 +949,11 @@
       "id": "karakoy",
       "name": "Karaköy",
       "kind": "Turistik nokta",
-      "lat": 41.025,
-      "lng": 28.976,
-      "coordinateRole": "poi-candidate",
-      "verification": "pending-independent-poi-and-entrance-check"
+      "lat": 41.02143,
+      "lng": 28.97673,
+      "coordinateRole": "named-target-poi",
+      "verification": "cross-checked-openstreetmap-pier",
+      "source": "https://mapcarta.com/W52089506"
     },
     {
       "id": "karakoy_rihtim",
@@ -2227,6 +2221,20 @@
       },
       "source": "https://www.outdooractive.com/mobile/en/poi/istanbul/anadolu-hisari-castle/65997849/",
       "status": "cross-checked-poi-not-entrance-surveyed"
+    },
+    {
+      "id": "karakoy",
+      "name": "Karaköy",
+      "from": {
+        "lat": 41.025,
+        "lng": 28.976
+      },
+      "to": {
+        "lat": 41.02143,
+        "lng": 28.97673
+      },
+      "source": "https://mapcarta.com/W52089506",
+      "status": "cross-checked-openstreetmap-pier"
     }
   ]
 }
