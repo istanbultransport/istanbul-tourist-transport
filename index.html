@@ -2979,12 +2979,14 @@ const lastMileBusRegistry = {
     station: 'yildiz',
     stopName: 'Yıldız Teknik Üniversitesi - Beşiktaş Yönü',
     stopQuery: 'Yıldız Teknik Üniversitesi - Beşiktaş Yönü, Beşiktaş, İstanbul',
+    stopStatusUrl: 'https://iett.istanbul/StationDetail?dkod=113401',
     walkToStopMinutes: 6,
     line: 'U1',
     direction: 'Beşiktaş / Çırağan',
     boardStop: 'Yıldız Teknik Üniversitesi - Beşiktaş Yönü',
     alightStop: 'Yahya Efendi',
     alightQuery: 'Yahya Efendi İETT Durağı, Beşiktaş, İstanbul',
+    alightStatusUrl: 'https://www.iett.istanbul/EnStationDetail?dkod=112041&stationname=YAHYA+EFEND%C4%B0-Be%C5%9Fikta%C5%9F',
     targetQuery: 'Yıldız Sarayı Müzesi, Yıldız, 34349 Beşiktaş, İstanbul',
     iettUrl: 'https://iett.istanbul/RouteDetail?hkod=U1&routename=besiktas-ulus',
     source: 'İETT U1 official stop sequence; Metro İstanbul M7; Moovit bus-stop walking references',
@@ -3052,17 +3054,29 @@ function renderLastMileBusPlan(plan, target) {
     plan.targetQuery,
     '🚶 Yürü — hedefe navigasyonu aç'
   );
+  const boardStatus = plan.stopStatusUrl
+    ? `<a href="${plan.stopStatusUrl}" target="_blank" rel="noopener noreferrer" title="İETT güncel biniş durağı bilgisi">İETT biniş durağı durumunu kontrol et</a>`
+    : '';
+  const alightStatus = plan.alightStatusUrl
+    ? `<a href="${plan.alightStatusUrl}" target="_blank" rel="noopener noreferrer" title="İETT güncel iniş durağı bilgisi">İETT iniş durağı durumunu kontrol et</a>`
+    : '';
+  const statusNotice = boardStatus || alightStatus
+    ? 'ℹ️ Durakların açık/kapalı durumu ve seferler değişebilir. Yolculuk öncesi İETT güncel durak bilgisini kontrol edin.'
+    : '';
   const iett = Array.isArray(plan.alternatives) && plan.alternatives.length
     ? plan.alternatives.map(option => `<a href="${option.iettUrl}" target="_blank" rel="noopener noreferrer" title="İETT resmi hat bilgisi"><b>${option.line} İETT</b></a>`).join(' / ')
     : `<a href="${plan.iettUrl}" target="_blank" rel="noopener noreferrer" title="İETT resmi hat bilgisi"><b>${plan.line} İETT</b></a>`;
   return [
     `🚶 <b>${plan.stationLabel}</b> istasyonundan <b>${plan.boardStop}</b> durağına yaklaşık <b>${plan.walkToStopMinutes} dakika</b> yürüyün.`,
     boardWalk,
+    boardStatus,
     `🚌 <b>${iett}</b> hattına <b>${plan.direction}</b> yönünde binin.`,
     `🛑 <b>${plan.alightStop}</b> durağında inin.`,
+    alightStatus,
+    statusNotice,
     `🚶 <b>${plan.alightStop}</b> durağından <b>${target}</b> hedefine yürüyün.`,
     finalWalk
-  ].join('<br><br>');
+  ].filter(Boolean).join('<br><br>');
 }
 
 const startLocalAccessRegistry={
@@ -4799,6 +4813,15 @@ function lastMilePresentationQA(){
     yildizText);
   add('>16-yildiz-palace-official-iett-route-link',
     yildizText.includes('iett.istanbul/RouteDetail?hkod=U1') && !yildizText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),
+    yildizText);
+  add('>16-yildiz-board-stop-status-link',
+    yildizText.includes('İETT biniş durağı durumunu kontrol et') && yildizText.includes('StationDetail?dkod=113401'),
+    yildizText);
+  add('>16-yildiz-alight-stop-status-link',
+    yildizText.includes('İETT iniş durağı durumunu kontrol et') && yildizText.includes('EnStationDetail?dkod=112041'),
+    yildizText);
+  add('>16-yildiz-stop-status-caveat',
+    yildizText.includes('açık/kapalı durumu') && yildizText.includes('seferler değişebilir'),
     yildizText);
 
   const exactKey='qa_exact18_station|__qa_exact18';
