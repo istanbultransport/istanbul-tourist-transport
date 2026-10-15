@@ -307,3 +307,15 @@ Added four more coordinate-separation regressions for line-specific points. Thes
 - **Olimpiyat M9 ↔ Olimpiyatköy M11:** 98 m; expected ≤150 m for the interchange area, while retaining separate line-specific points.
 - **Halkalı Stadı M11 ↔ Olimpiyatköy M11:** 2,566 m; expected >500 m because these are distinct stations.
 - No app coordinates changed. Browser QA and live smoke now guard against accidental line-point reuse/collapse across these four relationships.
+
+## Four-record entrance-evidence review — Marmaray Bostancı, Göztepe, Ayrılık Çeşmesi, Üsküdar — 2026-10-15
+
+Reviewed four existing variance records against additional geotagged-photo or map references. **No application coordinates were changed** because these sources locate the station/platform area but do not independently identify the exact public entrance.
+
+- **Bostancı Marmaray:** a platform photo geotag is `40.953570, 29.094935` ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Bostanci_station.jpg)), about 125 m from the current fallback. The photo is explicitly a view from the Marmaray platform, not an entrance pin.
+- **Göztepe Marmaray:** a platform photo geotag is `40.979512, 29.063598` ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:G%C3%B6ztepe_Tren_%C4%B0stasyonu.jpg)), about 170 m from the current fallback. It supports station identity but does not establish the public entrance.
+- **Ayrılık Çeşmesi Marmaray:** a station photo is geotagged at `41.000756, 29.030189` ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Marmaray_Ayr%C4%B1l%C4%B1k_%C3%87e%C5%9Fmesi_istasyonu_-_İstanbul.jpg)), about 100 m from the current fallback. A separate image at `41.000353, 29.030052` shows the M4 metro entrance ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ayr%C4%B1l%C4%B1k_%C3%87e%C5%9Fmesi_Metro_Giri%C5%9Fi.jpg)); that point must not be mislabeled as the Marmaray entrance.
+- **Üsküdar Marmaray:** a secondary station directory gives `41.025703, 29.014858` ([station listing](https://travel.turkeyturism.com/en/marmaray-uskudar-istasyonu-90-444-8-233.html)), about 100 m from the current fallback. This supports the station area but is not entrance-level evidence.
+
+The CSV review notes now record these comparisons and sources. All four rows remain variance-review items. Do not convert a platform-photo or station-centre coordinate into an entrance coordinate without stronger evidence; route-level map/field verification remains required.
+
