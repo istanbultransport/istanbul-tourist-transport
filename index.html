@@ -2624,12 +2624,17 @@ const lastMileStationWalkMinutes = {
   'halic|arap_camii': 2
 };
 
+function hasKnownWalkMinutes(value){
+  return value!==null && value!==undefined && value!=='' &&
+    Number.isFinite(Number(value)) && Number(value)>=0;
+}
+
 function getLastMileWalkMinutes(access,targetId){
-  if(Number.isFinite(Number(access?.walkMinutes))) return Number(access.walkMinutes);
+  if(hasKnownWalkMinutes(access?.walkMinutes)) return Number(access.walkMinutes);
 
   const station=access?.station;
   const stationSpecific=station ? lastMileStationWalkMinutes[`${station}|${targetId}`] : null;
-  if(stationSpecific!==null && stationSpecific!==undefined && Number.isFinite(Number(stationSpecific))) return Number(stationSpecific);
+  if(hasKnownWalkMinutes(stationSpecific)) return Number(stationSpecific);
 
   const inferred=touristWalkTime(station,targetId);
   if(inferred!==null && inferred!==undefined && Number.isFinite(Number(inferred))) return Number(inferred);
@@ -2641,11 +2646,11 @@ function getLastMileWalkMinutes(access,targetId){
   if(station && typeof getEndAccess==='function'){
     const verifiedEnd=getEndAccess(targetId);
     const legacy=lastMileWalkMinutes[targetId];
-    if(verifiedEnd?.station===station && Number.isFinite(Number(legacy))) return Number(legacy);
+    if(verifiedEnd?.station===station && hasKnownWalkMinutes(legacy)) return Number(legacy);
   }
   if(!station){
     const legacy=lastMileWalkMinutes[targetId];
-    if(Number.isFinite(Number(legacy))) return Number(legacy);
+    if(hasKnownWalkMinutes(legacy)) return Number(legacy);
   }
   return null;
 }
@@ -2665,25 +2670,27 @@ function lastMileStep(access,targetId){
   const target=targetObj?.name || targetId;
   const station=access?.label || nodeLabel(access?.station);
   const mins=getLastMileWalkMinutes(access,targetId);
+  const hasKnownMins=hasKnownWalkMinutes(mins);
   const nav=lastMileTargetNavigationHtml(access,targetId,target);
 
   // Ortak erişim eşiği: 16 dakika dahil yürüyüş; 16 dakikadan uzunsa doğrulanmış otobüs planını kullan.
+  // null/undefined/empty values must remain unknown; Number(null) and Number('') both coerce to 0.
   const busPlan=lastMileBusPlanFor(access,targetId);
-  if(busPlan && (!Number.isFinite(Number(mins)) || Number(mins)>16)){
+  if(busPlan && (!hasKnownMins || Number(mins)>16)){
     return [access.station,targetId,'Son ulaşım',
       `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${renderLastMileBusPlan(busPlan,target)}`];
   }
-  if(Number.isFinite(Number(mins)) && Number(mins)<=16){
+  if(hasKnownMins && Number(mins)<=16){
     const walkSentence=`🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine <b>yaklaşık ${Math.round(Number(mins))} dakika yürümelisiniz.</b>`;
     return [access.station,targetId,'Son ulaşım',
       `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} ${nav}`];
   }
 
   // 16 dakikayı aşan erişimde doğrulanmış otobüs kaydı yoksa hat uydurma.
-  const walkSentence=Number.isFinite(Number(mins))
+  const walkSentence=hasKnownMins
     ? `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yaklaşık <b>${Math.round(Number(mins))} dakika</b> yürüyüş var.`
     : `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yürüyüş süresi doğrulanamadı.`;
-  const fallback=Number.isFinite(Number(mins)) ? ` ${nav}` : ` Doğrulanmış yaya süresi bulunamadığından tahmini süre vermiyorum.`;
+  const fallback=hasKnownMins ? ` ${nav}` : ` Doğrulanmış yaya süresi bulunmadığından tahmini süre vermiyorum.`;
   return [access.station,targetId,'Son ulaşım',
     `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} 16 dakikayı aşan bu erişim için doğrulanmış otobüs bağlantısı bulunamadı; yanlış hat önermiyorum.${fallback}`];
 }
@@ -4621,6 +4628,15 @@ function lastMilePresentationQA(){
   add('<=16-no-ride-warning',!shortText.includes('Uber')&&!shortText.includes('Yandex Go')&&!shortText.includes('Martı TAG'),shortText);
   add('<=16-has-target-navigation',shortText.includes('google.com/maps/dir/'),shortText);
   add('<=16-no-duplicate-walk-sentence',(shortText.match(/Haliç M2<\/b> istasyonundan <b>Arap Camii<\/b> hedefine/g)||[]).length===1,shortText);
+
+  // null and empty strings are unknown, not zero-minute walks (Number(null) === 0).
+  const unknown=lastMileStep({station:'qa_unknown_station',mode:'M2 Metro',label:'QA Unknown',walkMinutes:null},'__qa_unknown_target');
+  const unknownText=String(unknown?.[3]||'');
+  add('unknown-walk-duration-not-coerced-to-zero',unknownText.includes('yürüyüş süresi doğrulanamadı')&&!unknownText.includes('0 dakika'),unknownText);
+  const empty=lastMileStep({station:'qa_empty_station',mode:'M2 Metro',label:'QA Empty',walkMinutes:''},'__qa_empty_target');
+  const emptyText=String(empty?.[3]||'');
+  add('empty-walk-duration-not-coerced-to-zero',emptyText.includes('yürüyüş süresi doğrulanamadı')&&!emptyText.includes('0 dakika'),emptyText);
+  add('walk-minute-validator-rejects-unknown-values',!hasKnownWalkMinutes(null)&&!hasKnownWalkMinutes(undefined)&&!hasKnownWalkMinutes('')&&hasKnownWalkMinutes(0)&&hasKnownWalkMinutes(16),'unknown values rejected; 0 and 16 remain valid');
 
   // Regression guard: a station-specific value must beat a legacy target-only
   // value. This is the critical 18-minute-threshold protection.
