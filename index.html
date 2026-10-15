@@ -2657,7 +2657,7 @@ function lastMileTargetNavigationHtml(access,targetId,target){
     : (targetObj && Number.isFinite(Number(targetObj.lat)) && Number.isFinite(Number(targetObj.lng))
       ? `${targetObj.lat},${targetObj.lng}`
       : `${target} İstanbul`);
-  return currentLocationWalkingNavLink(destination,'Hedefinize yürüyerek ulaşmak için tıklayınız.');
+  return currentLocationWalkingNavLink(destination,'🚶‍♀️🚶‍♂️ Hedefinize yürüyerek ulaşmak için tıklayınız.');
 }
 function lastMileStep(access,targetId){
   const targetObj=places.find(p=>p.id===targetId);
