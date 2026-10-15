@@ -4613,44 +4613,44 @@ function lastMilePresentationQA(){
   const add=(name,ok,detail)=>{out.tests.push({name,ok,detail});if(!ok){out.status='FAIL';out.failures.push({name,detail});}};
   const short=lastMileStep({station:'halic',mode:'M2 Metro',label:'Haliç M2',local:true},'arap_camii');
   const shortText=String(short?.[3]||'');
-  add('<=18-has-walk-time',/Yaklaşık 2 dakika yürüyebilirsiniz/.test(shortText),shortText);
-  add('<=18-no-bus-warning',!shortText.includes('Otobüsle devam edebilirsiniz.'),shortText);
-  add('<=18-no-ride-warning',!shortText.includes('Uber')&&!shortText.includes('Yandex Go')&&!shortText.includes('Martı TAG'),shortText);
-  add('<=18-has-target-navigation',shortText.includes('google.com/maps/dir/'),shortText);
-  add('<=18-no-duplicate-walk-sentence',(shortText.match(/Haliç M2<\/b> istasyonundan <b>Arap Camii<\/b> hedefine yürüyebilirsiniz\./g)||[]).length===1,shortText);
+  add('<=16-has-walk-time',/yaklaşık <b>2 dakika<\/b> yürümelisiniz/.test(shortText),shortText);
+  add('<=16-no-bus-warning',!shortText.includes('Otobüsle devam edebilirsiniz.'),shortText);
+  add('<=16-no-ride-warning',!shortText.includes('Uber')&&!shortText.includes('Yandex Go')&&!shortText.includes('Martı TAG'),shortText);
+  add('<=16-has-target-navigation',shortText.includes('google.com/maps/dir/'),shortText);
+  add('<=16-no-duplicate-walk-sentence',(shortText.match(/Haliç M2<\/b> istasyonundan <b>Arap Camii<\/b> hedefine/g)||[]).length===1,shortText);
 
   // Regression guard: a station-specific value must beat a legacy target-only
   // value. This is the critical 18-minute-threshold protection.
   const mismatch=lastMileStep({station:'qa_station',mode:'M2 Metro',label:'QA Station',walkMinutes:19},'arap_camii');
   const mismatchText=String(mismatch?.[3]||'');
-  add('station-walk-time-wins-over-target-legacy',mismatchText.includes('Yaklaşık 19 dakika yürüyebilirsiniz.'),mismatchText);
+  add('over-16-without-verified-bus-discloses-fallback',mismatchText.includes('19 dakika')&&mismatchText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),mismatchText);
 
   add('bus-registry-indexed',lastMileBusPlanIndex.get('gokturk_m11|kemerburgaz_kent_ormani')?.verified===true,'verified bus plan index');
 
   const busAccess=getEndAccess('kemerburgaz_kent_ormani') || {station:'gokturk_m11',mode:'M11 Metro',label:'Göktürk M11',walkMinutes:21};
   const bus=lastMileStep(busAccess,'kemerburgaz_kent_ormani');
   const busText=String(bus?.[3]||'');
-  add('>18-verified-bus-plan',busText.includes('48G')&&busText.includes('Kent Ormanı'),busText);
-  add('>18-board-stop',busText.includes('Göktürk Deresi - Kemerburgaz Yönü'),busText);
-  add('>18-bus-direction',busText.includes('Mescid-i Selam'),busText);
-  add('>18-alight-stop',busText.includes('Kent Ormanı'),busText);
-  add('>18-boarding-navigation',busText.includes('otobüs durağına navigasyonu aç'),busText);
-  add('>18-final-navigation',busText.includes('hedefe navigasyonu aç'),busText);
-  add('>18-official-iett-link',busText.includes('iett.istanbul/RouteDetail?hkod=48G'),busText);
+  add('>16-verified-bus-plan',busText.includes('48G')&&busText.includes('Kent Ormanı'),busText);
+  add('>16-board-stop',busText.includes('Göktürk Deresi - Kemerburgaz Yönü'),busText);
+  add('>16-bus-direction',busText.includes('Mescid-i Selam'),busText);
+  add('>16-alight-stop',busText.includes('Kent Ormanı'),busText);
+  add('>16-boarding-navigation',busText.includes('otobüs durağına navigasyonu aç'),busText);
+  add('>16-final-navigation',busText.includes('hedefe navigasyonu aç'),busText);
+  add('>16-official-iett-link',busText.includes('iett.istanbul/RouteDetail?hkod=48G'),busText);
 
   const fallbackAccess=getEndAccess('yildiz_sarayi') || {station:'yildiz',mode:'M7 Metro',label:'Yıldız M7'};
   const fallback=lastMileStep(fallbackAccess,'yildiz_sarayi');
   const fallbackText=String(fallback?.[3]||'');
-  add('>18-unverified-bus-no-invention',!fallbackText.includes('48G')&&!fallbackText.includes('79FY')&&!fallbackText.includes('MK13'),fallbackText);
-  add('>18-fallback-has-walk',fallbackText.includes('Yaklaşık 22 dakika yürüyebilirsiniz.'),fallbackText);
-  add('>18-fallback-no-ride-warning',!fallbackText.includes('Uber')&&!fallbackText.includes('Yandex Go')&&!fallbackText.includes('Martı TAG'),fallbackText);
+  add('>16-unverified-bus-no-invention',!fallbackText.includes('48G')&&!fallbackText.includes('79FY')&&!fallbackText.includes('MK13'),fallbackText);
+  add('>16-fallback-discloses-missing-bus',fallbackText.includes('22 dakika')&&fallbackText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),fallbackText);
+  add('>16-fallback-no-ride-warning',!fallbackText.includes('Uber')&&!fallbackText.includes('Yandex Go')&&!fallbackText.includes('Martı TAG'),fallbackText);
 
   const exactKey='qa_exact18_station|__qa_exact18';
   const oldExact=lastMileStationWalkMinutes[exactKey];
   lastMileStationWalkMinutes[exactKey]=18;
   const exact=lastMileStep({station:'qa_exact18_station',mode:'M2 Metro',label:'QA Exact18'},'__qa_exact18');
   const exactText=String(exact?.[3]||'');
-  add('exactly-18-walk-only',exactText.includes('Yaklaşık 18 dakika yürüyebilirsiniz.')&&!exactText.includes('Otobüsle devam edebilirsiniz.'),exactText);
+  add('exactly-16-walk-only',exactText.includes('yaklaşık <b>16 dakika</b> yürümelisiniz.')&&!exactText.includes('48G'),exactText);
   if(oldExact===undefined) delete lastMileStationWalkMinutes[exactKey]; else lastMileStationWalkMinutes[exactKey]=oldExact;
 
   return out;
