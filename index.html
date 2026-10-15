@@ -1,16 +1,16 @@
-<!-- V230.12.31-ISTANBULMODERN: <=16 min first station walk auto-start. -->
+<!-- V230.12.32-PENDIK-YHT-BUS: source-backed KM13 surface transfer; boarding walk remains unverified. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.31-ISTANBULMODERN">
+<meta name="build-id" content="V230.12.32-PENDIK-YHT-BUS">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.30</title>
+<title>Istanbul Tourist Transport Planner — V230.12.32</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.31-ISTANBULMODERN';
+  window.__APP_BUILD_ID__='V230.12.32-PENDIK-YHT-BUS';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -851,8 +851,8 @@ const surfaceTransferRegistry={
   'unalan|Metrobüs|M4 Metro':{type:'surface_short',difficulty:1,walkMinutes:2,label:'Kısa yüzey bağlantısı — M4',verified:true,source:'Metro İstanbul entegrasyonu + yakın durak verisi'},
   // Pendik'te YHT/İETT erişimi yüzey bağlantısıdır. Süre, hedef durağa göre
   // değiştiği için sabit 3/10 dk yerine hedef-durak verisi üzerinden çözümlenir.
-  'pendik|M4 Metro|Pendik YHT':{type:'surface_medium',difficulty:2,walkMinutes:null,label:'Pendik M4 ↔ Pendik YHT yüzey bağlantısı',verified:true,source:'Pendik M4–Pendik YHT/İETT bağlantısı'},
-  'pendik|Pendik YHT|M4 Metro':{type:'surface_medium',difficulty:2,walkMinutes:null,label:'Pendik YHT ↔ Pendik M4 yüzey bağlantısı',verified:true,source:'Pendik M4–Pendik YHT/İETT bağlantısı'},
+  'pendik|M4 Metro|Pendik YHT':{type:'surface_medium',difficulty:2,walkMinutes:null,label:'Pendik YHT yönünde KM13 otobüs bağlantısı',verified:true,source:'İETT KM13 resmî güzergâhında PENDİK ve PENDİK YHT İSTASYONU durakları',fromLabel:'Pendik Marmaray',busLine:'KM13',busDirection:'Pendik → Pendik YHT',boardStop:'PENDİK',alightStop:'PENDİK YHT İSTASYONU',iettUrl:'https://www.iett.istanbul/RouteDetail?hkod=KM13&routename=TUZLA+-+PEND%C4%B0K+METRO%2F+YHT+%2F+PEND%C4%B0K',alightStatusUrl:'https://www.iett.istanbul/StationDetail?dkod=227794&stationname=PEND%C4%B0K+YHT+%C4%B0STASYONU-Pendik',accessNote:'Pendik Marmaray ile PENDİK biniş durağı arasındaki kesin yaya bağlantısı ve süresi doğrulanmadı. Durak konumunu ve sefer yönünü İETT sayfasından kontrol edin.'},
+  'pendik|Pendik YHT|M4 Metro':{type:'surface_medium',difficulty:2,walkMinutes:null,label:'Pendik yönünde KM13 otobüs bağlantısı',verified:true,source:'İETT KM13 resmî güzergâhında PENDİK YHT İSTASYONU ve PENDİK durakları',fromLabel:'Pendik YHT İstasyonu',busLine:'KM13',busDirection:'Pendik YHT → Pendik',boardStop:'PENDİK YHT İSTASYONU',alightStop:'PENDİK',iettUrl:'https://www.iett.istanbul/RouteDetail?hkod=KM13&routename=TUZLA+-+PEND%C4%B0K+METRO%2F+YHT+%2F+PEND%C4%B0K',alightStatusUrl:'https://www.iett.istanbul/EnStationDetail?dkod=406201&stationname=PEND%C4%B0K-Pendik',accessNote:'KM13 güzergâh yönü ve PENDİK durağının konumu yolculuk öncesi İETT sayfasından kontrol edilmelidir; canlı sefer garantisi yoktur.'},
 };
 
 const surfaceClassPenalty={station_internal:0,surface_short:3,surface_medium:10,surface_long:22,surface_complex:36};
@@ -4570,10 +4570,21 @@ function renderPath(path,targetId){
     // Metrobüs'e binip aynı durakta iniyormuş gibi göstermemeli.
     if(surfaceMeta && surfaceMeta.type!=='station_internal' && from===to){
       const transferDifficulty=surfaceLabel || 'Yüzey bağlantısı';
-      const walkText=surfaceMeta.walkMinutes!==null && surfaceMeta.walkMinutes!==undefined && Number.isFinite(Number(surfaceMeta.walkMinutes)) ? `Yaklaşık ${surfaceMeta.walkMinutes} dakika yürüyebilirsiniz.` : 'Yüzey bağlantısının süresi hedef bağlantıya göre değişebilir.';
+      const hasMinutes=surfaceMeta.walkMinutes!==null && surfaceMeta.walkMinutes!==undefined && surfaceMeta.walkMinutes!=='' && Number.isFinite(Number(surfaceMeta.walkMinutes));
+      const walkText=hasMinutes ? 'Yaklaşık '+surfaceMeta.walkMinutes+' dakika yürüyebilirsiniz.' : (surfaceMeta.busLine ? 'Bu yüzey bağlantısının yürüme süresi doğrulanmadı; süre uydurulmadı.' : 'Yüzey bağlantısının süresi hedef bağlantıya göre değişebilir.');
+      const transferOrigin=surfaceMeta.fromLabel || stepNodeLabel(from,stationSearchAccess[start.id]?.mode||mode);
       const targetLineLabel=surfaceMeta.label || stepTitle(mode);
       const targetSuffix=/bağlantısı$/i.test(targetLineLabel) ? '' : ' bağlantısına';
-      return `<div class="step ${i===0?'now':''}"><div class="num">${i+1}</div><div><span class="step-badge">${i===0?'ŞİMDİ':'SIRADAKİ'}</span><h3>🚶 Yüzey bağlantısı</h3><p style="margin-top:10px;line-height:1.65"><b>${stepNodeLabel(from,stationSearchAccess[start.id]?.mode||mode)}</b> noktasından <b>${targetLineLabel}</b>${targetSuffix} geç.</p><p style="margin-top:8px">🚶 <b>${walkText}</b><br>${walkingNavigationForNode(to, '🚶 Yürü — aktarmaya navigasyonu aç',nextMode||mode)}<br>ℹ️ <b>${transferDifficulty}</b></p></div></div>`;
+      const transferDescription=surfaceMeta.busLine
+        ? '<b>'+transferOrigin+'</b> noktasından <b>'+surfaceMeta.boardStop+'</b> durağına geçin; <b>'+surfaceMeta.busLine+'</b> otobüsüne <b>'+surfaceMeta.busDirection+'</b> yönünde binip <b>'+surfaceMeta.alightStop+'</b> durağında inin.'
+        : '<b>'+transferOrigin+'</b> noktasından <b>'+targetLineLabel+'</b>'+targetSuffix+' geç.';
+      const busDetails=surfaceMeta.busLine
+        ? '<p style="margin-top:8px">🚌 <b>'+surfaceMeta.busLine+' İETT</b> — '+surfaceMeta.boardStop+' → '+surfaceMeta.alightStop+'<br><a href="'+surfaceMeta.iettUrl+'" target="_blank" rel="noopener noreferrer">İETT resmî hat ve durak bilgisi</a>'
+          +(surfaceMeta.alightStatusUrl ? '<br><a href="'+surfaceMeta.alightStatusUrl+'" target="_blank" rel="noopener noreferrer">İniş durağının güncel durumunu kontrol et</a>' : '')
+          +'</p><p style="margin-top:8px">ℹ️ '+surfaceMeta.accessNote+'</p>'
+        : '';
+      const walkLink=surfaceMeta.busLine ? '' : '<br>'+walkingNavigationForNode(to,'🚶 Yürü — aktarmaya navigasyonu aç',nextMode||mode);
+      return '<div class="step '+(i===0?'now':'')+'"><div class="num">'+(i+1)+'</div><div><span class="step-badge">'+(i===0?'ŞİMDİ':'SIRADAKİ')+'</span><h3>🚶 Yüzey bağlantısı</h3><p style="margin-top:10px;line-height:1.65">'+transferDescription+'</p>'+busDetails+'<p style="margin-top:8px">🚶 <b>'+walkText+'</b>'+walkLink+'<br>ℹ️ <b>'+transferDifficulty+'</b></p></div></div>';
     }
     // Aynı fiziksel düğümdeki istasyon-içi aktarma bir 'bin-in' yolculuğu
     // değildir. Örn. Hisarüstü M6 → F4 adımını F4'e binip aynı istasyonda
