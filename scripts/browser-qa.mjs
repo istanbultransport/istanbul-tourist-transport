@@ -165,6 +165,12 @@ try {
         headingStepLabel: flow.headingStepLabel, summaryStepCount: flow.summaryStepCount,
         routeText: flow.routeText.slice(0, 240)
       }));
+      if(item.id==='R21'){
+        const routeSummary=flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0]||'';
+        const verifiedMarriottAccess=flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&
+          !flow.routeText.includes('13 dakika yürüyün') && !routeSummary.includes('Kozyatağı M4\n↓\nKozyatağı M4');
+        record('R21 preserves verified Marriott-to-M8 access and avoids duplicate station summary',verifiedMarriottAccess,flow.routeText.slice(0,1200));
+      }
     } catch (error) {
       record('UI route flow '+item.id, false, error.message);
     }
@@ -508,8 +514,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the Istanbul Modern Tophane-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.32-pendikyht-core' &&
-    htmlBuild === 'V230.12.32-PENDIK-YHT-BUS' &&
+    cacheName === 'itp-v230.12.33-marriottaccess-core' &&
+    htmlBuild === 'V230.12.33-MARRIOTT-ACCESS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {

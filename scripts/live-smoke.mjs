@@ -150,6 +150,13 @@ try {
         record('live Istanbul Modern route uses Tophane T1 and 4-minute final walk', modernAccessValid,
           flow.routeText.slice(-500));
       }
+      if (item.id === 'R21') {
+        const routeSummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';
+        const verifiedMarriottAccess = flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&
+          !flow.routeText.includes('13 dakika yürüyün') && !routeSummary.includes('Kozyatağı M4\n↓\nKozyatağı M4');
+        record('live Marriott route preserves verified Kozyatağı M8 access', verifiedMarriottAccess,
+          flow.routeText.slice(0, 1000));
+      }
     } catch (error) {
       record('live UI route flow ' + item.id, false, error.message);
     }
