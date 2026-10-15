@@ -6,7 +6,7 @@ Run a controlled no-paid-API regression pass before deciding whether to integrat
 ## Coverage and limits
 - 46 entries match the current in-app place catalogue by ID/name and have the catalogue's stored coordinates.
 - Three business records are integrated into the in-app catalogue and route selection: Four Seasons Hotel Istanbul at Sultanahmet, Karaköy Lokantası and Çiya Sofrası. Their coordinates are cross-checked but have not been field-surveyed. Faros Karaköy remains excluded from production selection because its point is approximate; it stays a non-runnable gap probe.
-- This dataset is a **test plan**; CI verifies the source and a browser QA page exercises the 40 route fixtures. Hosted-browser/field validation is still required before claiming production readiness.
+- This dataset is a **test plan**; CI verifies the source and a browser QA page exercises all 46 route fixtures (R01–R46). Hosted-browser/field validation is still required before claiming production readiness.
 - Do not invent coordinates, station choices, walking times, or ETAs. Verify business identity and route details against reliable current sources during execution.
 - A test passes only after it is performed in the deployed browser and its visible output is checked. Static QA alone does not prove live interaction works.
 
