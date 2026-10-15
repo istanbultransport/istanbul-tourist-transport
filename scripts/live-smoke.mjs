@@ -5,6 +5,7 @@ const liveUrl = process.env.LIVE_APP_URL || 'https://istanbultransport.github.io
 const expectedHtml = fs.readFileSync('index.html', 'utf8');
 const expectedBuild = (expectedHtml.match(/<meta name="build-id" content="([^"]+)"/) || [])[1] || '';
 const expectedCache = (fs.readFileSync('sw.js', 'utf8').match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
+const routeCases = JSON.parse(fs.readFileSync('qa/location-regression-cases.json', 'utf8')).routeCases;
 const passed = [];
 const failures = [];
 const record = (name, ok, detail = '') => (ok ? passed : failures).push(ok ? name : name + ': ' + detail);
@@ -80,6 +81,51 @@ try {
   record('live route selection preserves endpoint IDs and shows route',
     routeState.from === 'kadikoy_carsi' && routeState.to === 'ciya_sofrasi' && routeState.routeText.length > 0,
     JSON.stringify(routeState));
+
+  // Exercise every current route fixture through the deployed user interface, not only
+  // the in-page route engine. This verifies the live catalogue, selection handoff and
+  // rendered route for R01-R46 on the deployed build.
+  for (const item of routeCases) {
+    try {
+      const names = await page.evaluate(({ from, to }) => ({
+        from: places.find(p => p.id === from)?.name || null,
+        to: places.find(p => p.id === to)?.name || null
+      }), item);
+      if (!names.from || !names.to) {
+        record('live UI route flow ' + item.id, false, 'catalogue name missing: ' + JSON.stringify(names));
+        continue;
+      }
+      await page.evaluate(() => newRoute());
+      await page.locator('#startPlaceSearch').fill(names.from);
+      await page.locator('#list .place[data-id="' + item.from + '"]').click({ timeout: 7000 });
+      await page.locator('#targetPlaceSearch').fill(names.to);
+      await page.locator('#list .place[data-id="' + item.to + '"]').click({ timeout: 7000 });
+      await page.waitForFunction(({ to }) =>
+        typeof selectedTarget !== 'undefined' &&
+        selectedTarget?.id === to &&
+        getComputedStyle(document.getElementById('route')).display !== 'none',
+        { to: item.to },
+        { timeout: 20000 }
+      );
+      const flow = await page.evaluate(() => ({
+        from: start?.id || null,
+        to: selectedTarget?.id || null,
+        routeText: document.getElementById('route')?.innerText?.trim() || '',
+        stepCards: document.querySelectorAll('#route .step').length
+      }));
+      const valid = flow.from === item.from && flow.to === item.to &&
+        flow.routeText.length > 0 && flow.stepCards > 0;
+      record('live UI route flow ' + item.id, valid, JSON.stringify({
+        expectedFrom: item.from, actualFrom: flow.from,
+        expectedTo: item.to, actualTo: flow.to,
+        stepCards: flow.stepCards, routeText: flow.routeText.slice(0, 180)
+      }));
+    } catch (error) {
+      record('live UI route flow ' + item.id, false, error.message);
+    }
+  }
+  record('all live UI route fixtures loaded', Array.isArray(routeCases) && routeCases.length === 46,
+    'count=' + routeCases.length);
 
   const gpsRegistryAudit = await page.evaluate(async () => {
     try {
