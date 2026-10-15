@@ -115,7 +115,7 @@ try {
         headingStepLabel: document.querySelector('#route .routehead .pill')?.textContent?.trim() || '',
         summaryStepCount: Number(document.querySelectorAll('#route .route-summary .route-stat b')[2]?.textContent || NaN)
       }));
-      const headingStepMatch = flow.headingStepLabel.match(/^(\\d+)\\s+ULAŞIM ADIMI$/i);
+      const headingStepMatch = flow.headingStepLabel.match(/^(\d+)\s+ULAŞIM ADIMI$/i);
       const stepCountConsistent = headingStepMatch
         ? Number(headingStepMatch[1]) === flow.summaryStepCount
         : flow.headingStepLabel === 'PRATİK ROTA';
