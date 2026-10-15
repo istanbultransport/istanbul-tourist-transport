@@ -42,6 +42,15 @@ try {
   const searchCount = await page.locator('#list .place[data-id]').count();
   record('business search filters by exact name', searchCount === 1 && await page.locator('#list .place[data-id]').getAttribute('data-id') === 'karakoy_lokantasi');
   await page.locator('#startPlaceSearch').fill('');
+  // Reassert the all-places filter and wait for the debounced search results before
+  // selecting the next route; without this synchronization the initial route click
+  // can race the list refresh in CI.
+  await page.locator('.filter[data-filter="Tümü"]').click();
+  await page.waitForFunction(() =>
+    document.querySelector('#list .place[data-id="kadikoy_carsi"]') !== null,
+    null,
+    { timeout: 10000 }
+  );
 
   // Select canonical origin/target through the UI and assert the JS state retained IDs/coordinates.
   await page.locator('#list .place[data-id="kadikoy_carsi"]').click();
