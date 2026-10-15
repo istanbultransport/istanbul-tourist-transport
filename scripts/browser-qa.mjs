@@ -155,7 +155,7 @@ try {
   }
   record('all end-to-end UI route flows loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 47, 'count='+cases.routeCases.length);
 
-  record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 46, 'count='+cases.routeCases.length);
+  record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 47, 'count='+cases.routeCases.length);
 
   // Atatürk Kent Ormanı: the Hacıosman M2 access is roughly an 8-minute walk, not 1 minute.
   const forestRouteAudit = await page.evaluate(() => {
