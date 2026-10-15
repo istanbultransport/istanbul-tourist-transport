@@ -1,16 +1,16 @@
-<!-- V230.12.28-YILDIZ-BUS: <=16 min first station walk auto-start. -->
+<!-- V230.12.29-OLIMPIYAT-BUS: <=16 min first station walk auto-start. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.28-YILDIZ-BUS">
+<meta name="build-id" content="V230.12.29-OLIMPIYAT-BUS">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <title>Istanbul Tourist Transport Planner — V230.12.28</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.28-YILDIZ-BUS';
+  window.__APP_BUILD_ID__='V230.12.29-OLIMPIYAT-BUS';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -2990,6 +2990,25 @@ const lastMileBusRegistry = {
     source: 'İETT U1 official stop sequence; Metro İstanbul M7; Moovit bus-stop walking references',
     verified: true
   },
+  // Source-backed: IETT MK13 runs from Olimpiyatköy Metro to Kuzey Girişi.
+  // Walking estimates are secondary map estimates, not field-surveyed.
+  ataturk_olimpiyat_stadyumu_from_olimpiyat: {
+    key: 'olimpiyat|ataturk_olimpiyat_stadyumu',
+    targetId: 'ataturk_olimpiyat_stadyumu',
+    station: 'olimpiyat',
+    stopName: 'Olimpiyatköy Metro (İETT)',
+    stopQuery: 'Olimpiyatköy Metro, Başakşehir, İstanbul',
+    walkToStopMinutes: 1,
+    line: 'MK13',
+    direction: 'Şahintepe İGTOT',
+    boardStop: 'Olimpiyatköy Metro',
+    alightStop: 'Kuzey Girişi',
+    alightQuery: 'Kuzey Girişi, Başakşehir, İstanbul',
+    targetQuery: 'Atatürk Olimpiyat Stadyumu, Başakşehir, İstanbul',
+    iettUrl: 'https://www.iett.istanbul/EnRouteDetail?hkod=MK13&routename=OL%C4%B0MP%C4%B0YATK%C3%96Y+METRO+-+%C4%B0GTOT',
+    source: 'İETT MK13 official stop sequence (Olimpiyatköy Metro → Kuzey Girişi); Moovit walking estimates (not field-surveyed)',
+    verified: true
+  },
   agva_from_uskudar_marmaray: {
     key: 'uskudar|agva', targetId: 'agva', station: 'uskudar',
     stopName: 'Şemsipaşa', stopQuery: 'Şemsipaşa, Üsküdar, İstanbul',
@@ -4800,6 +4819,27 @@ function lastMilePresentationQA(){
   add('>16-yildiz-palace-official-iett-route-link',
     yildizText.includes('iett.istanbul/RouteDetail?hkod=U1') && !yildizText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),
     yildizText);
+
+  const olimpiyatAccess=getEndAccess('ataturk_olimpiyat_stadyumu') || {station:'olimpiyat',mode:'M9 Metro',label:'Olimpiyat M9',walkMinutes:20};
+  const olimpiyat=lastMileStep(olimpiyatAccess,'ataturk_olimpiyat_stadyumu');
+  const olimpiyatText=String(olimpiyat?.[3]||'');
+  add('>16-ataturk-olimpiyat-verified-MK13-plan',
+    lastMileBusPlanIndex.get('olimpiyat|ataturk_olimpiyat_stadyumu')?.verified===true &&
+    olimpiyatText.includes('MK13 İETT') &&
+    olimpiyatText.includes('Kuzey Girişi') &&
+    olimpiyatText.includes('Atatürk Olimpiyat Stadyumu'),
+    olimpiyatText);
+  add('>16-ataturk-olimpiyat-board-and-target-navigation',
+    olimpiyatText.includes('Olimpiyatköy Metro') &&
+    olimpiyatText.includes('Kuzey Girişi') &&
+    olimpiyatText.includes('otobüs durağına navigasyonu aç') &&
+    olimpiyatText.includes('hedefe navigasyonu aç') &&
+    (olimpiyatText.match(/google\\.com\\/maps\\/dir/g)||[]).length>=2,
+    olimpiyatText);
+  add('>16-ataturk-olimpiyat-official-route-link',
+    olimpiyatText.includes('iett.istanbul/EnRouteDetail?hkod=MK13') &&
+    !olimpiyatText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),
+    olimpiyatText);
 
   const exactKey='qa_exact18_station|__qa_exact18';
   const oldExact=lastMileStationWalkMinutes[exactKey];
