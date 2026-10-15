@@ -111,6 +111,7 @@ try {
         from: start?.id || null,
         to: selectedTarget?.id || null,
         routeText: document.getElementById('route')?.innerText?.trim() || '',
+        routeHtml: document.getElementById('route')?.innerHTML || '',
         stepCards: document.querySelectorAll('#route .step').length,
         headingStepLabel: document.querySelector('#route .routehead .pill')?.textContent?.trim() || '',
         summaryStepCount: Number(document.querySelectorAll('#route .route-summary .route-stat b')[2]?.textContent || NaN)
@@ -134,6 +135,15 @@ try {
         stepCards: flow.stepCards, headingStepLabel: flow.headingStepLabel,
         summaryStepCount: flow.summaryStepCount, routeText: flow.routeText.slice(0, 180)
       }));
+      if (item.id === 'R07') {
+        const pendikBusValid = flow.routeText.includes('KM13') &&
+          flow.routeText.includes('PENDİK YHT İSTASYONU') &&
+          flow.routeText.includes('yürüme süresi doğrulanmadı') &&
+          flow.routeHtml.includes('RouteDetail?hkod=KM13') &&
+          flow.routeHtml.includes('StationDetail?dkod=227794');
+        record('live R07 Pendik YHT exposes official KM13 route and stop links without inventing walk time',
+          pendikBusValid, flow.routeText.slice(-900));
+      }
       if (item.id === 'R27') {
         const modernAccessValid = flow.routeText.includes('Tophane T1') &&
           flow.routeText.includes('4 dakika') && !flow.routeText.includes('Kabataş T1');
