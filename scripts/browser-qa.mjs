@@ -378,6 +378,7 @@ try {
     const navState = await navFailurePage.evaluate(() => {
       const route = document.getElementById('route');
       route.innerHTML = '<div class="timeline"><div class="step now"><a href="https://www.google.com/maps/dir/?api=1&destination=41.0%2C29.0">Yürü — hedefe navigasyonu aç</a></div></div>';
+      route.style.display = 'block';
       window.__ITP_DISABLE_AUTO_WALK_NAV__ = false;
       window.open = () => { throw new Error('popup blocked by deterministic QA'); };
       const path = [['origin','station','Yürüyüş','walk',{walkMinutes:5}],['station','next','M4 Metro','ride']];
