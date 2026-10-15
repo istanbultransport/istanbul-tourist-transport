@@ -4634,7 +4634,8 @@ function lastMilePresentationQA(){
   const bus=lastMileStep(busAccess,'kemerburgaz_kent_ormani');
   const busText=String(bus?.[3]||'');
   add('>16-verified-bus-plan',busText.includes('48G')&&busText.includes('Kent Ormanı'),busText);
-  add('>16-board-stop',busText.includes('Göktürk Deresi - Kemerburgaz Yönü'),busText);
+  add('>16-board-stop',busText.includes('Göktürk Deresi — Kemerburgaz yönü (İETT durak 118272)'),busText);
+  add('>16-boarding-navigation-uses-stop-coordinates',busText.includes('destination=41.17660%2C28.89078')&&lastMileBusPlanIndex.get('gokturk_m11|kemerburgaz_kent_ormani')?.stopCode==='118272',busText);
   add('>16-bus-direction',busText.includes('Mescid-i Selam'),busText);
   add('>16-alight-stop',busText.includes('Kent Ormanı'),busText);
   add('>16-boarding-navigation',busText.includes('otobüs durağına navigasyonu aç'),busText);
