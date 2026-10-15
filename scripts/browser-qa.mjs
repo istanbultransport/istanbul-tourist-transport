@@ -137,16 +137,23 @@ try {
         routeText: document.getElementById('route')?.innerText?.trim() || '',
         routeHtml: document.getElementById('route')?.innerHTML || '',
         stepCards: document.querySelectorAll('#route .step').length,
-        summaryLabels: [...document.querySelectorAll('#route .route-summary .route-stat span')].map(n => n.textContent.trim())
+        summaryLabels: [...document.querySelectorAll('#route .route-summary .route-stat span')].map(n => n.textContent.trim()),
+        headingStepLabel: document.querySelector('#route .routehead .pill')?.textContent?.trim() || '',
+        summaryStepCount: Number(document.querySelectorAll('#route .route-summary .route-stat b')[2]?.textContent || NaN)
       }));
       const hasJourneySummary = ['Tahmini yolculuk','aktarma','ulaşım adımı'].every(label => flow.summaryLabels.includes(label));
+      const headingStepMatch = flow.headingStepLabel.match(/^(\d+)\s+ULAŞIM ADIMI$/i);
+      const stepCountConsistent = headingStepMatch
+        ? Number(headingStepMatch[1]) === flow.summaryStepCount
+        : flow.headingStepLabel === 'PRATİK ROTA';
       const valid = flow.from === item.from && flow.to === item.to &&
         flow.routeText.length > 0 && flow.routeHtml.length > 0 &&
-        flow.stepCards > 0 && hasJourneySummary;
+        flow.stepCards > 0 && hasJourneySummary && stepCountConsistent;
       record('UI route flow '+item.id, valid, JSON.stringify({
         expectedFrom: item.from, actualFrom: flow.from,
         expectedTo: item.to, actualTo: flow.to,
         stepCards: flow.stepCards, summaryLabels: flow.summaryLabels,
+        headingStepLabel: flow.headingStepLabel, summaryStepCount: flow.summaryStepCount,
         routeText: flow.routeText.slice(0, 240)
       }));
     } catch (error) {
@@ -481,9 +488,9 @@ try {
   // Verify service-worker install, core cache population and offline navigation.
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
-  record('versioned PWA cache matches the Yildiz bus release and includes QA fixtures',
-    cacheName === 'itp-v230.12.29-yildizstopstatus-core' &&
-    htmlBuild === 'V230.12.29-YILDIZ-STOP-STATUS' &&
+  record('versioned PWA cache matches the route-step-count release and includes QA fixtures',
+    cacheName === 'itp-v230.12.30-routestepcount-core' &&
+    htmlBuild === 'V230.12.30-ROUTE-STEP-COUNT' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
