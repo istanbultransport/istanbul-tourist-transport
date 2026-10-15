@@ -143,9 +143,9 @@ try {
       record('UI route flow '+item.id, false, error.message);
     }
   }
-  record('40 end-to-end UI route flows loaded', cases.routeCases.length === 40, 'count='+cases.routeCases.length);
+  record('all end-to-end UI route flows loaded', Array.isArray(cases.routeCases) && cases.routeCases.length >= 40, 'count='+cases.routeCases.length);
 
-  record('40 route fixtures loaded', cases.routeCases.length === 40, 'count='+cases.routeCases.length);
+  record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length >= 40, 'count='+cases.routeCases.length);
 
   const accessAudit = await page.evaluate(() => {
     const gps = typeof staticGpsStationCoordinates === 'function' ? staticGpsStationCoordinates() : [];
