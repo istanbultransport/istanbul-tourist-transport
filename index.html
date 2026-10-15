@@ -4789,7 +4789,7 @@ function lastMilePresentationQA(){
   add('>16-yildiz-palace-boarding-stop-and-walk-navigation',
     yildizText.includes('Yıldız Teknik Üniversitesi - Beşiktaş Yönü') &&
     yildizText.includes('otobüs durağına navigasyonu aç') &&
-    yildizText.includes('destination=Y%C4%B1ld%C4%B1z%20Teknik%20Universitesi') || yildizText.includes('destination=Y%C4%B1ld%C4%B1z%20Teknik%20%C3%9Cniversitesi'),
+    (yildizText.includes('destination=Y%C4%B1ld%C4%B1z%20Teknik%20Universitesi') || yildizText.includes('destination=Y%C4%B1ld%C4%B1z%20Teknik%20%C3%9Cniversitesi')),
     yildizText);
   add('>16-yildiz-palace-final-walk-navigation',
     yildizText.includes('hedefe navigasyonu aç') &&
