@@ -2,13 +2,14 @@
 
 ## Current release status — 2026-10-15
 
-Latest main commit checked: `9a351581ce1cc5313d36f0c7e07eddf3354fd40f`.
+Latest main commit checked: `9d4806b82ba755ed8ecec26baabcde9427afa82d`.
 
-- Live smoke QA: **77 passed, 0 failed** (run [38769261332](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38769261332)). Chromium verified that the deployed build marker matches main, all 47 UI route flows render (R01–R47), the Yıldız Sarayı U1 route card includes the expected boarding/last-mile information and two walking-navigation links, the 16-minute boundary accepts 15/16 and rejects 17, the service worker controls the page, the PWA cache matches source, offline app-shell reload works, and no uncaught JavaScript errors were observed.
-- Local automated browser QA: **167 passed, 0 failed**; static QA: **49 passed, 0 failed**. Pages build/deployment succeeded in [run 38769260958](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38769260958).
+- Live smoke QA: **77 passed, 0 failed** (run [38776635455](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38776635455)). Chromium verified that the deployed build marker matches main, all 47 UI route flows render (R01–R47), the Yıldız Sarayı U1 route card includes the expected boarding/last-mile information and two walking-navigation links, the 16-minute boundary accepts 15/16 and rejects 17, the service worker controls the page, the PWA cache matches source, offline app-shell reload works, and no uncaught JavaScript errors were observed.
+- Local automated browser QA: **167 passed, 0 failed**; static QA: **51 passed, 0 failed**. Pages build/deployment succeeded in [run 38776633992](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38776633992).
 - Deployed build marker: `V230.12.28-YILDIZ-BUS`; service-worker cache: `itp-v230.12.28-yildizbus-core`. The latest live smoke confirmed both match the intended release.
 - **Yıldız Sarayı access status:** the app offers a source-backed U1 candidate from Yıldız Teknik Üniversitesi - Beşiktaş Yönü toward Yahya Efendi, with separate boarding-stop and palace walking-navigation links. R47 passed in browser QA and live smoke. The official U1 route/stop sequence is source-checked; the boarding walk and final walking path remain secondary-map estimates, not field-surveyed facts.
-- The all-place coordinate audit lists 217 place cards, 0 missing coordinate pairs and 18 source-cross-checked corrections, but **0 independently verified visitor entrances**. Area/neighborhood coordinates are representative points, not precise entrances.
+- The all-place coordinate audit lists 217 place cards, 0 missing coordinate pairs and 18 source-cross-checked corrections, but **0 independently verified visitor entrances**.
+- Static QA now also asserts that the regression dataset title and manual QA guide match the actual 53-location / 47-route fixture counts; these metadata consistency checks passed on the latest main commit. Area/neighborhood coordinates are representative points, not precise entrances.
 - Station exit names/numbers have source links, but exact pedestrian paths, accessibility/slopes and exit-to-destination walking times still need independent validation. CI/live smoke results are automated browser checks, not physical field tests.
 
 The sections below preserve the historical source audit first written on 2026-10-09; counts in that historical snapshot should not be interpreted as current QA totals.
