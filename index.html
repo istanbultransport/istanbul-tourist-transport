@@ -4789,13 +4789,13 @@ function lastMilePresentationQA(){
   add('>16-yildiz-palace-boarding-stop-and-walk-navigation',
     yildizText.includes('Yıldız Teknik Üniversitesi - Beşiktaş Yönü') &&
     yildizText.includes('otobüs durağına navigasyonu aç') &&
-    yildizText.includes('destination=Y%C4%B1ld%C4%B1z+Teknik+%C3%9Cniversitesi'),
+    yildizText.includes('destination=Y%C4%B1ld%C4%B1z%20Teknik%20Universitesi') || yildizText.includes('destination=Y%C4%B1ld%C4%B1z%20Teknik%20%C3%9Cniversitesi'),
     yildizText);
   add('>16-yildiz-palace-final-walk-navigation',
     yildizText.includes('hedefe navigasyonu aç') &&
-    yildizText.includes('Yahya+Efendi') &&
-    yildizText.includes('Y%C4%B1ld%C4%B1z+Sarayı') &&
-    (yildizText.match(/google\\.com\\/maps\\/dir\\//g)||[]).length>=2,
+    yildizText.includes('Yahya Efendi') &&
+    yildizText.includes('Yıldız Sarayı') &&
+    (yildizText.match(/google\.com\/maps\/dir\//g)||[]).length>=2,
     yildizText);
   add('>16-yildiz-palace-official-iett-route-link',
     yildizText.includes('iett.istanbul/RouteDetail?hkod=U1') && !yildizText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),
