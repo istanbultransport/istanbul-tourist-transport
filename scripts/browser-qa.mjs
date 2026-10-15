@@ -148,6 +148,41 @@ try {
 
   record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length >= 40, 'count='+cases.routeCases.length);
 
+  // Atatürk Kent Ormanı: the Hacıosman M2 access is roughly an 8-minute walk, not 1 minute.
+  const forestRouteAudit = await page.evaluate(() => {
+    const resolve = (from, to) => {
+      let path = route(from, to);
+      if (!path) path = minimumRailRoute(from, to, 4);
+      if (!path) {
+        const candidates = generateRouteCandidates(from, to);
+        path = selectBestRoute(candidates)?.path || candidates?.[0]?.path || null;
+      }
+      return path;
+    };
+    const forward = resolve('istanbul-airport', 'ataturk_kent_ormani');
+    const reverse = resolve('ataturk_kent_ormani', 'istanbul-airport');
+    const access = getEndAccess('ataturk_kent_ormani');
+    return {
+      minutes: getLastMileWalkMinutes(access, 'ataturk_kent_ormani'),
+      forward: forward?.map(s => ({ from:s[0], to:s[1], mode:s[2], text:String(s[3]||'') })) || null,
+      reverse: reverse?.map(s => ({ from:s[0], to:s[1], mode:s[2], text:String(s[3]||'') })) || null
+    };
+  });
+  const f = forestRouteAudit.forward || [];
+  const r = forestRouteAudit.reverse || [];
+  record('Atatürk Kent Ormanı access time is 8 minutes in target data',
+    forestRouteAudit.minutes === 8, JSON.stringify({minutes:forestRouteAudit.minutes}));
+  record('Airport → Atatürk Kent Ormanı uses M11 then M2 and an 8-minute final walk',
+    f.some(s=>s.from==='istanbul-airport'&&s.to==='gayrettepe'&&s.mode==='M11 Metro') &&
+    f.some(s=>s.from==='gayrettepe'&&s.to==='haciosman_hub'&&s.mode==='M2 Metro') &&
+    f.some(s=>s.mode==='Son ulaşım'&&s.text.includes('8 dakika')),
+    JSON.stringify(f.map(s=>({from:s.from,to:s.to,mode:s.mode,text:s.text.slice(0,100)}))));
+  record('Atatürk Kent Ormanı → Airport starts with an 8-minute walk then M2 and M11',
+    r[0]?.from==='ataturk_kent_ormani'&&r[0]?.to==='haciosman_hub'&&r[0]?.mode==='Yürüyüş'&&r[0]?.text.includes('8 dakika') &&
+    r.some(s=>s.from==='haciosman_hub'&&s.to==='gayrettepe'&&s.mode==='M2 Metro') &&
+    r.some(s=>s.from==='gayrettepe'&&s.to==='istanbul-airport'&&s.mode==='M11 Metro'),
+    JSON.stringify(r.map(s=>({from:s.from,to:s.to,mode:s.mode,text:s.text.slice(0,100)}))));
+
   // First-station walk auto-start policy: <=15 min qualifies; unknown, >15 min,
   // non-walk first steps, and walks not followed by main transit must not qualify.
   const firstWalkPolicy = await page.evaluate(() => ({
