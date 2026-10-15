@@ -2,13 +2,13 @@
 
 ## Current release status — 2026-10-15
 
-Latest main commit checked: `20479bb7d459ba95ca0dbbcf16cd23abd175b4a4`.
+Latest main commit checked: `eadb9d701c166fec9c8d5a8359022609f3a4904e`.
 
-- Live smoke QA: **24 passed, 0 failed** (run [38755085115](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38755085115)). Chromium verified the deployed build marker matches main, the service worker controls the page, the PWA cache version matches the source, offline app-shell reload works, and no uncaught/console JavaScript errors were observed.
+- Live smoke QA: **75 passed, 0 failed** (run [38761270536](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38761270536)). Chromium verified the deployed build marker matches main, the service worker controls the page, the PWA cache version matches the source, offline app-shell reload works, all 46 existing UI route flows render, and no uncaught/console JavaScript errors were observed.
 - Local automated browser QA: **161 passed, 0 failed**; static QA: **49 checks passed**.
 - The deployed build marker is `V230.12.27-ACCESS-16MIN`; expected and live markers matched in the latest run.
 - The 16-minute walking boundary and fallback handling are covered by automated tests. This does **not** prove every real-world route or physical entrance has been field-verified.
-- **Open route-data gap:** Yıldız Sarayı's curated walk from Yıldız M7 is 22 minutes. The application explicitly says that no verified bus connection is available; no bus line or stop should be invented. A source-backed, genuinely shorter alternative remains to be researched and validated.
+- **Open route-data gap:** Yıldız Sarayı's curated walk from Yıldız M7 is 22 minutes. The application explicitly says that no verified bus connection is available; no bus line or stop should be invented. İETT U1/U2 route pages list stops around Çırağan/Yahya Efendi and Yıldız Teknik Üniversitesi, but available evidence does not yet establish a genuinely shorter station-to-entrance bus journey. Added regression R47 to make this gap visible in the route suite; the entrance and walking path remain unverified.
 - The all-place coordinate audit lists 217 place cards, 0 missing coordinate pairs, 18 source-cross-checked corrections, but **0 independently verified visitor entrances**. Area/neighborhood coordinates are representative points, not precise entrances.
 - Station exit names and numbers have source links, but entrance accessibility, exact pedestrian paths, slopes and all walking times still need independent validation. Current CI/live smoke results are automated browser checks, not physical field tests.
 
