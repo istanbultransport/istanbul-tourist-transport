@@ -2278,7 +2278,7 @@ function adaptiveStartAccessSteps(placeId,access){
   if(access?.type==='walk'){
     const destination=(Number.isFinite(Number(access.lat))&&Number.isFinite(Number(access.lng))) ? `${access.lat},${access.lng}` : `${access.label}, İstanbul`;
     const nav=currentLocationWalkingNavUrl(destination);
-    return [[placeId,access.station,'Yürüyüş',`🚶 <b>${from}</b> noktasından <b>${access.label}</b> istasyonuna yaklaşık <b>${Math.round(access.walkMinutes)} dakika</b> yürüyün.<br>${nav ? `<a class="current-location-nav" href="${nav}" target="_blank" rel="noopener noreferrer">🚶 Yürü — istasyona navigasyonu aç</a>`:''}`,{adaptiveStartWalk:true,walkMinutes:Number(access.walkMinutes),walkSource:access.walkSource||null,walkStationLabel:access.label,walkStationMode:access.mode,walkStationLat:Number(access.lat),walkStationLng:Number(access.lng)}]];
+    return [[placeId,access.station,'Yürüyüş',`🚶 <b>${from}</b> noktasından <b>${access.label}</b> istasyonuna yaklaşık <b>${Math.round(access.walkMinutes)} dakika</b> yürüyün.<br>${nav ? `<a class="current-location-nav" href="${nav}" target="_blank" rel="noopener noreferrer">🚶‍♀️🚶‍♂️ Hedefinize yürüyerek ulaşmak için tıklayınız.</a>`:''}`,{adaptiveStartWalk:true,walkMinutes:Number(access.walkMinutes),walkSource:access.walkSource||null,walkStationLabel:access.label,walkStationMode:access.mode,walkStationLat:Number(access.lat),walkStationLng:Number(access.lng)}]];
   }
   if(access?.type==='feeder' && access.feeder){
     const nav=currentLocationWalkingNavUrl(access.stopQuery);
@@ -2292,7 +2292,7 @@ function adaptiveStartAccessSteps(placeId,access){
 function localAccessSteps(placeId, access){
   if(access?.routeSpecific==='arap-camii-akm'){
     const destination='Şişhane M2';
-    return [[placeId,access.station,'Yürüyüş',`🚶 <b>Arap Camii</b> noktasından <b>${destination}</b> istasyonuna yürüyerek ulaş.<br>${currentLocationWalkingNavLink(destination,'🚶 Yürü — istasyona navigasyonu aç')}`]];
+    return [[placeId,access.station,'Yürüyüş',`🚶 <b>Arap Camii</b> noktasından <b>${destination}</b> istasyonuna yürüyerek ulaş.<br>${currentLocationWalkingNavLink(destination,'🚶‍♀️🚶‍♂️ Hedefinize yürüyerek ulaşmak için tıklayınız.')}`]];
   }
   if(access?.adaptiveStart) return adaptiveStartAccessSteps(placeId,access);
   // Otel gibi fiziksel başlangıç noktalarında, raylı sisteme erişim mutlaka
@@ -2852,7 +2852,7 @@ function targetAccessStep(access, targetId){
 function hotelWalkingAccessText(hotelName, hotelPoint, stationLabel, minutes){
   const destination=`${stationLabel} İstanbul`;
   const url=currentLocationWalkingNavUrl(destination);
-  return `<b>📍 ${hotelName}</b> noktasından <b>${stationLabel}</b> istasyonuna yaklaşık <b>${minutes} dakika yürüyün.</b><br>${currentLocationWalkingNavLink(destination,'🚶 Yürü — istasyona navigasyonu aç')}`;
+  return `<b>📍 ${hotelName}</b> noktasından <b>${stationLabel}</b> istasyonuna yaklaşık <b>${minutes} dakika yürüyün.</b><br>${currentLocationWalkingNavLink(destination,'🚶‍♀️🚶‍♂️ Hedefinize yürüyerek ulaşmak için tıklayınız.')}`;
 }
 
 /* V225 IETT stop registry — official stop-code references used by local bus access flows.
