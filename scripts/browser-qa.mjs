@@ -508,8 +508,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the Istanbul Modern Tophane-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.31-istanbulmodern-core' &&
-    htmlBuild === 'V230.12.31-ISTANBULMODERN' &&
+    cacheName === 'itp-v230.12.32-pendikyht-core' &&
+    htmlBuild === 'V230.12.32-PENDIK-YHT-BUS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
