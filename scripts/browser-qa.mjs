@@ -498,9 +498,9 @@ try {
   // Verify service-worker install, core cache population and offline navigation.
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
-  record('versioned PWA cache matches the route-step-count release and includes QA fixtures',
-    cacheName === 'itp-v230.12.30-routestepcount-core' &&
-    htmlBuild === 'V230.12.30-ROUTE-STEP-COUNT' &&
+  record('versioned PWA cache matches the Istanbul Modern Tophane-access release and includes QA fixtures',
+    cacheName === 'itp-v230.12.31-istanbulmodern-core' &&
+    htmlBuild === 'V230.12.31-ISTANBULMODERN' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
