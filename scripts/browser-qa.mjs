@@ -517,7 +517,7 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the Istanbul Modern Tophane-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.33-ciya-first-mile-core' &&
+    cacheName === 'itp-v230.12.33-ciya-core' &&
     htmlBuild === 'V230.12.33-CIYA-FIRST-MILE' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
