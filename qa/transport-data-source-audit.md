@@ -2,13 +2,13 @@
 
 ## Current release status — 2026-10-15
 
-Latest main commit checked: `20479bb7d459ba95ca0dbbcf16cd23abd175b4a4`.
+Latest main commit checked: `218318da544d06bc78036b71b81e66df8191ddf6`.
 
-- Live smoke QA: **24 passed, 0 failed** (run [38755085115](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38755085115)). Chromium verified the deployed build marker matches main, the service worker controls the page, the PWA cache version matches the source, offline app-shell reload works, and no uncaught/console JavaScript errors were observed.
+- Live smoke QA: **76 passed, 0 failed** (run [38768298920](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38768298920)). Chromium verified the deployed build marker matches main, the service worker controls the page, the PWA cache version matches the source, offline app-shell reload works, all 46 existing UI route flows render, the Yıldız Sarayı U1 route card and both walking-navigation links appear, and no uncaught/console JavaScript errors were observed.
 - Local automated browser QA: **161 passed, 0 failed**; static QA: **49 checks passed**.
-- The deployed build marker is `V230.12.27-ACCESS-16MIN`; expected and live markers matched in the latest run.
+- The deployed build marker is `V230.12.28-YILDIZ-BUS`; expected and live markers matched in the latest run.
 - The 16-minute walking boundary and fallback handling are covered by automated tests. This does **not** prove every real-world route or physical entrance has been field-verified.
-- **Open route-data gap:** Yıldız Sarayı's curated walk from Yıldız M7 is 22 minutes. The application explicitly says that no verified bus connection is available; no bus line or stop should be invented. A source-backed, genuinely shorter alternative remains to be researched and validated.
+- **Yıldız Sarayı access status:** the app now offers a source-backed U1 candidate from Yıldız Teknik Üniversitesi - Beşiktaş Yönü toward Yahya Efendi, with separate boarding-stop and palace walking-navigation links. Live smoke verified the visible U1 route card and links. The official U1 route/stop sequence is source-checked; the 6-minute boarding walk and final walking path are secondary-map estimates and have not been field-surveyed. R47 adds this route to the ongoing regression suite.
 - The all-place coordinate audit lists 217 place cards, 0 missing coordinate pairs, 18 source-cross-checked corrections, but **0 independently verified visitor entrances**. Area/neighborhood coordinates are representative points, not precise entrances.
 - Station exit names and numbers have source links, but entrance accessibility, exact pedestrian paths, slopes and all walking times still need independent validation. Current CI/live smoke results are automated browser checks, not physical field tests.
 

@@ -527,6 +527,22 @@
       "source": "existing-catalog",
       "lat": 41.1343,
       "lng": 29.0321
+    },
+    {
+      "id": "yildiz_sarayi",
+      "name": "Yıldız Sarayı",
+      "type": "tourist-attraction",
+      "side": "Avrupa Yakası",
+      "source": "existing-catalog",
+      "lat": 41.046,
+      "lng": 29.007,
+      "coordinateStatus": "catalogue-point-not-verified-visitor-entrance",
+      "verification": "Catalogue coordinate only. Exact visitor entrance and pedestrian path require independent verification. The U1 route/stop sequence is source-backed; walking times remain secondary-map estimates, not a field survey.",
+      "sources": [
+        "https://www.metro.istanbul/Hatlarimiz/HatDetay?hat=M7",
+        "https://iett.istanbul/RouteDetail?hkod=U1&routename=besiktas-ulus",
+        "https://moovitapp.com/index/tr/toplu_ta%C5%9F%C4%B1ma-Y%C4%B1ld%C4%B1z_Saray%C4%B1_Milli_Saraylar-Istanbul-site_43221241-1563"
+      ]
     }
   ],
   "routeCases": [
@@ -805,6 +821,12 @@
       "from": "ataturk_kent_ormani",
       "to": "istanbul-airport",
       "focus": "Atatürk Kent Ormanı → İstanbul Havalimanı; başlangıç yürüyüşü ve ters yönde M2→M11 bağlantısı."
+    },
+    {
+      "id": "R47",
+      "from": "taksim_meydani",
+      "to": "yildiz_sarayi",
+      "focus": "Taksim → Yıldız Sarayı; canlı rota akışı, U1 alternatifi, Yıldız Teknik Üniversitesi biniş durağı, Yahya Efendi iniş durağı ve iki yürüyüş navigasyon bağlantısı."
     }
   ],
   "perCaseChecks": [
