@@ -4647,7 +4647,7 @@ function lastMilePresentationQA(){
 
   const exactKey='qa_exact18_station|__qa_exact18';
   const oldExact=lastMileStationWalkMinutes[exactKey];
-  lastMileStationWalkMinutes[exactKey]=18;
+  lastMileStationWalkMinutes[exactKey]=16;
   const exact=lastMileStep({station:'qa_exact18_station',mode:'M2 Metro',label:'QA Exact18'},'__qa_exact18');
   const exactText=String(exact?.[3]||'');
   add('exactly-16-walk-only',exactText.includes('yaklaşık <b>16 dakika</b> yürümelisiniz.')&&!exactText.includes('48G'),exactText);
