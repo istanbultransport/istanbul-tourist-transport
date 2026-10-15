@@ -121,6 +121,10 @@ if (regression) {
   }
 }
 
+const forestAccessRows = [...html.matchAll(/ataturk_kent_ormani:\{station:'haciosman_hub',mode:'M2 Metro',label:'Hacıosman M2',stationOnly:true,walkMinutes:8\}/g)];
+check('Atatürk Kent Ormanı start/end access both use Hacıosman M2 and 8-minute walk', forestAccessRows.length === 2);
+check('Atatürk Kent Ormanı legacy last-mile walk time matches the 8-minute access record', /ataturk_kent_ormani:\s*8\s*,/.test(html));
+
 console.log(`Static QA: ${pass.length} passed, ${fail.length} failed`);
 for (const name of pass) console.log(`PASS  ${name}`);
 for (const name of fail) console.error(`FAIL  ${name}`);
