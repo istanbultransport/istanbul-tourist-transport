@@ -1,4 +1,4 @@
-<!-- V230.12.26-AUTO-FIRST-WALK-NAV: <=15 min first station walk auto-start. -->
+<!-- V230.12.26-AUTO-FIRST-WALK-NAV: <=16 min first station walk auto-start. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -2203,7 +2203,7 @@ async function buildAdaptiveStartAccess(placeId,target,origin){
     const base=getStartRailAccess(placeId);
     if(base?.station && Number.isFinite(Number(base.walkMinutes))){
       const coord=stationCoordinateForAdaptiveAccess(base.station,base.mode);
-      if(Number(base.walkMinutes)<=15) return {type:'walk',station:base.station,mode:base.mode,label:base.label,lat:coord?.lat,lng:coord?.lng,walkMinutes:Number(base.walkMinutes),walkDistanceKm:null,walkSource:'existing_verified_access_registry',path:null,adaptiveStart:true,direct:false};
+      if(Number(base.walkMinutes)<=16) return {type:'walk',station:base.station,mode:base.mode,label:base.label,lat:coord?.lat,lng:coord?.lng,walkMinutes:Number(base.walkMinutes),walkDistanceKm:null,walkSource:'existing_verified_access_registry',path:null,adaptiveStart:true,direct:false};
       return {type:'no-feeder',station:base.station,mode:base.mode,label:base.label,lat:coord?.lat,lng:coord?.lng,walkMinutes:Number(base.walkMinutes),walkDistanceKm:null,walkSource:'existing_verified_access_registry',path:null,adaptiveStart:true,direct:false};
     }
     return null;
@@ -2223,13 +2223,13 @@ async function buildAdaptiveStartAccess(placeId,target,origin){
   // normal scoring so a failed/weak scoring signal cannot silently revert to
   // the nearest station.
   if(target?.id==='istanbul-airport'){
-    const sameNodeMarmaray=scored.find(c=>c.mode==='Marmaray' && c.walkMinutes<=15 && c.path &&
+    const sameNodeMarmaray=scored.find(c=>c.mode==='Marmaray' && c.walkMinutes<=16 && c.path &&
       scored.some(x=>x!==c && x.station===c.station && x.mode==='M4 Metro' && x.path));
     if(sameNodeMarmaray){
       return {type:'walk',...sameNodeMarmaray,adaptiveStart:true,direct:false,boardingPreference:'same-node-marmaray-airport'};
     }
   }
-  const direct=scored.filter(c=>c.walkMinutes<=15).sort((a,b)=>a.score-b.score||a.walkMinutes-b.walkMinutes)[0];
+  const direct=scored.filter(c=>c.walkMinutes<=16).sort((a,b)=>a.score-b.score||a.walkMinutes-b.walkMinutes)[0];
   if(direct) return {type:'walk',...direct,adaptiveStart:true,direct:false};
   for(const c of scored.sort((a,b)=>a.score-b.score)){
     const feeders=verifiedFeederCandidates(placeId,c.station);
@@ -2667,20 +2667,25 @@ function lastMileStep(access,targetId){
   const mins=getLastMileWalkMinutes(access,targetId);
   const nav=lastMileTargetNavigationHtml(access,targetId,target);
 
-  // Son ulaşım kartı iki cümleyle sınırlı: istasyon durumu ve yürüyüş talimatı.
-  // Ayrı "yürüyebilirsiniz" satırı kaldırıldı; navigasyon bağlantısı ikinci cümleye eklenir.
-  if(Number.isFinite(Number(mins)) && Number(mins)<=18){
+  // Ortak erişim eşiği: 16 dakika dahil yürüyüş; 16 dakikadan uzunsa doğrulanmış otobüs planını kullan.
+  const busPlan=lastMileBusPlanFor(access,targetId);
+  if(busPlan && (!Number.isFinite(Number(mins)) || Number(mins)>16)){
+    return [access.station,targetId,'Son ulaşım',
+      `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${renderLastMileBusPlan(busPlan,target)}`];
+  }
+  if(Number.isFinite(Number(mins)) && Number(mins)<=16){
     const walkSentence=`🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine <b>yaklaşık ${Math.round(Number(mins))} dakika yürümelisiniz.</b>`;
     return [access.station,targetId,'Son ulaşım',
       `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} ${nav}`];
   }
 
-  // Süre doğrulanmamış/uzun olsa bile uydurma aktarma veya araç önerisi üretme.
+  // 16 dakikayı aşan erişimde doğrulanmış otobüs kaydı yoksa hat uydurma.
   const walkSentence=Number.isFinite(Number(mins))
-    ? `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine <b>yaklaşık ${Math.round(Number(mins))} dakika yürümelisiniz.</b>`
-    : `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yürüyerek ulaşın; yürüyüş süresini navigasyondan kontrol edin.`;
+    ? `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yaklaşık <b>${Math.round(Number(mins))} dakika</b> yürüyüş var.`
+    : `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yürüyüş süresi doğrulanamadı.`;
+  const fallback=Number.isFinite(Number(mins)) ? ` ${nav}` : ` Doğrulanmış yaya süresi bulunamadığından tahmini süre vermiyorum.`;
   return [access.station,targetId,'Son ulaşım',
-    `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} ${nav}`];
+    `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} 16 dakikayı aşan bu erişim için doğrulanmış otobüs bağlantısı bulunamadı; yanlış hat önermiyorum.${fallback}`];
 }
 
 const touristWalkDistanceKmMap = {
@@ -4571,7 +4576,7 @@ function shouldAutoStartFirstStationWalk(path){
   const mins=explicit!==null && explicit!==undefined && Number.isFinite(Number(explicit))
     ? Number(explicit)
     : touristWalkTime(first[0],first[1]);
-  if(mins===null||mins===undefined||!Number.isFinite(Number(mins))||Number(mins)>15||Number(mins)<0) return false;
+  if(mins===null||mins===undefined||!Number.isFinite(Number(mins))||Number(mins)>16||Number(mins)<0) return false;
   return isPrimaryTransitMode(next[2]);
 }
 function autoStartFirstStationNavigation(path){
@@ -4789,7 +4794,7 @@ function resolveCurrentLocationStation(stationsOverride=null){
   }
   if(!best) return null;
   const walkMinutes=Math.max(1,Math.round(best.distanceKm*1000/80));
-  if(walkMinutes>15) return null;
+  if(walkMinutes>16) return null;
   return best;
 }
 
@@ -4803,7 +4808,7 @@ function currentLocationAccessCandidates(target){
     // Yürüyüş erişiminde 15 dakikaya kadar gerçek raylı sistem adaylarını
     // değerlendirelim. Bu sert bir seçim değil; yalnızca aday havuzudur.
     const walkMinutes=Math.max(1,Math.round(distanceKm*1000/80));
-    if(walkMinutes>15) continue;
+    if(walkMinutes>16) continue;
     const key=`${st.station}|${st.mode}`;
     if(seen.has(key)) continue;
     seen.add(key);
@@ -4880,7 +4885,7 @@ function useCurrentLocation(){
       const lowAccuracy=Number.isFinite(Number(currentLocation.accuracy)) && Number(currentLocation.accuracy)>1000;
       setLocationStatus(lowAccuracy
         ? `📍 GPS alındı ancak doğruluk düşük (±${Math.round(currentLocation.accuracy)} m). Telefonunda/Chrome'da konum hizmetini açıp tekrar dene.`
-        : '📍 Konum alındı ancak 15 dakika yürüme içinde doğrulanabilir bir raylı sistem istasyonu bulunamadı. Başlangıç istasyonunu arama kutusundan seçebilirsin.');
+        : '📍 Konum alındı ancak 16 dakika yürüme içinde doğrulanabilir bir raylı sistem istasyonu bulunamadı. Başlangıç istasyonunu arama kutusundan seçebilirsin.');
       resetCurrentLocationButton();return;
     }
     start={id:'current_location',name:'Mevcut konumum',side:'İstanbul',emoji:'📍',desc:'Telefonun konumundan alındı',isCurrentLocation:true};
