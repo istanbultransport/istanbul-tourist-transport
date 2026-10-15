@@ -4613,7 +4613,7 @@ function lastMilePresentationQA(){
   const add=(name,ok,detail)=>{out.tests.push({name,ok,detail});if(!ok){out.status='FAIL';out.failures.push({name,detail});}};
   const short=lastMileStep({station:'halic',mode:'M2 Metro',label:'Haliç M2',local:true},'arap_camii');
   const shortText=String(short?.[3]||'');
-  add('<=16-has-walk-time',/yaklaşık <b>2 dakika<\/b> yürümelisiniz/.test(shortText),shortText);
+  add('<=16-has-walk-time',/<b>yaklaşık 2 dakika yürümelisiniz\.<\/b>/.test(shortText),shortText);
   add('<=16-no-bus-warning',!shortText.includes('Otobüsle devam edebilirsiniz.'),shortText);
   add('<=16-no-ride-warning',!shortText.includes('Uber')&&!shortText.includes('Yandex Go')&&!shortText.includes('Martı TAG'),shortText);
   add('<=16-has-target-navigation',shortText.includes('google.com/maps/dir/'),shortText);
@@ -4650,7 +4650,7 @@ function lastMilePresentationQA(){
   lastMileStationWalkMinutes[exactKey]=16;
   const exact=lastMileStep({station:'qa_exact18_station',mode:'M2 Metro',label:'QA Exact18'},'__qa_exact18');
   const exactText=String(exact?.[3]||'');
-  add('exactly-16-walk-only',exactText.includes('yaklaşık <b>16 dakika</b> yürümelisiniz.')&&!exactText.includes('48G'),exactText);
+  add('exactly-16-walk-only',exactText.includes('<b>yaklaşık 16 dakika yürümelisiniz.</b>')&&!exactText.includes('48G'),exactText);
   if(oldExact===undefined) delete lastMileStationWalkMinutes[exactKey]; else lastMileStationWalkMinutes[exactKey]=oldExact;
 
   return out;
