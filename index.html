@@ -4730,6 +4730,30 @@ function lastMilePresentationQA(){
     (betText.match(/google\.com\/maps\/dir\//g)||[]).length>=2,
     betText);
 
+  // Audit every curated legacy long-walk target against the station actually selected.
+  // The old target-only value must not override a station-specific duration.
+  for(const [targetId,legacyMinutes] of Object.entries(lastMileWalkMinutes||{})){
+    if(!hasKnownWalkMinutes(legacyMinutes)||Number(legacyMinutes)<=16) continue;
+    const access=getEndAccess(targetId);
+    add(`>16-registry-target-${targetId}-has-access`,!!access?.station,JSON.stringify({targetId,access}));
+    if(!access?.station) continue;
+    const actualMinutes=getLastMileWalkMinutes(access,targetId);
+    if(!hasKnownWalkMinutes(actualMinutes)||Number(actualMinutes)<=16) continue;
+    const plan=lastMileBusPlanFor(access,targetId);
+    const rendered=String(lastMileStep(access,targetId)?.[3]||'');
+    const safe=plan
+      ? rendered.includes('otobüs durağına navigasyonu aç')&&rendered.includes('hedefe navigasyonu aç')&&rendered.includes('iett.istanbul')
+      : rendered.includes('doğrulanmış otobüs bağlantısı bulunamadı');
+    add(`>16-registry-target-${targetId}-bus-or-explicit-fallback`,safe,rendered);
+  }
+  // Every curated tourist access estimate over 16 minutes must have a verified bus plan.
+  for(const [key,minutes] of Object.entries(touristWalkMinutes||{})){
+    if(!hasKnownWalkMinutes(minutes)||Number(minutes)<=16) continue;
+    const [station,targetId]=key.split('|');
+    const plan=lastMileBusPlanFor({station,label:nodeLabel(station)},targetId);
+    add(`>16-curated-tourist-walk-${key}-has-verified-bus`,!!plan,plan?.line||'No verified bus plan');
+  }
+
   const fallbackAccess=getEndAccess('yildiz_sarayi') || {station:'yildiz',mode:'M7 Metro',label:'Yıldız M7'};
   const fallback=lastMileStep(fallbackAccess,'yildiz_sarayi');
   const fallbackText=String(fallback?.[3]||'');
