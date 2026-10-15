@@ -1,23 +1,23 @@
-# 52-place / 46-route manual regression
+# 53-place / 47-route manual regression
 
 ## Purpose
-Run a controlled no-paid-API regression pass before deciding whether to integrate Google Places. Dataset: `qa/location-regression-cases.json` (52 places, 46 route scenarios).
+Run a controlled no-paid-API regression pass before deciding whether to integrate Google Places. Dataset: `qa/location-regression-cases.json` (53 places, 47 route scenarios).
 
 ## Coverage and limits
-- 46 entries match the current in-app place catalogue by ID/name and have the catalogue's stored coordinates.
+- 47 entries match the current in-app place catalogue by ID/name and have the catalogue's stored coordinates.
 - Three business records are integrated into the in-app catalogue and route selection: Four Seasons Hotel Istanbul at Sultanahmet, Karaköy Lokantası and Çiya Sofrası. Their coordinates are cross-checked but have not been field-surveyed. Faros Karaköy remains excluded from production selection because its point is approximate; it stays a non-runnable gap probe.
-- This dataset is a **test plan**; CI verifies the source and a browser QA page exercises all 46 route fixtures (R01–R46). Hosted-browser/field validation is still required before claiming production readiness.
+- This dataset is a **test plan**; CI verifies the source and a browser QA page exercises all 47 route fixtures (R01–R47). Hosted-browser/field validation is still required before claiming production readiness.
 - Do not invent coordinates, station choices, walking times, or ETAs. Verify business identity and route details against reliable current sources during execution.
 - A test passes only after it is performed in the deployed browser and its visible output is checked. Static QA alone does not prove live interaction works.
 
 ## Execution order
 1. Record deployed build ID and confirm it matches the intended GitHub commit.
 2. Open the live app in a fresh browser session; record whether place cards and search are visible.
-3. For each route case R01–R46, set the origin and destination, calculate the route, and record the actual result.
+3. For each route case R01–R47, set the origin and destination, calculate the route, and record the actual result.
 4. Verify origin/destination identity, coordinates or place ID handoff, selected station, transfers, pier/exit instructions, walking time, and error handling.
 5. Repeat the route with origin/destination reversed when meaningful.
 6. Test clear/reset, rapid repeated search, and mobile layout.
-7. Fix each failure, rerun the failed case, then rerun all 46 cases as regression.
+7. Fix each failure, rerun the failed case, then rerun all 47 cases as regression.
 8. Separately test PWA cache/offline behavior after route regression passes.
 
 ## Result record
