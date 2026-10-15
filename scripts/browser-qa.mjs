@@ -168,6 +168,7 @@ try {
       if(item.id==='R21'){
         const routeSummary=flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0]||'';
         const verifiedMarriottAccess=flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&
+          flow.routeText.includes('M8 Metro') && flow.routeText.includes('Bostancı M8') && flow.routeText.includes('Bostancı M4') &&
           !flow.routeText.includes('13 dakika yürüyün') && !routeSummary.includes('Kozyatağı M4\n↓\nKozyatağı M4');
         record('R21 preserves verified Marriott-to-M8 access and avoids duplicate station summary',verifiedMarriottAccess,flow.routeText.slice(0,1200));
       }
@@ -514,8 +515,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the Istanbul Modern Tophane-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.33-marriottaccess-core' &&
-    htmlBuild === 'V230.12.33-MARRIOTT-ACCESS' &&
+    cacheName === 'itp-v230.12.34-marriottmode-core' &&
+    htmlBuild === 'V230.12.34-MARRIOTT-MODE' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {

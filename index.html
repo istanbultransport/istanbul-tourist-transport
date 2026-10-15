@@ -1,16 +1,16 @@
-<!-- V230.12.33-MARRIOTT-ACCESS: source-backed KM13 surface transfer; boarding walk remains unverified. -->
+<!-- V230.12.34-MARRIOTT-MODE: source-backed KM13 surface transfer; boarding walk remains unverified. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.33-MARRIOTT-ACCESS">
+<meta name="build-id" content="V230.12.34-MARRIOTT-MODE">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.33</title>
+<title>Istanbul Tourist Transport Planner — V230.12.34</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.33-MARRIOTT-ACCESS';
+  window.__APP_BUILD_ID__='V230.12.34-MARRIOTT-MODE';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -5376,7 +5376,9 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
  // rota motorunun kullandığı gerçek ağ düğümü (ör. pendik, uskudar) aynı olmayabilir.
  // Başlangıç durağını rota motoruna gerçek istasyon düğümü olarak gönder.
  const startNode=gpsStation?.station || stationSearchAccess[start.id]?.station || start.id;
- const selectedStartMode=gpsStation?.mode || stationSearchAccess[start.id]?.mode || (start.id==='pendik_yht' ? 'Pendik YHT' : null);
+ const registeredStartAccess=typeof startLocalAccessRegistry!=='undefined' ? startLocalAccessRegistry[start.id] : null;
+ const registeredStartMode=registeredStartAccess?.accessType==='verified_walk' && railLines?.[registeredStartAccess.mode] ? registeredStartAccess.mode : null;
+ const selectedStartMode=gpsStation?.mode || stationSearchAccess[start.id]?.mode || registeredStartMode || (start.id==='pendik_yht' ? 'Pendik YHT' : null);
  // GPS başlangıcında geçici UI start nesnesi kullanılır; hat bilgisi gpsStation.mode'dan korunur.
  // Böylece Pendik M4, Pendik Marmaray gibi aynı node'u paylaşan ama doğrulanmamış
  // hat sıçramaları için genel graph fallback'i devreye girmez.
