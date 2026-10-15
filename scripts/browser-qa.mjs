@@ -342,7 +342,8 @@ try {
           { station: 'pendik', lat: 40.88024, lng: 29.23165, tolerance: 20 },
           { station: 'erenkoy_m', lat: 40.97167, lng: 29.07638, tolerance: 10 },
           { station: 'sogutlucesme', lat: 40.99065, lng: 29.03791, tolerance: 75 },
-          { station: 'ayrilik', lat: 41.00015, lng: 29.03010, tolerance: 60 }
+          { station: 'ayrilik', lat: 41.00015, lng: 29.03010, tolerance: 60 },
+          { station: 'feneryolu_m', lat: 40.97880, lng: 29.04883, tolerance: 30 }
         ];
         return targets.every(target => {
           const row = gps.find(item => item.station === target.station && item.mode === 'Marmaray');
@@ -383,7 +384,7 @@ try {
   record('M11 Kağıthane fallback targets geotagged Entrance 1', accessAudit.kagithaneM11EntranceOk);
   record('M11 Kayaşehir entrance is distinct from M3 Kayaşehir Merkez', accessAudit.kayasehirM11EntranceOk);
   record('four same-name cross-line station coordinate pairs preserve correct geometry', accessAudit.crossLineStationPairsOk);
-  record('four Marmaray station nodes remain within secondary-map tolerances', accessAudit.marmarayNodeChecksOk);
+  record('five Marmaray station nodes remain within secondary-map tolerances', accessAudit.marmarayNodeChecksOk);
   record('four M11/M3/M7/M9 line-specific points preserve expected geometry', accessAudit.m11LinePairGeometryOk);
   record('station exit registry entries have names and IDs', accessAudit.exitsOk);
   record('Metro İstanbul exit records link authoritative source PDF', accessAudit.exitSourcesOk);
@@ -481,9 +482,9 @@ try {
   // Verify service-worker install, core cache population and offline navigation.
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
-  record('versioned PWA cache matches the Yildiz bus release and includes QA fixtures',
-    cacheName === 'itp-v230.12.28-yildizbus-core' &&
-    htmlBuild === 'V230.12.28-YILDIZ-BUS' &&
+  record('versioned PWA cache matches the Feneryolu GPS release and includes QA fixtures',
+    cacheName === 'itp-v230.12.29-feneryolu-core' &&
+    htmlBuild === 'V230.12.29-FENERYOLU-GPS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {

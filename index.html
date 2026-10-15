@@ -1,16 +1,16 @@
-<!-- V230.12.28-YILDIZ-BUS: <=16 min first station walk auto-start. -->
+<!-- V230.12.29-FENERYOLU-GPS: <=16 min first station walk auto-start. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.28-YILDIZ-BUS">
+<meta name="build-id" content="V230.12.29-FENERYOLU-GPS">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.28</title>
+<title>Istanbul Tourist Transport Planner — V230.12.29</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.28-YILDIZ-BUS';
+  window.__APP_BUILD_ID__='V230.12.29-FENERYOLU-GPS';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -4644,7 +4644,7 @@ function currentLocationProductionQA(){
 }
 
 
-// V230.12.28: auto-start the first walk only when it is at most 16 minutes and leads
+// V230.12.29: auto-start the first walk only when it is at most 16 minutes and leads
 // directly to the first main-transit boarding point. Unknown durations never qualify.
 function shouldAutoStartFirstStationWalk(path){
   if(!Array.isArray(path)||path.length<2) return false;
@@ -4901,7 +4901,7 @@ function staticGpsStationCoordinates(){
     {station:'suadiye_m',mode:'Marmaray',label:'Suadiye Marmaray',lat:40.96055556,lng:29.08444444},
     {station:'erenkoy_m',mode:'Marmaray',label:'Erenköy Marmaray',lat:40.97167,lng:29.07638},
     {station:'goztepe_m',mode:'Marmaray',label:'Göztepe Marmaray',lat:40.97907,lng:29.06175},
-    {station:'feneryolu_m',mode:'Marmaray',label:'Feneryolu Marmaray',lat:40.98350,lng:29.04680},
+    {station:'feneryolu_m',mode:'Marmaray',label:'Feneryolu Marmaray',lat:40.97880,lng:29.04883},
     {station:'sogutlucesme',mode:'Marmaray',label:'Söğütlüçeşme Marmaray',lat:40.99020,lng:29.03810},
     {station:'ayrilik',mode:'Marmaray',label:'Ayrılık Çeşmesi Marmaray',lat:40.99990,lng:29.02985},
     {station:'uskudar',mode:'Marmaray',label:'Üsküdar Marmaray',lat:41.02550,lng:29.01370},

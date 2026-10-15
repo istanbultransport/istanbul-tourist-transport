@@ -273,7 +273,8 @@ try {
         ['pendik','Marmaray',40.88024,29.23165,20],
         ['erenkoy_m','Marmaray',40.97167,29.07638,10],
         ['sogutlucesme','Marmaray',40.99065,29.03791,75],
-        ['ayrilik','Marmaray',41.00015,29.03010,60]
+        ['ayrilik','Marmaray',41.00015,29.03010,60],
+        ['feneryolu_m','Marmaray',40.97880,29.04883,30]
       ];
       const marmarayNodeChecks = marmarayNodeTargets.map(([station, mode, lat, lng, tolerance]) => {
         const local = fallback.find(row => row.station === station && row.mode === mode);
