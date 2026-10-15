@@ -149,6 +149,15 @@ try {
       const valid = flow.from === item.from && flow.to === item.to &&
         flow.routeText.length > 0 && flow.routeHtml.length > 0 &&
         flow.stepCards > 0 && hasJourneySummary && stepCountConsistent;
+      if (item.id === 'R07') {
+        const pendikBusValid = flow.routeText.includes('KM13') &&
+          flow.routeText.includes('PENDİK YHT İSTASYONU') &&
+          flow.routeText.includes('yürüme süresi doğrulanmadı') &&
+          flow.routeHtml.includes('RouteDetail?hkod=KM13') &&
+          flow.routeHtml.includes('StationDetail?dkod=227794');
+        record('R07 Pendik YHT exposes official KM13 route and stop links without inventing walk time',
+          pendikBusValid, flow.routeText.slice(-900));
+      }
       record('UI route flow '+item.id, valid, JSON.stringify({
         expectedFrom: item.from, actualFrom: flow.from,
         expectedTo: item.to, actualTo: flow.to,
