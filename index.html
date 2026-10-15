@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.26</title>
+<title>Istanbul Tourist Transport Planner — V230.12.27</title>
 <script>
 (function(){
   window.__APP_BUILD_ID__='V230.12.27-ACCESS-16MIN';
@@ -4624,7 +4624,7 @@ function currentLocationProductionQA(){
 }
 
 
-// V230.12.26: auto-start the first walk only when it is short and leads
+// V230.12.27: auto-start the first walk only when it is at most 16 minutes and leads
 // directly to the first main-transit boarding point. Unknown durations never qualify.
 function shouldAutoStartFirstStationWalk(path){
   if(!Array.isArray(path)||path.length<2) return false;
