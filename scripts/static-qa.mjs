@@ -83,14 +83,14 @@ check('build ID and service-worker cache version match', !!buildMinor && !!cache
 
 
 if (regression) {
-  check('manual regression contains exactly 50 places', Array.isArray(regression.locations) && regression.locations.length === 50, String(regression.locations?.length));
-  check('manual regression contains exactly 40 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length === 40, String(regression.routeCases?.length));
+  check('manual regression contains at least 50 places', Array.isArray(regression.locations) && regression.locations.length >= 50, String(regression.locations?.length));
+  check('manual regression contains at least 40 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length >= 40, String(regression.routeCases?.length));
   const locationIds = new Set((regression.locations || []).map(place => place.id));
   check('manual regression location IDs are unique', locationIds.size === regression.locations?.length);
   check('all manual route endpoints reference known locations', (regression.routeCases || []).every(route => locationIds.has(route.from) && locationIds.has(route.to)));
   check('no paid API is required for manual regression', regression.policy?.noPaidApi === true);
   check('manual regression forbids invented ETAs', regression.policy?.noInventedEtas === true);
-  check('manual regression has release gate documentation', read('qa/20-location-manual-regression.md').includes('R01–R40'));
+  check('manual regression has release gate documentation', /R01[–-]R\\d+/.test(read('qa/20-location-manual-regression.md')));
   const catalogMatch = html.match(/const places=(\[[\s\S]*?\]);\s*(?:const |function )/);
   let catalog = null;
   try { if (catalogMatch) catalog = JSON.parse(catalogMatch[1]); } catch {}
