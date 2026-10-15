@@ -115,6 +115,13 @@ try {
       }));
       const valid = flow.from === item.from && flow.to === item.to &&
         flow.routeText.length > 0 && flow.stepCards > 0;
+      if (['R01','R02','R03','R04'].includes(item.id)) {
+        console.log('LIVE ROUTE AUDIT ' + item.id + ': ' + JSON.stringify({
+          expectedFrom: item.from, actualFrom: flow.from,
+          expectedTo: item.to, actualTo: flow.to,
+          stepCards: flow.stepCards, routeText: flow.routeText
+        }));
+      }
       record('live UI route flow ' + item.id, valid, JSON.stringify({
         expectedFrom: item.from, actualFrom: flow.from,
         expectedTo: item.to, actualTo: flow.to,
