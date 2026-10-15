@@ -4646,8 +4646,13 @@ function autoStartFirstStationNavigation(path){
   if(!link || !link.href) return false;
   try{
     const opened=window.open(link.href,'_blank');
-    if(opened){ try{opened.opener=null;}catch(_){} }
-    else window.location.assign(link.href);
+    if(!opened){
+      // A popup blocker often returns null instead of throwing. Keep the current
+      // route visible and let the user activate the explicit walking link.
+      link.focus();
+      return false;
+    }
+    try{opened.opener=null;}catch(_){}
     return true;
   }catch(error){
     console.warn('[ITP walking navigation] Automatic launch blocked; use the Step 1 navigation link.',error);
