@@ -348,10 +348,15 @@ try {
   // Verify service-worker install, core cache population and offline navigation.
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
-  record('versioned PWA cache includes QA fixtures', !!cacheName && sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
+  record('versioned PWA cache matches the 16-minute release and includes QA fixtures',
+    cacheName === 'itp-v230.12.27-access16-core' &&
+    htmlBuild === 'V230.12.27-ACCESS-16MIN' &&
+    sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
     const offlinePage = await offlineContext.newPage();
+    await offlinePage.goto('http://127.0.0.1:4173/manifest.json', { waitUntil: 'domcontentloaded' });
+    await offlinePage.evaluate(async () => { await caches.open('itp-v230.12.26-core'); });
     await offlinePage.goto('http://127.0.0.1:4173/index.html?qa=offline', { waitUntil: 'domcontentloaded' });
     await offlinePage.evaluate(async () => {
       const reg = await navigator.serviceWorker.ready;
@@ -364,12 +369,17 @@ try {
     });
     await offlinePage.reload({ waitUntil: 'domcontentloaded' });
     await offlinePage.waitForSelector('#list .place[data-id]', { timeout: 10000 });
-    const cacheState = await offlinePage.evaluate(async cacheName => ({
-      controlled: !!navigator.serviceWorker.controller,
-      cache: (await caches.keys()).some(k => k === cacheName),
-      cachedIndex: !!(await (await caches.open(cacheName)).match('./index.html'))
-    }), cacheName);
-    record('PWA service worker controls page and caches app shell', cacheState.controlled && cacheState.cache && cacheState.cachedIndex, JSON.stringify(cacheState));
+    const cacheState = await offlinePage.evaluate(async cacheName => {
+      const keys = await caches.keys();
+      return {
+        controlled: !!navigator.serviceWorker.controller,
+        cache: keys.includes(cacheName),
+        cachedIndex: !!(await (await caches.open(cacheName)).match('./index.html')),
+        oldCacheRemoved: !keys.includes('itp-v230.12.26-core')
+      };
+    }, cacheName);
+    record('PWA service worker controls page, caches app shell, and removes stale release cache',
+      cacheState.controlled && cacheState.cache && cacheState.cachedIndex && cacheState.oldCacheRemoved, JSON.stringify(cacheState));
     await offlineContext.setOffline(true);
     await offlinePage.reload({ waitUntil: 'domcontentloaded' });
     await offlinePage.waitForSelector('#list .place[data-id]', { timeout: 10000 });
