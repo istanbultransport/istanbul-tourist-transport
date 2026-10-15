@@ -4838,7 +4838,7 @@ function lastMilePresentationQA(){
     olimpiyatText.includes('Stad Yolu - Bakırköy Yönü') &&
     olimpiyatText.includes('otobüs durağına navigasyonu aç') &&
     olimpiyatText.includes('hedefe navigasyonu aç') &&
-    (olimpiyatText.match(/google\\.com\\/maps\\/dir\\//g)||[]).length>=2,
+    (olimpiyatText.match(/google\.com\/maps\/dir/g)||[]).length>=2,
     olimpiyatText);
   add('>16-ataturk-olimpiyat-official-route-links',
     olimpiyatText.includes('iett.istanbul/RouteDetail?hkod=79K') &&
