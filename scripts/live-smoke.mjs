@@ -127,6 +127,37 @@ try {
   record('all live UI route fixtures loaded', Array.isArray(routeCases) && routeCases.length === 46,
     'count=' + routeCases.length);
 
+  // Assert the critical 16-minute first-station walking boundary on the deployed build.
+  const liveWalkPolicy = await page.evaluate(() => ({
+    at15: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:15}],['station','next','M4 Metro','ride']]),
+    at16: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:16}],['station','next','M4 Metro','ride']]),
+    at17: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:17}],['station','next','M4 Metro','ride']]),
+    nullDuration: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:null}],['station','next','M4 Metro','ride']]),
+    emptyDuration: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:''}],['station','next','M4 Metro','ride']])
+  }));
+  record('live 16-minute walking boundary includes 15/16 and rejects 17', liveWalkPolicy.at15 === true &&
+    liveWalkPolicy.at16 === true && liveWalkPolicy.at17 === false, JSON.stringify(liveWalkPolicy));
+  record('live unknown walking duration never auto-starts', liveWalkPolicy.nullDuration === false &&
+    liveWalkPolicy.emptyDuration === false, JSON.stringify(liveWalkPolicy));
+
+  const liveLastMileSuite = await page.evaluate(() =>
+    typeof window.lastMilePresentationQA === 'function'
+      ? window.lastMilePresentationQA()
+      : { status:'FAIL', failures:[{name:'suite-not-exposed'}] });
+  record('live last-mile threshold and verified-bus suite passes', liveLastMileSuite.status === 'PASS' &&
+    Array.isArray(liveLastMileSuite.tests) && liveLastMileSuite.tests.length >= 15 &&
+    liveLastMileSuite.tests.every(t => t.ok === true),
+    JSON.stringify({status:liveLastMileSuite.status,tests:liveLastMileSuite.tests?.length,failures:liveLastMileSuite.failures}));
+
+  const liveEngineSuite = await page.evaluate(() =>
+    typeof window.v223AcceptanceQA === 'function'
+      ? window.v223AcceptanceQA()
+      : { status:'FAIL', failures:[{name:'suite-not-exposed'}] });
+  record('live route-engine acceptance suite passes', liveEngineSuite.status === 'PASS' &&
+    Array.isArray(liveEngineSuite.tests) && liveEngineSuite.tests.length >= 13 &&
+    liveEngineSuite.tests.every(t => t.status === 'PASS'),
+    JSON.stringify({status:liveEngineSuite.status,tests:liveEngineSuite.tests?.length,failures:liveEngineSuite.failures}));
+
   const gpsRegistryAudit = await page.evaluate(async () => {
     try {
       const rows = await fetchGpsStationCoordinates();
