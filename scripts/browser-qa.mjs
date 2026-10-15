@@ -183,18 +183,18 @@ try {
     r.some(s=>s.from==='gayrettepe'&&s.to==='istanbul-airport'&&s.mode==='M11 Metro'),
     JSON.stringify(r.map(s=>({from:s.from,to:s.to,mode:s.mode,text:s.text.slice(0,100)}))));
 
-  // First-station walk auto-start policy: <=15 min qualifies; unknown, >15 min,
-  // non-walk first steps, and walks not followed by main transit must not qualify.
+  // Access policy: walking remains acceptable through 16 minutes; >16 minutes must not be auto-started as a walk. Unknown durations and non-boarding walks must not qualify.
   const firstWalkPolicy = await page.evaluate(() => ({
     at15: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:15}],['station','next','M4 Metro','ride']]),
     at16: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:16}],['station','next','M4 Metro','ride']]),
+    at17: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:17}],['station','next','M4 Metro','ride']]),
     unknown: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{}],['station','next','M4 Metro','ride']]),
     noWalk: shouldAutoStartFirstStationWalk([['origin','station','M4 Metro','ride'],['station','next','Marmaray','ride']]),
     walkNotToBoarding: shouldAutoStartFirstStationWalk([['origin','place','Yürüyüş','walk',{walkMinutes:5}],['place','station','Yürüyüş','walk'],['station','next','M4 Metro','ride']])
   }));
-  record('first-station walk auto-start includes exactly 15 minutes', firstWalkPolicy.at15 === true, JSON.stringify(firstWalkPolicy));
-  record('first-station walk auto-start excludes over 15 / unknown / non-boarding walks',
-    firstWalkPolicy.at16 === false && firstWalkPolicy.unknown === false &&
+  record('first-station walk auto-start includes 15 and exactly 16 minutes', firstWalkPolicy.at15 === true && firstWalkPolicy.at16 === true, JSON.stringify(firstWalkPolicy));
+  record('first-station walk auto-start excludes over 16 / unknown / non-boarding walks',
+    firstWalkPolicy.at17 === false && firstWalkPolicy.unknown === false &&
     firstWalkPolicy.noWalk === false && firstWalkPolicy.walkNotToBoarding === false,
     JSON.stringify(firstWalkPolicy));
 
