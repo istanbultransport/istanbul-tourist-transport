@@ -2,18 +2,16 @@
 
 ## Current release status — 2026-10-15
 
-Latest main commit checked: `218318da544d06bc78036b71b81e66df8191ddf6`.
+Latest main commit checked: `9a351581ce1cc5313d36f0c7e07eddf3354fd40f`.
 
-- Live smoke QA: **76 passed, 0 failed** (run [38768298920](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38768298920)). Chromium verified the deployed build marker matches main, the service worker controls the page, the PWA cache version matches the source, offline app-shell reload works, all 46 existing UI route flows render, the Yıldız Sarayı U1 route card and both walking-navigation links appear, and no uncaught/console JavaScript errors were observed.
-- Local automated browser QA: **161 passed, 0 failed**; static QA: **49 checks passed**.
-- The deployed build marker is `V230.12.28-YILDIZ-BUS`; expected and live markers matched in the latest run.
-- The 16-minute walking boundary and fallback handling are covered by automated tests. This does **not** prove every real-world route or physical entrance has been field-verified.
-- **Yıldız Sarayı access status:** the app now offers a source-backed U1 candidate from Yıldız Teknik Üniversitesi - Beşiktaş Yönü toward Yahya Efendi, with separate boarding-stop and palace walking-navigation links. Live smoke verified the visible U1 route card and links. The official U1 route/stop sequence is source-checked; the 6-minute boarding walk and final walking path are secondary-map estimates and have not been field-surveyed. R47 adds this route to the ongoing regression suite.
-- The all-place coordinate audit lists 217 place cards, 0 missing coordinate pairs, 18 source-cross-checked corrections, but **0 independently verified visitor entrances**. Area/neighborhood coordinates are representative points, not precise entrances.
-- Station exit names and numbers have source links, but entrance accessibility, exact pedestrian paths, slopes and all walking times still need independent validation. Current CI/live smoke results are automated browser checks, not physical field tests.
+- Live smoke QA: **77 passed, 0 failed** (run [38769261332](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38769261332)). Chromium verified that the deployed build marker matches main, all 47 UI route flows render (R01–R47), the Yıldız Sarayı U1 route card includes the expected boarding/last-mile information and two walking-navigation links, the 16-minute boundary accepts 15/16 and rejects 17, the service worker controls the page, the PWA cache matches source, offline app-shell reload works, and no uncaught JavaScript errors were observed.
+- Local automated browser QA: **167 passed, 0 failed**; static QA: **49 passed, 0 failed**. Pages build/deployment succeeded in [run 38769260958](https://github.com/istanbultransport/istanbul-tourist-transport-planner/actions/runs/38769260958).
+- Deployed build marker: `V230.12.28-YILDIZ-BUS`; service-worker cache: `itp-v230.12.28-yildizbus-core`. The latest live smoke confirmed both match the intended release.
+- **Yıldız Sarayı access status:** the app offers a source-backed U1 candidate from Yıldız Teknik Üniversitesi - Beşiktaş Yönü toward Yahya Efendi, with separate boarding-stop and palace walking-navigation links. R47 passed in browser QA and live smoke. The official U1 route/stop sequence is source-checked; the boarding walk and final walking path remain secondary-map estimates, not field-surveyed facts.
+- The all-place coordinate audit lists 217 place cards, 0 missing coordinate pairs and 18 source-cross-checked corrections, but **0 independently verified visitor entrances**. Area/neighborhood coordinates are representative points, not precise entrances.
+- Station exit names/numbers have source links, but exact pedestrian paths, accessibility/slopes and exit-to-destination walking times still need independent validation. CI/live smoke results are automated browser checks, not physical field tests.
 
-The sections below preserve the historical source audit first written on 2026-10-09; counts in that historical snapshot should not be interpreted as the current QA totals.
-
+The sections below preserve the historical source audit first written on 2026-10-09; counts in that historical snapshot should not be interpreted as current QA totals.
 ---
 
 ## Historical audit — 2026-10-09
@@ -67,7 +65,7 @@ The three entries are marked verified in code and contain stop/boarding/alightin
 
 These are **not marked fully verified** by the current CI:
 
-1. **39 static GPS station coordinates:** the browser test checks that coordinates are finite and that the browser permission flow accepts a mocked location. Each station coordinate still needs independent map/source comparison and a real Android/iOS location spot-check.
+1. **49 static GPS station/mode coordinate records:** the current CSV inventory contains 49 station+mode keys. Live QA cross-checks selected fallback points against official IBB station API data and several line-specific entrance references, but this is not a complete coordinate audit. Every record still needs an independently checked point definition (station node vs public entrance) and real Android/iOS location spot-checks.
 2. **Walking estimates:** the source currently contains 30 curated `touristWalkMinutes` entries, 121 `lastMileWalkMinutes` entries and 45 `touristWalkDistanceKmMap` distances. They do not all have per-entry route-source URLs in the application. Values generated from distance and an assumed walking speed are estimates, not measured pedestrian navigation ETAs. Do not describe all of them as field-verified.
 3. **All transfer pairs:** the validator rejects unverified same-node rail transfers, and the official M4 integration points above were checked. Every other cross-line transfer pair still needs a line-by-line official-source audit; CI coherence alone is not proof of real-world interchange access.
 4. **Station exits to destination walking links:** exit names are source-backed, but the practical walking route, slope/accessibility and minutes from each exit to its linked destination need route-level map or field checks.
