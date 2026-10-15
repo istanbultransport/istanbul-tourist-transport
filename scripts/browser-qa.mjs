@@ -481,9 +481,9 @@ try {
   // Verify service-worker install, core cache population and offline navigation.
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
-  record('versioned PWA cache matches the 16-minute release and includes QA fixtures',
-    cacheName === 'itp-v230.12.27-access16-core' &&
-    htmlBuild === 'V230.12.27-ACCESS-16MIN' &&
+  record('versioned PWA cache matches the Yildiz bus release and includes QA fixtures',
+    cacheName === 'itp-v230.12.28-yildizbus-core' &&
+    htmlBuild === 'V230.12.28-YILDIZ-BUS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {

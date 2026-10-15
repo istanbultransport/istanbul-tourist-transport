@@ -127,6 +127,47 @@ try {
   record('all live UI route fixtures loaded', Array.isArray(routeCases) && routeCases.length === 46,
     'count=' + routeCases.length);
 
+  // Exercise the Yıldız Sarayı long-walk case through the deployed UI.
+  // The final card must offer the source-backed U1 bus alternative and both walking links.
+  try {
+    const yildizNames = await page.evaluate(() => ({
+      from: places.find(p => p.id === 'taksim_meydani')?.name || null,
+      to: places.find(p => p.id === 'yildiz_sarayi')?.name || null
+    }));
+    if (!yildizNames.from || !yildizNames.to) {
+      record('live Yildiz Palace U1 access flow', false, 'catalogue name missing: ' + JSON.stringify(yildizNames));
+    } else {
+      await page.evaluate(() => newRoute());
+      await page.locator('#startPlaceSearch').fill(yildizNames.from);
+      await page.locator('#list .place[data-id="taksim_meydani"]').click({ timeout: 7000 });
+      await page.locator('#targetPlaceSearch').fill(yildizNames.to);
+      await page.locator('#list .place[data-id="yildiz_sarayi"]').click({ timeout: 7000 });
+      await page.waitForFunction(() =>
+        selectedTarget?.id === 'yildiz_sarayi' &&
+        getComputedStyle(document.getElementById('route')).display !== 'none',
+        null, { timeout: 20000 }
+      );
+      const yildizFlow = await page.evaluate(() => ({
+        from: start?.id || null,
+        to: selectedTarget?.id || null,
+        routeText: document.getElementById('route')?.innerText?.trim() || '',
+        navLinks: [...document.querySelectorAll('#route a[href*="google.com/maps/dir/"]')].length
+      }));
+      const valid = yildizFlow.from === 'taksim_meydani' &&
+        yildizFlow.to === 'yildiz_sarayi' &&
+        yildizFlow.routeText.includes('U1') &&
+        yildizFlow.routeText.includes('Yıldız Teknik Üniversitesi - Beşiktaş Yönü') &&
+        yildizFlow.routeText.includes('Yahya Efendi') &&
+        yildizFlow.navLinks >= 2;
+      record('live Yildiz Palace route offers verified U1 access', valid, JSON.stringify({
+        from: yildizFlow.from, to: yildizFlow.to, navLinks: yildizFlow.navLinks,
+        routeText: yildizFlow.routeText.slice(-650)
+      }));
+    }
+  } catch (error) {
+    record('live Yildiz Palace route offers verified U1 access', false, error.message);
+  }
+
   // Assert the critical 16-minute first-station walking boundary on the deployed build.
   const liveWalkPolicy = await page.evaluate(() => ({
     at15: shouldAutoStartFirstStationWalk([['origin','station','Yürüyüş','walk',{walkMinutes:15}],['station','next','M4 Metro','ride']]),
