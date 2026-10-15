@@ -4631,7 +4631,7 @@ function shouldAutoStartFirstStationWalk(path){
   const first=path[0], next=path[1];
   if(!Array.isArray(first)||first[2]!=='Yürüyüş'||!Array.isArray(next)) return false;
   const explicit=first[4]?.walkMinutes;
-  const mins=explicit!==null && explicit!==undefined && Number.isFinite(Number(explicit))
+  const mins=explicit!==null && explicit!==undefined && explicit!=='' && Number.isFinite(Number(explicit))
     ? Number(explicit)
     : touristWalkTime(first[0],first[1]);
   if(mins===null||mins===undefined||!Number.isFinite(Number(mins))||Number(mins)>16||Number(mins)<0) return false;
