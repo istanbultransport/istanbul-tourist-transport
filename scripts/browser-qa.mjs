@@ -373,28 +373,33 @@ try {
     }
   }
 
-  // A blocked popup must not throw: the current walking link remains the fallback.
-  const navFailureContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
-  try {
-    const navFailurePage = await navFailureContext.newPage();
-    await navFailurePage.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'domcontentloaded' });
-    const navState = await navFailurePage.evaluate(() => {
-      const route = document.getElementById('route');
-      route.innerHTML = '<div class="timeline"><div class="step now"><a href="https://www.google.com/maps/dir/?api=1&destination=41.0%2C29.0">Yürü — hedefe navigasyonu aç</a></div></div>';
-      route.style.display = 'block';
-      window.__ITP_DISABLE_AUTO_WALK_NAV__ = false;
-      window.open = () => { throw new Error('popup blocked by deterministic QA'); };
-      const path = [['origin','station','Yürüyüş','walk',{walkMinutes:5}],['station','next','M4 Metro','ride']];
-      const returned = autoStartFirstStationNavigation(path);
-      const link = document.querySelector('#route .timeline .step.now a');
-      return { returned, focusedFallback: document.activeElement === link, linkAvailable: !!link?.href };
-    });
-    record('blocked external navigation leaves focused walking-link fallback',
-      navState.returned === false && navState.focusedFallback && navState.linkAvailable, JSON.stringify(navState));
-  } catch (error) {
-    record('blocked external navigation fallback', false, error.message);
-  } finally {
-    await navFailureContext.close();
+  // Popup blockers may throw or return null; either way preserve the in-app walking link.
+  for (const [blockMode,blockPopup] of [
+    ['throws', () => { throw new Error('popup blocked by deterministic QA'); }],
+    ['returns-null', () => null]
+  ]) {
+    const navFailureContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    try {
+      const navFailurePage = await navFailureContext.newPage();
+      await navFailurePage.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'domcontentloaded' });
+      const navState = await navFailurePage.evaluate(mode => {
+        const route = document.getElementById('route');
+        route.innerHTML = '<div class="timeline"><div class="step now"><a href="https://www.google.com/maps/dir/?api=1&destination=41.0%2C29.0">Yürü — hedefe navigasyonu aç</a></div></div>';
+        route.style.display = 'block';
+        window.__ITP_DISABLE_AUTO_WALK_NAV__ = false;
+        window.open = mode === 'throws' ? () => { throw new Error('popup blocked by deterministic QA'); } : () => null;
+        const path = [['origin','station','Yürüyüş','walk',{walkMinutes:5}],['station','next','M4 Metro','ride']];
+        const returned = autoStartFirstStationNavigation(path);
+        const link = document.querySelector('#route .timeline .step.now a');
+        return { returned, focusedFallback: document.activeElement === link, linkAvailable: !!link?.href };
+      }, blockMode);
+      record('blocked external navigation (' + blockMode + ') leaves focused walking-link fallback',
+        navState.returned === false && navState.focusedFallback && navState.linkAvailable, JSON.stringify(navState));
+    } catch (error) {
+      record('blocked external navigation fallback (' + blockMode + ')', false, error.message);
+    } finally {
+      await navFailureContext.close();
+    }
   }
 
   // Panels/tabs should remain clickable on a narrow viewport.
