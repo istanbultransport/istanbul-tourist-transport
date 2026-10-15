@@ -91,7 +91,7 @@ if (regression) {
   check('no paid API is required for manual regression', regression.policy?.noPaidApi === true);
   check('manual regression forbids invented ETAs', regression.policy?.noInventedEtas === true);
   check('manual regression has release gate documentation', read('qa/20-location-manual-regression.md').includes('Release gate'));
-  const catalogMatch = html.match(/const places=(\[[\s\S]*?\]);\s*(?:const |function )/);
+  const catalogMatch = html.match(/const places=(\[[\s\S]*?\]);?\s*(?:const |function )/);
   let catalog = null;
   try { if (catalogMatch) catalog = JSON.parse(catalogMatch[1]); } catch {}
   check('place catalogue can be parsed for regression cross-check', Array.isArray(catalog));
