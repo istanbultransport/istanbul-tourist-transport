@@ -75,10 +75,10 @@ check('QA harness checks discovery panel', qa.includes('Şehri Keşfet paneli a�
 check('QA harness checks discovery category cards', qa.includes('Şehri Keşfet kategorisi gerçek kartlar üretiyor'));
 check('QA harness checks ticket panel', qa.includes('Bilet yardım paneli açılıp kapanıyor'));
 check('QA harness checks transport map', qa.includes('Ulaşım haritası açılıp kapanıyor'));
-check('service worker cache is versioned', /CACHE_NAME='itp-v230\.12\.\d+-core'/.test(sw));
+check('service worker cache is versioned', /CACHE_NAME='itp-v230\.12\.\d+(?:-[a-z0-9]+)?-core'/.test(sw));
 const build = (html.match(/<meta name="build-id" content="([^"]+)"/) || [])[1] || '';
 const buildMinor = build.match(/V230\.12\.(\d+)/);
-const cacheMinor = sw.match(/CACHE_NAME='itp-v230\.12\.(\d+)-core'/);
+const cacheMinor = sw.match(/CACHE_NAME='itp-v230\.12\.(\d+)(?:-[a-z0-9]+)?-core'/);
 check('build ID and service-worker cache version match', !!buildMinor && !!cacheMinor && buildMinor[1] === cacheMinor[1], `build=${build}; cache=${(cacheMinor||[])[1]||'missing'}`);
 
 
