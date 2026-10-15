@@ -527,6 +527,21 @@
       "source": "existing-catalog",
       "lat": 41.1343,
       "lng": 29.0321
+    },
+    {
+      "id": "yildiz_sarayi",
+      "name": "Yıldız Sarayı",
+      "type": "tourist-attraction",
+      "side": "Avrupa Yakası",
+      "source": "existing-catalog",
+      "lat": 41.046,
+      "lng": 29.007,
+      "coordinateStatus": "catalogue-point-not-verified-visitor-entrance",
+      "verification": "Catalogue coordinate only. Exact visitor entrance and pedestrian path require independent verification. Current 22-minute Yıldız M7 access is not field-verified; no shorter bus connection is marked verified.",
+      "sources": [
+        "https://www.metro.istanbul/Hatlarimiz/HatDetay?hat=M7",
+        "https://iett.istanbul/RouteDetail?hkod=U1&routename=besiktas-ulus"
+      ]
     }
   ],
   "routeCases": [
@@ -805,6 +820,12 @@
       "from": "ataturk_kent_ormani",
       "to": "istanbul-airport",
       "focus": "Atatürk Kent Ormanı → İstanbul Havalimanı; başlangıç yürüyüşü ve ters yönde M2→M11 bağlantısı."
+    },
+    {
+      "id": "R47",
+      "from": "taksim_meydani",
+      "to": "yildiz_sarayi",
+      "focus": "Taksim → Yıldız Sarayı; rota arayüzü, M7 erişimi, 22 dakika son yürüyüş uyarısı ve doğrulanmış otobüs bağlantısı bulunmadığı açıklaması."
     }
   ],
   "perCaseChecks": [
