@@ -153,6 +153,7 @@ try {
       if (item.id === 'R21') {
         const routeSummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';
         const verifiedMarriottAccess = flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&
+          flow.routeText.includes('M8 Metro') && flow.routeText.includes('Bostancı M8') && flow.routeText.includes('Bostancı M4') &&
           !flow.routeText.includes('13 dakika yürüyün') && !routeSummary.includes('Kozyatağı M4\n↓\nKozyatağı M4');
         record('live Marriott route preserves verified Kozyatağı M8 access', verifiedMarriottAccess,
           flow.routeText.slice(0, 1000));

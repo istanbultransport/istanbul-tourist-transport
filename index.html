@@ -1,16 +1,16 @@
-<!-- V230.12.33-MARRIOTT-ACCESS: source-backed KM13 surface transfer; boarding walk remains unverified. -->
+<!-- V230.12.34-MARRIOTT-MODE: source-backed KM13 surface transfer; boarding walk remains unverified. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.33-MARRIOTT-ACCESS">
+<meta name="build-id" content="V230.12.34-MARRIOTT-MODE">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.33</title>
+<title>Istanbul Tourist Transport Planner — V230.12.34</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.33-MARRIOTT-ACCESS';
+  window.__APP_BUILD_ID__='V230.12.34-MARRIOTT-MODE';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -3394,6 +3394,19 @@ function minimumRailRoute(a,b,maxTransfers=4,endAccessOverride=null,startModeOve
     return [[a,b,'Yürüyüş',`<b>${aObj.name}</b> noktasından <b>${bObj.name}</b> noktasına yaklaşık <b>${mins} dakika</b> yürü.`]];
   }
   let startAccess=resolveStationAccess(a,b);
+  // Fiziksel bir başlangıç noktası (ör. otel) için doğrulanmış yerel erişim
+  // kaydı seçilen raylı hatla aynıysa, genel en-yakın-istasyon çözümünün
+  // başka bir hattı (Marriott için M4) seçmesine izin verme. Otelden istasyona
+  // erişim adımı startLocalAccessRegistry üzerinden korunur; raylı rota ise
+  // kayıttaki istasyon ve hat üzerinden başlar.
+  const registeredLocalStart=typeof startLocalAccessRegistry!=='undefined' ? startLocalAccessRegistry[a] : null;
+  if(startModeOverride && registeredLocalStart?.accessType==='verified_walk'
+     && registeredLocalStart.mode===startModeOverride
+     && railLines[startModeOverride]?.order?.includes(registeredLocalStart.station)){
+    startAccess={...(startAccess||{}),station:registeredLocalStart.station,mode:startModeOverride,
+      label:registeredLocalStart.label||railLines[startModeOverride].labels?.[registeredLocalStart.station]||nodeLabel(registeredLocalStart.station),
+      direct:false,local:true};
+  }
   // Başlangıç gerçek bir raylı sistem düğümü ve kullanıcı başlangıç hattını
   // açıkça seçtiyse, başka bir varsayılan erişim modu (örn. Kadıköy T3)
   // kullanıcının seçtiği hattın önüne geçmemeli. Bu durumda başlangıç zaten
@@ -5376,7 +5389,12 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
  // rota motorunun kullandığı gerçek ağ düğümü (ör. pendik, uskudar) aynı olmayabilir.
  // Başlangıç durağını rota motoruna gerçek istasyon düğümü olarak gönder.
  const startNode=gpsStation?.station || stationSearchAccess[start.id]?.station || start.id;
- const selectedStartMode=gpsStation?.mode || stationSearchAccess[start.id]?.mode || (start.id==='pendik_yht' ? 'Pendik YHT' : null);
+ const registeredStartAccess=typeof startLocalAccessRegistry!=='undefined' ? startLocalAccessRegistry[start.id] : null;
+ const registeredStartMode=registeredStartAccess?.accessType==='verified_walk' && railLines?.[registeredStartAccess.mode] ? registeredStartAccess.mode : null;
+ // A prior GPS selection must not override the access line for a newly selected place.
+ // Verified physical-place access wins; GPS line context applies only to the current-location origin.
+ const selectedStartMode=registeredStartMode || stationSearchAccess[start.id]?.mode ||
+   (start.id==='current_location' ? gpsStation?.mode : null) || (start.id==='pendik_yht' ? 'Pendik YHT' : null);
  // GPS başlangıcında geçici UI start nesnesi kullanılır; hat bilgisi gpsStation.mode'dan korunur.
  // Böylece Pendik M4, Pendik Marmaray gibi aynı node'u paylaşan ama doğrulanmamış
  // hat sıçramaları için genel graph fallback'i devreye girmez.
