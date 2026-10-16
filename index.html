@@ -901,16 +901,7 @@ const hotelRegistry={
   hilton_istanbul_bosphorus:{lat:41.04449,lng:28.98959,station:'taksim',mode:'M2 Metro',exit:{no:'—',name:'Taksim Meydanı / Harbiye yönü',source:'Taksim station access direction',navQuery:'Taksim Metro Harbiye çıkışı İstanbul'}},
   doubletree_istanbul_moda:{lat:40.98847,lng:29.02129,station:'kadikoy',mode:'M4 Metro',exit:{no:2,name:'Moda Girişi',source:'M4 Kadıköy exit registry; target-direction mapping',navQuery:'Kadıköy M4 Çıkış 2 Moda Girişi İstanbul',verified:true}},
   wyndham_grand_kalamis:{lat:40.97745,lng:29.04144,station:'kadikoy',mode:'M4 Metro',exit:null},
-  radisson_blu_istanbul_asia:{
-    station:'kozyatagi',mode:'M4 Metro',label:'Kozyatağı M4',local:true,hotel:true,accessType:'verified_local_bus',
-    renderText:()=>{
-      const hotel='Radisson Blu Hotel, Istanbul Asia';
-      const stop=currentLocationWalkingNavUrl(iettStopLabel('Ataşehir Bulvarı - Ataşehir Yönü','205744')+' İstanbul');
-      const iett=getIettStop('Kozyatağı Metro','225653').iettUrl;
-      const routeUrl='https://iett.istanbul/RouteDetail?hkod=KM46';
-      return `<b>📍 ${hotel}</b> içinden doğrudan <b>Kozyatağı M4</b>'e yürümeyin.<br><br>🚶 <b>1. Yaklaşık 3 dakika yürüyün.</b> <b>Ataşehir Bulvarı - Ataşehir Yönü (205744)</b> durağına gidin.<br><a href="${stop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Biniş durağına yürüyüş navigasyonunu aç</a><br><br>🚌 <b>KM46 — Batı Ataşehir / Kozyatağı Metro</b> hattına binin ve <b>Kozyatağı Metro (225653)</b> durağında inin. KM46, İETT'ye göre Kozyatağı Metro'dan ring olarak çalışır; biniş yönünü durak ekranından kontrol edin.<br><a href="${routeUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 KM46 resmî İETT hat bilgisi</a> <a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">📍 Kozyatağı Metro iniş durağını aç</a>`;
-    }
-  },
+  radisson_blu_istanbul_asia:{lat:40.99094,lng:29.11588,station:'kozyatagi',mode:'M4 Metro',exit:null},
   the_green_park_pendik:{lat:40.87251,lng:29.25102,station:'tavsantepe',mode:'M4 Metro',exit:null}
 };
 function hotelMeta(targetId){ return hotelRegistry[String(targetId||'')]||null; }
@@ -3162,10 +3153,10 @@ const startLocalAccessRegistry={
     station:'kozyatagi',mode:'M4 Metro',label:'Kozyatağı M4',local:true,hotel:true,accessType:'verified_local_bus',
     renderText:()=>{
       const hotel='Radisson Blu Hotel, Istanbul Asia';
-      const point='40.99094,29.11588';
       const stop=currentLocationWalkingNavUrl(iettStopLabel('Ataşehir Bulvarı - Ataşehir Yönü','205744')+' İstanbul');
       const iett=getIettStop('Kozyatağı Metro','225653').iettUrl;
-      return `<b>📍 ${hotel}</b> içinden doğrudan <b>Kozyatağı M4</b>'e yürümeyin.<br><br>🚶 <b>1. Yaklaşık 3 dakika yürüyün.</b> <b>Ataşehir Bulvarı - Ataşehir Yönü (205744)</b> durağına gidin.<br><a href="${stop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Durağa yürüyüş navigasyonunu aç</a> <b>Kozyatağı Metro (225653)</b> durağında inin.<br><a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 İETT'de hat bilgisini aç</a>`;
+      const routeUrl='https://iett.istanbul/RouteDetail?hkod=KM46';
+      return `<b>📍 ${hotel}</b> içinden doğrudan <b>Kozyatağı M4</b>'e yürümeyin.<br><br>🚶 <b>1. Yaklaşık 3 dakika yürüyün.</b> <b>Ataşehir Bulvarı - Ataşehir Yönü (205744)</b> durağına gidin.<br><a href="${stop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Biniş durağına yürüyüş navigasyonunu aç</a><br><br>🚌 <b>KM46 — Batı Ataşehir / Kozyatağı Metro</b> hattına binin ve <b>Kozyatağı Metro (225653)</b> durağında inin. KM46, İETT'ye göre Kozyatağı Metro'dan ring olarak çalışır; biniş yönünü durak ekranından kontrol edin.<br><a href="${routeUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 KM46 resmî İETT hat bilgisi</a> <a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">📍 Kozyatağı Metro iniş durağını aç</a>`;
     }
   },
   the_green_park_pendik:{
