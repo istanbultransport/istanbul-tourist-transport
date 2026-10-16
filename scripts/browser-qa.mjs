@@ -174,6 +174,17 @@ try {
         record('R13 Four Seasons access discloses unverified walk time and provides explicit hotel-to-station map route',
           hotelAccessDisclosed, flow.routeText.slice(0,1000));
       }
+      if(['R04','R15','R20','R26','R27'].includes(item.id)){
+        const expectedOrigin = item.from === 'ciya_sofrasi'
+          ? 'origin=%C3%87iya%20Sofras%C4%B1'
+          : 'origin=Karak%C3%B6y%20Lokantas%C4%B1';
+        const restaurantAccess = flow.routeText.includes('Restoran girişinden durağa yürüme süresi ve kesin yaya güzergâhı bağımsız olarak doğrulanmadı') &&
+          flow.routeHtml.includes('travelmode=walking') &&
+          flow.routeHtml.includes('yaya rotasını haritada kontrol et') &&
+          flow.routeHtml.includes(expectedOrigin);
+        record(item.id+' restaurant origin discloses unverified walk time and provides correct walking map link',
+          restaurantAccess, flow.routeText.slice(0,900));
+      }
       if(item.id==='R21'){
         const routeSummary=flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0]||'';
         const verifiedMarriottAccess=flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&
@@ -522,7 +533,7 @@ try {
   // Verify service-worker install, core cache population and offline navigation.
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
-  record('versioned PWA cache matches the Istanbul Modern Tophane-access release and includes QA fixtures',
+  record('versioned PWA cache matches the restaurant-origin-access release and includes QA fixtures',
     cacheName === 'itp-v230.12.34-fourseasonsaccess-core' &&
     htmlBuild === 'V230.12.34-FOURSEASONS-ACCESS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
