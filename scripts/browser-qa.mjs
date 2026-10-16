@@ -185,6 +185,15 @@ try {
         record(item.id+' restaurant origin discloses unverified walk time and provides correct walking map link',
           restaurantAccess, flow.routeText.slice(0,900));
       }
+      if(item.id==='R24'){
+        const km46Access = flow.routeText.includes('KM46') &&
+          flow.routeText.includes('Kozyatağı Metro (225653)') &&
+          flow.routeText.includes('ring olarak çalışır') &&
+          flow.routeHtml.includes('RouteDetail?hkod=KM46') &&
+          flow.routeHtml.includes('StationDetail?dkod=225653');
+        record('R24 Radisson access names official KM46 route and the exact alighting stop',
+          km46Access, flow.routeText.slice(0,1300));
+      }
       if(item.id==='R21'){
         const routeSummary=flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0]||'';
         const verifiedMarriottAccess=flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&
@@ -533,9 +542,9 @@ try {
   // Verify service-worker install, core cache population and offline navigation.
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
-  record('versioned PWA cache matches the restaurant-origin-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.35-restaurantaccess-core' &&
-    htmlBuild === 'V230.12.35-RESTAURANT-ACCESS' &&
+  record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
+    cacheName === 'itp-v230.12.36-restaurantbusaccess-core' &&
+    htmlBuild === 'V230.12.36-RESTAURANT-BUS-ACCESS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
