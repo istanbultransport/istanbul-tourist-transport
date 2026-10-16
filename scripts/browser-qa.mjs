@@ -534,8 +534,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-origin-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.34-fourseasonsaccess-core' &&
-    htmlBuild === 'V230.12.34-FOURSEASONS-ACCESS' &&
+    cacheName === 'itp-v230.12.35-restaurantaccess-core' &&
+    htmlBuild === 'V230.12.35-RESTAURANT-ACCESS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
