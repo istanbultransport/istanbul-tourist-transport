@@ -112,6 +112,7 @@ try {
         to: selectedTarget?.id || null,
         routeText: document.getElementById('route')?.innerText?.trim() || '',
         routeHtml: document.getElementById('route')?.innerHTML || '',
+        targetCoordinates: (() => { const p=places.find(p=>p.id===selectedTarget?.id); return p ? [p.lat,p.lng] : null; })(),
         stepCards: document.querySelectorAll('#route .step').length,
         headingStepLabel: document.querySelector('#route .routehead .pill')?.textContent?.trim() || '',
         summaryStepCount: Number(document.querySelectorAll('#route .route-summary .route-stat b')[2]?.textContent || NaN)
@@ -158,6 +159,20 @@ try {
           flow.routeHtml.includes('destination=Sultanahmet%20T1');
         record('live R13 Four Seasons access discloses unverified walk time and provides explicit hotel-to-station map route',
           hotelAccessDisclosed, flow.routeText.slice(0,1000));
+      }
+      if (item.id === 'R09' || item.id === 'R10' || item.id === 'R18') {
+        const stationId = item.id === 'R09' ? 'sishane' : item.id === 'R10' ? 'yildiz' : 'taksim';
+        const hasFirstMileNav = flow.routeHtml.includes(`data-station-nav="${stationId}"`) &&
+          flow.routeHtml.includes('travelmode=walking');
+        record('live ' + item.id + ' first-mile walk exposes line-specific station navigation',hasFirstMileNav,
+          flow.routeText.slice(0,800));
+      }
+      if (item.id === 'R16') {
+        const coords = flow.targetCoordinates?.join(',');
+        const hasPoiWalkNav = !!coords && flow.routeHtml.includes('travelmode=walking') &&
+          flow.routeHtml.includes('destination=' + encodeURIComponent(coords));
+        record('live R16 walking-only POI route navigates to selected target coordinates',hasPoiWalkNav,
+          JSON.stringify({coords,routeText:flow.routeText.slice(0,600)}));
       }
       if (item.id === 'R21') {
         const routeSummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';

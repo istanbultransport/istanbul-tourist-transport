@@ -4489,7 +4489,17 @@ function renderPath(path,targetId){
     // normal BIN / YÖN / İN yapısını korur.
     const fromPlaceForDistrict=places.find(p=>p.id===from);
     if(i===0 && startAccessPlaceNeedsLayer(from, getStartRailAccess(from)) && from!==to && (mode==='Yürüyüş' || mode==='İlçe içi ulaşım' || mode==='Yerel ulaşım')){
-      return `<div class=\"step now\"><div class=\"num\">1</div><div><span class=\"step-badge\">ŞİMDİ</span><p style=\"margin-top:10px;line-height:1.65\">${text}</p></div></div>`;
+      // First-mile walk cards used to return early without the map link rendered
+      // by the generic Yürüyüş branch below. Preserve source-specific links;
+      // otherwise navigate to exact POI coordinates or the line-specific station.
+      let accessNavigation='';
+      if(mode==='Yürüyüş' && !String(text||'').includes('google.com/maps/dir/')){
+        const poiTarget=places.find(p=>p.id===to);
+        accessNavigation=poiTarget && Number.isFinite(Number(poiTarget.lat)) && Number.isFinite(Number(poiTarget.lng))
+          ? currentLocationWalkingNavLink(`${poiTarget.lat},${poiTarget.lng}`,'🚶 Yürü — hedefe navigasyonu aç')
+          : walkingNavigationForNode(to,'🚶 Yürü — istasyona navigasyonu aç',mode);
+      }
+      return `<div class="step now"><div class="num">1</div><div><span class="step-badge">ŞİMDİ</span><p style="margin-top:10px;line-height:1.65">${text}${accessNavigation ? '<br><br>'+accessNavigation : ''}</p></div></div>`;
     }
 
     // Çamlıca Tepesi → Kısıklı M5: yürünebilir başlangıç erişimi.
