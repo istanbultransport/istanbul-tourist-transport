@@ -3394,6 +3394,19 @@ function minimumRailRoute(a,b,maxTransfers=4,endAccessOverride=null,startModeOve
     return [[a,b,'Yürüyüş',`<b>${aObj.name}</b> noktasından <b>${bObj.name}</b> noktasına yaklaşık <b>${mins} dakika</b> yürü.`]];
   }
   let startAccess=resolveStationAccess(a,b);
+  // Fiziksel bir başlangıç noktası (ör. otel) için doğrulanmış yerel erişim
+  // kaydı seçilen raylı hatla aynıysa, genel en-yakın-istasyon çözümünün
+  // başka bir hattı (Marriott için M4) seçmesine izin verme. Otelden istasyona
+  // erişim adımı startLocalAccessRegistry üzerinden korunur; raylı rota ise
+  // kayıttaki istasyon ve hat üzerinden başlar.
+  const registeredLocalStart=typeof startLocalAccessRegistry!=='undefined' ? startLocalAccessRegistry[a] : null;
+  if(startModeOverride && registeredLocalStart?.accessType==='verified_walk'
+     && registeredLocalStart.mode===startModeOverride
+     && railLines[startModeOverride]?.order?.includes(registeredLocalStart.station)){
+    startAccess={...(startAccess||{}),station:registeredLocalStart.station,mode:startModeOverride,
+      label:registeredLocalStart.label||railLines[startModeOverride].labels?.[registeredLocalStart.station]||nodeLabel(registeredLocalStart.station),
+      direct:false,local:true};
+  }
   // Başlangıç gerçek bir raylı sistem düğümü ve kullanıcı başlangıç hattını
   // açıkça seçtiyse, başka bir varsayılan erişim modu (örn. Kadıköy T3)
   // kullanıcının seçtiği hattın önüne geçmemeli. Bu durumda başlangıç zaten
