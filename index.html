@@ -5391,7 +5391,10 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
  const startNode=gpsStation?.station || stationSearchAccess[start.id]?.station || start.id;
  const registeredStartAccess=typeof startLocalAccessRegistry!=='undefined' ? startLocalAccessRegistry[start.id] : null;
  const registeredStartMode=registeredStartAccess?.accessType==='verified_walk' && railLines?.[registeredStartAccess.mode] ? registeredStartAccess.mode : null;
- const selectedStartMode=gpsStation?.mode || stationSearchAccess[start.id]?.mode || registeredStartMode || (start.id==='pendik_yht' ? 'Pendik YHT' : null);
+ // A prior GPS selection must not override the access line for a newly selected place.
+ // Verified physical-place access wins; GPS line context applies only to the current-location origin.
+ const selectedStartMode=registeredStartMode || stationSearchAccess[start.id]?.mode ||
+   (start.id==='current_location' ? gpsStation?.mode : null) || (start.id==='pendik_yht' ? 'Pendik YHT' : null);
  // GPS başlangıcında geçici UI start nesnesi kullanılır; hat bilgisi gpsStation.mode'dan korunur.
  // Böylece Pendik M4, Pendik Marmaray gibi aynı node'u paylaşan ama doğrulanmamış
  // hat sıçramaları için genel graph fallback'i devreye girmez.
