@@ -150,6 +150,15 @@ try {
         record('live Istanbul Modern route uses Tophane T1 and 4-minute final walk', modernAccessValid,
           flow.routeText.slice(-500));
       }
+      if (item.id === 'R13') {
+        const hotelAccessDisclosed = flow.routeText.includes('Four Seasons Hotel Istanbul at Sultanahmet') &&
+          flow.routeText.includes('Sultanahmet T1') &&
+          flow.routeText.includes('Yürüme süresi ve gerçek giriş-çıkış güzergâhı bağımsız olarak doğrulanmadı') &&
+          flow.routeHtml.includes('origin=Four%20Seasons') &&
+          flow.routeHtml.includes('destination=Sultanahmet%20T1');
+        record('live R13 Four Seasons access discloses unverified walk time and provides explicit hotel-to-station map route',
+          hotelAccessDisclosed, flow.routeText.slice(0,1000));
+      }
       if (item.id === 'R21') {
         const routeSummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';
         const verifiedMarriottAccess = flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&

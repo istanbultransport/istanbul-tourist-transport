@@ -3081,6 +3081,15 @@ function renderLastMileBusPlan(plan, target) {
 }
 
 const startLocalAccessRegistry={
+  four_seasons_sultanahmet:{
+    station:'sultanahmet',mode:'T1 Tramvay',label:'Sultanahmet T1',local:true,hotel:true,accessType:'unverified_access',accessMode:'Yerel ulaşım',
+    renderText:()=>{
+      const origin='Four Seasons Hotel Istanbul at Sultanahmet, Tevkifhane Sokak No. 1, İstanbul';
+      const destination='Sultanahmet T1 Tramvay Durağı, İstanbul';
+      const url=`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&travelmode=walking`;
+      return `<b>📍 Four Seasons Hotel Istanbul at Sultanahmet</b> → <b>Sultanahmet T1</b> erişimi.<br>Yürüme süresi ve gerçek giriş-çıkış güzergâhı bağımsız olarak doğrulanmadı. Bu nedenle süre veya doğrulanmamış otobüs alternatifi önerilmiyor.<br><a href="${url}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:10px 12px;border-radius:10px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🚶 Otelden Sultanahmet T1'e yaya rotasını haritada kontrol et</a>`;
+    }
+  },
   // Otel → ana ulaşım erişimleri. Bunlar başlangıç kartına mutlaka
   // gerçek bir yaya/otobüs adımı ekler; turist hiçbir zaman doğrudan
   // 'M4'e bin' diye istasyonun içinde varsayılmaz.
