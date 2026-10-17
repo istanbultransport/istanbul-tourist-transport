@@ -2137,6 +2137,9 @@ function districtStartWalkMinutes(placeId, access){
 function startAccessPlaceNeedsLayer(placeId, access){
   const obj=places.find(p=>p.id===placeId);
   if(!obj || !access?.station || access.station===placeId) return false;
+  // Gerçek iskeleye bağlı fiziksel başlangıçlar, türü "Semt" olsa bile
+  // vapur erişim adımını kaybetmemelidir. Örn. Kanlıca'nın erişim düğümü Üsküdar'dır.
+  if(access.mode==='Vapur') return true;
   // Gerçek istasyon/durak başlangıçları hiçbir zaman yapay bir erişim kartı almaz.
   // Fiziksel başlangıç noktaları ise tek bir merkezî kuraldan geçer.
   if(typeof startLocalAccessRegistry!=='undefined' && startLocalAccessRegistry[placeId]) return true;
