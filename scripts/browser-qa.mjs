@@ -141,7 +141,8 @@ try {
         headingStepLabel: document.querySelector('#route .routehead .pill')?.textContent?.trim() || '',
         summaryStepCount: Number(document.querySelectorAll('#route .route-summary .route-stat b')[2]?.textContent || NaN)
       }));
-      const hasJourneySummary = ['Tahmini yolculuk','aktarma','ulaşım adımı'].every(label => flow.summaryLabels.includes(label));
+      const hasJourneySummary = (flow.summaryLabels.includes('Tahmini yolculuk') || flow.summaryLabels.includes('Erişim süresi doğrulanmadı')) &&
+        ['aktarma','ulaşım adımı'].every(label => flow.summaryLabels.includes(label));
       const headingStepMatch = flow.headingStepLabel.match(/^(\d+)\s+ULAŞIM ADIMI$/i);
       const stepCountConsistent = headingStepMatch
         ? Number(headingStepMatch[1]) === flow.summaryStepCount
@@ -198,6 +199,7 @@ try {
         const ferryAccess = flow.routeText.includes('Barbaros Hayrettin Paşa İskelesi') &&
           flow.routeText.includes('Kadıköy (Eski) İskelesi') &&
           flow.routeText.includes('süre uydurulmuyor') &&
+          flow.routeText.includes('Erişim süresi doğrulanmadı') &&
           flow.routeHtml.includes('kadikoy-besiktas-165') &&
           (flow.routeHtml.match(/travelmode=walking/g)||[]).length >= 2 &&
           flow.stepCards >= 3;
