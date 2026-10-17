@@ -122,14 +122,14 @@ try {
       .map(p => {
         const access = resolveStationAccess(p.id, 'bostanci');
         const path = minimumRailRoute(p.id, 'bostanci', 4);
-        if (!access || !path || path[0]?.[2] === 'Yürüyüş' || !startAccessPlaceNeedsLayer(p.id, access)) {
+        if (!access || !path || path[0]?.[2] === 'Yürüyüş') {
           return { id:p.id, skipped:true, reason:!path?'no rail path':'direct/short-walk access' };
         }
         const step = path.find(s => s[0] === p.id && s[2] === 'Vapur');
         const expected = access.label || nodeLabel(access.station);
         return {
           id:p.id, expected, station:access.station,
-          ok:!!step && step[1] === access.station &&
+          ok:!!step && path[0]?.[0] === p.id && step[1] === access.station &&
              String(step[3]).includes(expected) &&
              (!String(step[3]).includes('Kadıköy') || expected.includes('Kadıköy')),
           text:step?.[3] || ''
