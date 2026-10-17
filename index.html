@@ -1611,14 +1611,14 @@ function route(a,b){
   const direct=directLineRoute(a,b);
   if(direct) return direct;
 
-  // Arama çubuğundan seçilen gerçek raylı sistem durağı, fiziksel/deniz
-  // erişimi bulunmadığında doğrudan ağın hedef node'u olarak çözülür.
-  if(isKnownRailStationNode(b)){
+ const aObj=places.find(p=>p.id===a), bObj=places.find(p=>p.id===b);
+  // Only treat a raw ID as a station-search target when it is not also a
+  // canonical catalogue place. IDs such as "bostanci" overlap the rail graph;
+  // routing that tourist place as a bare station drops its ferry/local access.
+  if(isKnownRailStationNode(b) && !bObj){
     const stationPath=routeToStationTarget(a,b);
     if(stationPath) return stationPath;
   }
-
- const aObj=places.find(p=>p.id===a), bObj=places.find(p=>p.id===b);
  // Turistik nokta içeren tüm rotalarda gelişmiş raylı sistem motorunu kullan.
  // Böylece ilçe → turistik nokta ve turistik nokta → ilçe rotaları da
  // istasyon erişimi, gerçek aktarma noktaları ve 1,3 km yürüyüş kuralını kullanır.
