@@ -1,16 +1,16 @@
-<!-- V230.12.36-RESTAURANT-BUS-ACCESS: restaurant-origin station access now discloses unverified walking time and opens walking navigation. -->
+<!-- V230.12.37-BESIKTAS-FERRY-ACCESS: restaurant-origin station access now discloses unverified walking time and opens walking navigation. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.36-RESTAURANT-BUS-ACCESS">
+<meta name="build-id" content="V230.12.37-BESIKTAS-FERRY-ACCESS">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.36</title>
+<title>Istanbul Tourist Transport Planner — V230.12.37</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.36-RESTAURANT-BUS-ACCESS';
+  window.__APP_BUILD_ID__='V230.12.37-BESIKTAS-FERRY-ACCESS';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -1571,6 +1571,42 @@ function routeToStationTarget(startId,targetStationId,targetMode=null,startMode=
   const endAccess={station:targetStationId,mode:null,label:nodeLabel(targetStationId),direct:true};
   return minimumRailRoute(startId,targetStationId,4,endAccess,startMode);
 }
+function besiktasKadikoyFerryAccessRoute(a,b){
+  // Beşiktaş and Kadıköy Çarşı are area/POI selections, not ferry terminals.
+  // Keep the official pier-to-pier service, but never imply the user is already
+  // at the pier or invent either last-mile walking duration.
+  if((a==='besiktas' && b==='kadikoy_carsi') || (a==='kadikoy_carsi' && b==='besiktas')){
+    const reverse=a==='kadikoy_carsi';
+    const ferryUrl='https://sehirhatlari.istanbul/tr/timetables/domestic-trips/istanbul-ici-hatlar/kadikoy-besiktas-165';
+    const mapUrl=(origin,destination)=>'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(origin)+'&destination='+encodeURIComponent(destination)+'&travelmode=walking';
+    const besiktasPlace=places.find(p=>p.id==='besiktas');
+    const kadikoyPlace=places.find(p=>p.id==='kadikoy_carsi');
+    const point=(p,fallback)=>p && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lng)) ? String(p.lat)+','+String(p.lng) : fallback;
+    const besiktasPoint=point(besiktasPlace,'Beşiktaş, İstanbul');
+    const kadikoyPoint=point(kadikoyPlace,'Kadıköy Çarşı, İstanbul');
+    const besiktasPier='Barbaros Hayrettin Paşa İskelesi, Beşiktaş, İstanbul';
+    const kadikoyPier='Kadıköy (Eski) İskelesi, Kadıköy, İstanbul';
+    const walkingNotice='Yürüme süresi ve kesin yaya güzergâhı bağımsız olarak doğrulanmadı; süre uydurulmuyor.';
+    if(!reverse){
+      const originMap=mapUrl(besiktasPoint,besiktasPier);
+      const targetMap=mapUrl(kadikoyPier,kadikoyPoint);
+      return [
+        ['besiktas','besiktas','Yürüyüş','<b>📍 Beşiktaş bölgesinin uygulamada kayıtlı temsilî noktasından Barbaros Hayrettin Paşa İskelesi’ne ulaş.</b><br>'+walkingNotice+'<br><a href="'+originMap+'" target="_blank" rel="noopener noreferrer">🚶 Beşiktaş noktasından iskeleye yaya navigasyonunu aç</a>',{accessDurationUnknown:true}],
+        ['besiktas','kadikoy','Vapur','<b>Barbaros Hayrettin Paşa İskelesi</b>nden <b>Kadıköy (Eski) İskelesi</b> yönüne giden vapura bin. Şehir Hatları resmî tarifesinde bu iki iskele belirtilir; sefer saatini güncel tarifeden kontrol et.<br><a href="'+ferryUrl+'" target="_blank" rel="noopener noreferrer">⛴️ Beşiktaş–Kadıköy resmî sefer tarifesi</a>'],
+        ['kadikoy','kadikoy_carsi','Yürüyüş','<b>Kadıköy (Eski) İskelesi</b>nden seçtiğin <b>Kadıköy Çarşı</b> hedefine yürü.<br>'+walkingNotice+'<br><a href="'+targetMap+'" target="_blank" rel="noopener noreferrer">🚶 İskele ile Kadıköy Çarşı arasında yaya navigasyonunu aç</a>',{accessDurationUnknown:true}]
+      ];
+    }
+    const originMap=mapUrl(kadikoyPoint,kadikoyPier);
+    const targetMap=mapUrl(besiktasPier,besiktasPoint);
+    return [
+      ['kadikoy_carsi','kadikoy','Yürüyüş','<b>Kadıköy Çarşı</b>dan <b>Kadıköy (Eski) İskelesi</b>ne yürü.<br>'+walkingNotice+'<br><a href="'+originMap+'" target="_blank" rel="noopener noreferrer">🚶 Kadıköy Çarşıdan iskeleye yaya navigasyonunu aç</a>',{accessDurationUnknown:true}],
+      ['kadikoy','besiktas','Vapur','<b>Kadıköy (Eski) İskelesi</b>nden <b>Barbaros Hayrettin Paşa İskelesi</b> yönüne giden vapura bin. Sefer saatini güncel resmî tarifeden kontrol et.<br><a href="'+ferryUrl+'" target="_blank" rel="noopener noreferrer">⛴️ Beşiktaş–Kadıköy resmî sefer tarifesi</a>'],
+      ['besiktas','besiktas','Yürüyüş','<b>Barbaros Hayrettin Paşa İskelesi</b>nden Beşiktaş bölgesinin kayıtlı temsilî noktasına yürü.<br>'+walkingNotice+'<br><a href="'+targetMap+'" target="_blank" rel="noopener noreferrer">🚶 İskele ile Beşiktaş noktası arasında yaya navigasyonunu aç</a>',{accessDurationUnknown:true}]
+    ];
+  }
+  return null;
+}
+
 function route(a,b){
   // Pendik YHT is a surface-access point rather than a rail graph node.
   // Keep it explicit in the generic route API too (used by route QA and UI fallbacks).
@@ -1588,6 +1624,8 @@ function route(a,b){
   // kısayolu tarafından ezilmemelidir.
   const islandDirect=islandFerryRoute(a,b);
   if(islandDirect) return islandDirect;
+  const namedFerryAccess=besiktasKadikoyFerryAccessRoute(a,b);
+  if(namedFerryAccess) return namedFerryAccess;
   // Belgelenmiş doğrudan vapur bağlantısı, hedef bir raylı sistem düğümü olsa
   // dahi raylı sisteme zorlanmadan önce değerlendirilir.
   const directFerry=directFerryRoute(a,b);
@@ -4199,6 +4237,8 @@ function practicalRouteCost(path){
 }
 
 function multimodalFerryCandidate(a,b){
+  const namedFerryAccess=besiktasKadikoyFerryAccessRoute(a,b);
+  if(namedFerryAccess) return {path:namedFerryAccess,transfers:countModeTransfers(namedFerryAccess),priority:0};
   // Önce doğrudan tanımlı iskele bağlantısı.
   const direct=directFerryRoute(a,b);
   if(direct) return {path:direct, transfers:0, priority:0};
@@ -5496,7 +5536,9 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
  const est=estimatePath(activePath);
  const heading=normalizedOptions ? '' : `<p>Her adımda <b>nereden bineceğin, hangi yöne gideceğin ve nerede ineceğin</b> gösterilir.</p>`;
  const displayActivePath=compressConsecutiveTransitStepsForDisplay(activePath);
- const summary=`<div class="route-summary"><div class="route-stat"><b>${est.low}–${est.high} dk</b><span>Tahmini yolculuk</span></div><div class="route-stat"><b>${est.transfers}</b><span>aktarma</span></div><div class="route-stat"><b>${displayActivePath.length}</b><span>ulaşım adımı</span></div></div>`;
+ const hasUnverifiedAccessWalk=activePath.some(step=>step?.[4]?.accessDurationUnknown===true);
+ const summaryTime=hasUnverifiedAccessWalk?'Süre doğrulanmadı':`${est.low}–${est.high} dk`;
+ const summary=`<div class="route-summary"><div class="route-stat"><b>${summaryTime}</b><span>${hasUnverifiedAccessWalk?'Erişim süresi doğrulanmadı':'Tahmini yolculuk'}</span></div><div class="route-stat"><b>${est.transfers}</b><span>aktarma</span></div><div class="route-stat"><b>${displayActivePath.length}</b><span>ulaşım adımı</span></div></div>`;
  const flow=routeFlow(activePath,start.id);
  const contextHelp=routeContextHelp(stationSearchAccess[start.id]?.station || start.id,activePath);
  panel.innerHTML=`<div class="route-change"><button type="button" class="change-btn route-start-btn" onclick="changeStart()">← Başlangıç noktasını değiştir</button><button type="button" class="change-btn route-reset-btn" onclick="newRoute()">↻ Rotayı sıfırla</button><button type="button" class="change-btn route-target-btn" onclick="changeTarget()">Hedefi değiştir →</button></div><div class="routehead"><div><h2>${gpsStart ? "📍 Mevcut konumum" : start.emoji+" "+start.name} → ${target.emoji} ${target.name}</h2>${heading}</div><div class="pill">${normalizedOptions ? 'PRATİK ROTA' : displayActivePath.length+' ULAŞIM ADIMI'}</div></div>${summary}${flow}${contextHelp}
