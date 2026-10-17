@@ -20,6 +20,10 @@ catch (error) { fail.push(`manual regression dataset JSON: ${error.message}`); }
 
 const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1]);
 check('index.html contains inline scripts', scripts.length > 0);
+check('ferry-start instruction uses its configured access hub, not a hardcoded Kadıköy label',
+  html.includes("prefix=[[a,startAccess.station,'Vapur",) &&
+  html.includes("iskelesinden <b>\u0024{startAccess.label||nodeLabel(startAccess.station)}</b> yönüne giden vapur/motora bin.") &&
+  !html.includes("iskelesinden <b>Kadıköy</b> yönüne giden vapur/motora bin.") );
 scripts.forEach((source, index) => {
   try { new vm.Script(source, { filename: `index.html:inline-${index + 1}` }); }
   catch (error) { fail.push(`inline script ${index + 1} syntax: ${error.message}`); }
@@ -83,8 +87,8 @@ check('build ID and service-worker cache version match', !!buildMinor && !!cache
 
 
 if (regression) {
-  check('manual regression contains at least 53 places', Array.isArray(regression.locations) && regression.locations.length >= 53, String(regression.locations?.length));
-  check('manual regression contains at least 47 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length >= 47, String(regression.routeCases?.length));
+  check('manual regression contains at least 55 places', Array.isArray(regression.locations) && regression.locations.length >= 55, String(regression.locations?.length));
+  check('manual regression contains at least 49 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length >= 49, String(regression.routeCases?.length));
   check('manual regression title matches actual location count', regression.title?.includes(`${regression.locations?.length}-place manual regression set`) === true, String(regression.title));
   check('manual regression guide matches actual location and route counts', read('qa/20-location-manual-regression.md').includes(`# ${regression.locations?.length}-place / ${regression.routeCases?.length}-route manual regression`));
   const locationIds = new Set((regression.locations || []).map(place => place.id));
