@@ -105,7 +105,41 @@ try {
       return { ok:validation.ok,reason:validation.reason,steps:path.length,modes:path.map(s=>s[2]),path:path.map(s=>[s[0],s[1],s[2]]),finalMile:path.some(s=>s[2]==='Son ulaşım'),walk:path.some(s=>s[2]==='Yürüyüş') };
     }, item);
     record('route fixture '+item.id, result.ok === true, result.reason || JSON.stringify(result));
+    if (item.id === 'R48') {
+      const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
+      record('R48 Kanlıca → Bostancı names Üsküdar as the ferry access hub (never hardcodes Kadıköy)',
+        !!ferryLeg && ferryLeg[1] === 'uskudar' &&
+        String(ferryLeg[3]).includes('Üsküdar') &&
+        !String(ferryLeg[3]).includes('Kadıköy'),
+        JSON.stringify(ferryLeg || result));
+    }
   }
+  // Audit the shared ferry-start access formatter across every catalogue place
+  // that resolves to a Vapur start access and can reach Bostancı by rail.
+  const ferryStartAudit = await page.evaluate(() => {
+    return places.filter(p => p.id !== 'bostanci' && getStartRailAccess(p.id)?.mode === 'Vapur')
+      .map(p => {
+        const access = resolveStationAccess(p.id, 'bostanci');
+        const path = minimumRailRoute(p.id, 'bostanci', 4);
+        if (!access || !path || path[0]?.[2] === 'Yürüyüş' || !startAccessPlaceNeedsLayer(p.id, access)) {
+          return { id:p.id, skipped:true, reason:!path?'no rail path':'direct/short-walk access' };
+        }
+        const step = path.find(s => s[0] === p.id && s[2] === 'Vapur');
+        const expected = access.label || nodeLabel(access.station);
+        return {
+          id:p.id, expected, station:access.station,
+          ok:!!step && step[1] === access.station &&
+             String(step[3]).includes(expected) &&
+             (!String(step[3]).includes('Kadıköy') || expected.includes('Kadıköy')),
+          text:step?.[3] || ''
+        };
+      });
+  });
+  const checkedFerryStarts = ferryStartAudit.filter(x => !x.skipped);
+  record('all routed ferry-start instructions match their configured access hub',
+    checkedFerryStarts.length > 0 && checkedFerryStarts.every(x => x.ok),
+    JSON.stringify({checked:checkedFerryStarts.length, failures:checkedFerryStarts.filter(x=>!x.ok), skipped:ferryStartAudit.filter(x=>x.skipped).length}));
+
   // Full end-to-end user flow for every fixture: reset -> search/select origin ->
   // search/select destination -> wait for the rendered route -> assert canonical IDs.
   // This intentionally drives the actual mobile UI rather than invoking the router directly.
@@ -204,9 +238,9 @@ try {
       record('UI route flow '+item.id, false, error.message);
     }
   }
-  record('all end-to-end UI route flows loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 47, 'count='+cases.routeCases.length);
+  record('all end-to-end UI route flows loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 49, 'count='+cases.routeCases.length);
 
-  record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 47, 'count='+cases.routeCases.length);
+  record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 49, 'count='+cases.routeCases.length);
 
   // Atatürk Kent Ormanı: the Hacıosman M2 access is roughly an 8-minute walk, not 1 minute.
   const forestRouteAudit = await page.evaluate(() => {
@@ -543,8 +577,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.36-restaurantbusaccess-core' &&
-    htmlBuild === 'V230.12.36-RESTAURANT-BUS-ACCESS' &&
+    cacheName === 'itp-v230.12.37-kanlica-ferry-label-core' &&
+    htmlBuild === 'V230.12.37-KANLICA-FERRY-LABEL' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
