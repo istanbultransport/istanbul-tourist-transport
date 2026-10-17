@@ -22,6 +22,7 @@ const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(
 check('index.html contains inline scripts', scripts.length > 0);
 check('catalogue place IDs that overlap rail nodes retain place access routing', html.includes('if(isKnownRailStationNode(b) && !bObj)'));
 check('physical ferry origins always retain an explicit ferry access step', html.includes("if(access.mode==='Vapur') return true;"));
+check('Üsküdar ferry–Marmaray interchange is validated in both directions', html.includes("'Vapur|Marmaray':['uskudar']") && html.includes("'Marmaray|Vapur':['uskudar']"));
 check('ferry-start instruction uses its configured access hub, not a hardcoded Kadıköy label',
   html.includes("prefix=[[a,startAccess.station,'Vapur",) &&
   html.includes("iskelesinden <b>\u0024{startAccess.label||nodeLabel(startAccess.station)}</b> yönüne giden vapur/motora bin.") &&
