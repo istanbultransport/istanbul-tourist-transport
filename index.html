@@ -1591,17 +1591,17 @@ function besiktasKadikoyFerryAccessRoute(a,b){
       const originMap=mapUrl(besiktasPoint,besiktasPier);
       const targetMap=mapUrl(kadikoyPier,kadikoyPoint);
       return [
-        ['besiktas','besiktas','Yürüyüş','<b>📍 Beşiktaş bölgesinin uygulamada kayıtlı temsilî noktasından Barbaros Hayrettin Paşa İskelesi’ne ulaş.</b><br>'+walkingNotice+'<br><a href="'+originMap+'" target="_blank" rel="noopener noreferrer">🚶 Beşiktaş noktasından iskeleye yaya navigasyonunu aç</a>'],
+        ['besiktas','besiktas','Yürüyüş','<b>📍 Beşiktaş bölgesinin uygulamada kayıtlı temsilî noktasından Barbaros Hayrettin Paşa İskelesi’ne ulaş.</b><br>'+walkingNotice+'<br><a href="'+originMap+'" target="_blank" rel="noopener noreferrer">🚶 Beşiktaş noktasından iskeleye yaya navigasyonunu aç</a>',{accessDurationUnknown:true}],
         ['besiktas','kadikoy','Vapur','<b>Barbaros Hayrettin Paşa İskelesi</b>nden <b>Kadıköy (Eski) İskelesi</b> yönüne giden vapura bin. Şehir Hatları resmî tarifesinde bu iki iskele belirtilir; sefer saatini güncel tarifeden kontrol et.<br><a href="'+ferryUrl+'" target="_blank" rel="noopener noreferrer">⛴️ Beşiktaş–Kadıköy resmî sefer tarifesi</a>'],
-        ['kadikoy','kadikoy_carsi','Yürüyüş','<b>Kadıköy (Eski) İskelesi</b>nden seçtiğin <b>Kadıköy Çarşı</b> hedefine yürü.<br>'+walkingNotice+'<br><a href="'+targetMap+'" target="_blank" rel="noopener noreferrer">🚶 İskele ile Kadıköy Çarşı arasında yaya navigasyonunu aç</a>']
+        ['kadikoy','kadikoy_carsi','Yürüyüş','<b>Kadıköy (Eski) İskelesi</b>nden seçtiğin <b>Kadıköy Çarşı</b> hedefine yürü.<br>'+walkingNotice+'<br><a href="'+targetMap+'" target="_blank" rel="noopener noreferrer">🚶 İskele ile Kadıköy Çarşı arasında yaya navigasyonunu aç</a>',{accessDurationUnknown:true}]
       ];
     }
     const originMap=mapUrl(kadikoyPoint,kadikoyPier);
     const targetMap=mapUrl(besiktasPier,besiktasPoint);
     return [
-      ['kadikoy_carsi','kadikoy','Yürüyüş','<b>Kadıköy Çarşı</b>dan <b>Kadıköy (Eski) İskelesi</b>ne yürü.<br>'+walkingNotice+'<br><a href="'+originMap+'" target="_blank" rel="noopener noreferrer">🚶 Kadıköy Çarşıdan iskeleye yaya navigasyonunu aç</a>'],
+      ['kadikoy_carsi','kadikoy','Yürüyüş','<b>Kadıköy Çarşı</b>dan <b>Kadıköy (Eski) İskelesi</b>ne yürü.<br>'+walkingNotice+'<br><a href="'+originMap+'" target="_blank" rel="noopener noreferrer">🚶 Kadıköy Çarşıdan iskeleye yaya navigasyonunu aç</a>',{accessDurationUnknown:true}],
       ['kadikoy','besiktas','Vapur','<b>Kadıköy (Eski) İskelesi</b>nden <b>Barbaros Hayrettin Paşa İskelesi</b> yönüne giden vapura bin. Sefer saatini güncel resmî tarifeden kontrol et.<br><a href="'+ferryUrl+'" target="_blank" rel="noopener noreferrer">⛴️ Beşiktaş–Kadıköy resmî sefer tarifesi</a>'],
-      ['besiktas','besiktas','Yürüyüş','<b>Barbaros Hayrettin Paşa İskelesi</b>nden Beşiktaş bölgesinin kayıtlı temsilî noktasına yürü.<br>'+walkingNotice+'<br><a href="'+targetMap+'" target="_blank" rel="noopener noreferrer">🚶 İskele ile Beşiktaş noktası arasında yaya navigasyonunu aç</a>']
+      ['besiktas','besiktas','Yürüyüş','<b>Barbaros Hayrettin Paşa İskelesi</b>nden Beşiktaş bölgesinin kayıtlı temsilî noktasına yürü.<br>'+walkingNotice+'<br><a href="'+targetMap+'" target="_blank" rel="noopener noreferrer">🚶 İskele ile Beşiktaş noktası arasında yaya navigasyonunu aç</a>',{accessDurationUnknown:true}]
     ];
   }
   return null;
@@ -5536,7 +5536,9 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
  const est=estimatePath(activePath);
  const heading=normalizedOptions ? '' : `<p>Her adımda <b>nereden bineceğin, hangi yöne gideceğin ve nerede ineceğin</b> gösterilir.</p>`;
  const displayActivePath=compressConsecutiveTransitStepsForDisplay(activePath);
- const summary=`<div class="route-summary"><div class="route-stat"><b>${est.low}–${est.high} dk</b><span>Tahmini yolculuk</span></div><div class="route-stat"><b>${est.transfers}</b><span>aktarma</span></div><div class="route-stat"><b>${displayActivePath.length}</b><span>ulaşım adımı</span></div></div>`;
+ const hasUnverifiedAccessWalk=activePath.some(step=>step?.[4]?.accessDurationUnknown===true);
+ const summaryTime=hasUnverifiedAccessWalk?'Süre doğrulanmadı':`${est.low}–${est.high} dk`;
+ const summary=`<div class="route-summary"><div class="route-stat"><b>${summaryTime}</b><span>${hasUnverifiedAccessWalk?'Erişim süresi doğrulanmadı':'Tahmini yolculuk'}</span></div><div class="route-stat"><b>${est.transfers}</b><span>aktarma</span></div><div class="route-stat"><b>${displayActivePath.length}</b><span>ulaşım adımı</span></div></div>`;
  const flow=routeFlow(activePath,start.id);
  const contextHelp=routeContextHelp(stationSearchAccess[start.id]?.station || start.id,activePath);
  panel.innerHTML=`<div class="route-change"><button type="button" class="change-btn route-start-btn" onclick="changeStart()">← Başlangıç noktasını değiştir</button><button type="button" class="change-btn route-reset-btn" onclick="newRoute()">↻ Rotayı sıfırla</button><button type="button" class="change-btn route-target-btn" onclick="changeTarget()">Hedefi değiştir →</button></div><div class="routehead"><div><h2>${gpsStart ? "📍 Mevcut konumum" : start.emoji+" "+start.name} → ${target.emoji} ${target.name}</h2>${heading}</div><div class="pill">${normalizedOptions ? 'PRATİK ROTA' : displayActivePath.length+' ULAŞIM ADIMI'}</div></div>${summary}${flow}${contextHelp}
