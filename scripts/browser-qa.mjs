@@ -107,11 +107,12 @@ try {
     record('route fixture '+item.id, result.ok === true, result.reason || JSON.stringify(result));
     if (item.id === 'R48') {
       const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
-      record('R48 Kanlıca → Bostancı names Üsküdar as the ferry access hub (never hardcodes Kadıköy)',
+      record('R48 Kanlıca → Bostancı preserves the Kanlıca → Üsküdar ferry leg and names the correct hub',
+        result.path[0]?.[0] === 'kanlica' &&
         !!ferryLeg && ferryLeg[1] === 'uskudar' &&
         String(ferryLeg[3]).includes('Üsküdar') &&
         !String(ferryLeg[3]).includes('Kadıköy'),
-        JSON.stringify(ferryLeg || result));
+        JSON.stringify(result.path));
     }
   }
   // Audit the shared ferry-start access formatter across every catalogue place
