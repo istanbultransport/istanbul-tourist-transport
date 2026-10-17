@@ -194,6 +194,16 @@ try {
         record('R24 Radisson access names official KM46 route and the exact alighting stop',
           km46Access, flow.routeText.slice(0,1300));
       }
+      if(item.id==='R11'){
+        const ferryAccess = flow.routeText.includes('Barbaros Hayrettin Paşa İskelesi') &&
+          flow.routeText.includes('Kadıköy (Eski) İskelesi') &&
+          flow.routeText.includes('süre uydurulmuyor') &&
+          flow.routeHtml.includes('kadikoy-besiktas-165') &&
+          (flow.routeHtml.match(/travelmode=walking/g)||[]).length >= 2 &&
+          flow.stepCards >= 3;
+        record('R11 Beşiktaş–Kadıköy route includes both pier access walks and official ferry source without invented duration',
+          ferryAccess, flow.routeText.slice(0,1500));
+      }
       if(item.id==='R21'){
         const routeSummary=flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0]||'';
         const verifiedMarriottAccess=flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&
@@ -543,8 +553,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.36-restaurantbusaccess-core' &&
-    htmlBuild === 'V230.12.36-RESTAURANT-BUS-ACCESS' &&
+    cacheName === 'itp-v230.12.37-besiktasferryaccess-core' &&
+    htmlBuild === 'V230.12.37-BESIKTAS-FERRY-ACCESS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
