@@ -1,16 +1,16 @@
-<!-- V230.12.36-RESTAURANT-BUS-ACCESS: restaurant-origin station access now discloses unverified walking time and opens walking navigation. -->
+<!-- V230.12.37-KANLICA-FERRY-LABEL: restaurant-origin station access now discloses unverified walking time and opens walking navigation. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.36-RESTAURANT-BUS-ACCESS">
+<meta name="build-id" content="V230.12.37-KANLICA-FERRY-LABEL">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <title>Istanbul Tourist Transport Planner — V230.12.36</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.36-RESTAURANT-BUS-ACCESS';
+  window.__APP_BUILD_ID__='V230.12.37-KANLICA-FERRY-LABEL';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -184,7 +184,7 @@ footer{padding:28px 18px;color:var(--muted);font-size:12px}footer a{color:var(--
 </head>
 <body>
 <header><div class="wrap">
-<div class="top"><div><h1>Istanbul Tourist Transport Planner</h1><p class="sub">Önce nerede olduğunu seç. Sonra gideceğin yeri seç. Rota otomatik oluşsun.</p></div><span class="tag" id="buildBadge">V230.12.16-UI-QA-HARDENED</span></div>
+<div class="top"><div><h1>Istanbul Tourist Transport Planner</h1><p class="sub">Önce nerede olduğunu seç. Sonra gideceğin yeri seç. Rota otomatik oluşsun.</p></div><span class="tag" id="buildBadge">V230.12.37-KANLICA-FERRY-LABEL</span></div>
 <div class="panel search">
 <h2 id="stationSearchTitle">📍 Şu an neredesin?</h2>
 <div id="stationSearchHint" style="margin:0 0 10px;font-size:12px;font-weight:800;color:#5f6b76">📍 Yakınındaki durağın tam adını yaz.</div>
@@ -3484,7 +3484,7 @@ function minimumRailRoute(a,b,maxTransfers=4,endAccessOverride=null,startModeOve
   let prefix=[];
   if(startAccess && startAccessPlaceNeedsLayer(a,startAccess)){
     if(startAccess.mode==='Vapur'){
-      prefix=[[a,startAccess.station,'Vapur',`<b>${places.find(p=>p.id===a)?.name||a}</b> iskelesinden <b>Kadıköy</b> yönüne giden vapur/motora bin.`]];
+      prefix=[[a,startAccess.station,'Vapur',`<b>${places.find(p=>p.id===a)?.name||a}</b> iskelesinden <b>${startAccess.label||nodeLabel(startAccess.station)}</b> yönüne giden vapur/motora bin.`]];
     }else{
       prefix=localAccessSteps(a,startAccess);
     }
@@ -5773,7 +5773,7 @@ window.v23012_6GpsBoardingPresentationQA=v23012_6GpsBoardingPresentationQA;
   window.v23012_6AirportBoardingGuardQA=v23012_6AirportBoardingGuardQA;
 })();
 </script>
-<script>/* V230.12.16-UI-QA-HARDENED focused QA */
+<script>/* V230.12.37-KANLICA-FERRY-LABEL focused QA */
 (function(){
  function v223Fix3QA(){
   const out={status:'PASS',failures:[],checks:{}};
@@ -6146,7 +6146,7 @@ function v222DataAudit(){
  window.__V222_DATA_AUDIT__=out; return out;
 }
 window.v222DataAudit=v222DataAudit;
-console.info('[Istanbul Tourist Transport Planner] BUILD V230.12.16-UI-QA-HARDENED');
+console.info('[Istanbul Tourist Transport Planner] BUILD V230.12.37-KANLICA-FERRY-LABEL');
 })();
 
 function v227WalkingNavigationQA(){
