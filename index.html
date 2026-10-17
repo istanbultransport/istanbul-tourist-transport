@@ -1,16 +1,16 @@
-<!-- V230.12.34-FOURSEASONS-ACCESS: source-backed KM13 surface transfer; boarding walk remains unverified. -->
+<!-- V230.12.36-RESTAURANT-BUS-ACCESS: restaurant-origin station access now discloses unverified walking time and opens walking navigation. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.34-FOURSEASONS-ACCESS">
+<meta name="build-id" content="V230.12.36-RESTAURANT-BUS-ACCESS">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.34</title>
+<title>Istanbul Tourist Transport Planner — V230.12.36</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.34-FOURSEASONS-ACCESS';
+  window.__APP_BUILD_ID__='V230.12.36-RESTAURANT-BUS-ACCESS';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -2146,7 +2146,7 @@ function startAccessPlaceNeedsLayer(placeId, access){
   // açıklanmalıdır.
   if(obj.kind==='Otel') return true;
   if(obj.kind==='İlçe') return true;
-  if(obj.kind==='Turistik nokta' || obj.kind==='Stadyum' || obj.kind==='Ada') return access.direct!==true;
+  if(obj.kind==='Turistik nokta' || obj.kind==='Stadyum' || obj.kind==='Ada' || obj.kind==='Restoran') return access.direct!==true;
   return false;
 }
 
@@ -2314,6 +2314,19 @@ function localAccessSteps(placeId, access){
     ]];
   }
   const fromObj=places.find(p=>p.id===placeId);
+  // Restaurant records are physical origins, not station nodes. Until the exact
+  // entrance-to-stop path and duration are independently verified, provide a
+  // walking map link and disclose the unknown time rather than silently
+  // starting the journey at a nearby station or inventing minutes.
+  if(fromObj?.kind==='Restoran'){
+    const from=fromObj.name || placeId;
+    const station=access.label || nodeLabel(access.station);
+    const origin=[from,fromObj.desc||'İstanbul'].filter(Boolean).join(', ');
+    const destination=station+' durağı/istasyonu, İstanbul';
+    const url='https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(origin)+'&destination='+encodeURIComponent(destination)+'&travelmode=walking';
+    const html='<b>📍 '+from+'</b> → <b>'+station+'</b> erişimi.<br>Restoran girişinden durağa yürüme süresi ve kesin yaya güzergâhı bağımsız olarak doğrulanmadı. Süre uydurulmuyor.<br><a href="'+url+'" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:10px 12px;border-radius:10px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🚶 '+from+' noktasından '+station+' durağına yaya rotasını haritada kontrol et</a>';
+    return [[placeId,access.station,'Yürüyüş',html]];
+  }
   const strategy=accessStrategy(placeId,access);
 
   // ÖZEL STRATEJİLER genel fiziksel-nokta katmanından önce değerlendirilir.
@@ -3140,10 +3153,10 @@ const startLocalAccessRegistry={
     station:'kozyatagi',mode:'M4 Metro',label:'Kozyatağı M4',local:true,hotel:true,accessType:'verified_local_bus',
     renderText:()=>{
       const hotel='Radisson Blu Hotel, Istanbul Asia';
-      const point='40.99094,29.11588';
       const stop=currentLocationWalkingNavUrl(iettStopLabel('Ataşehir Bulvarı - Ataşehir Yönü','205744')+' İstanbul');
       const iett=getIettStop('Kozyatağı Metro','225653').iettUrl;
-      return `<b>📍 ${hotel}</b> içinden doğrudan <b>Kozyatağı M4</b>'e yürümeyin.<br><br>🚶 <b>1. Yaklaşık 3 dakika yürüyün.</b> <b>Ataşehir Bulvarı - Ataşehir Yönü (205744)</b> durağına gidin.<br><a href="${stop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Durağa yürüyüş navigasyonunu aç</a> <b>Kozyatağı Metro (225653)</b> durağında inin.<br><a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 İETT'de hat bilgisini aç</a>`;
+      const routeUrl='https://iett.istanbul/RouteDetail?hkod=KM46';
+      return `<b>📍 ${hotel}</b> içinden doğrudan <b>Kozyatağı M4</b>'e yürümeyin.<br><br>🚶 <b>1. Yaklaşık 3 dakika yürüyün.</b> <b>Ataşehir Bulvarı - Ataşehir Yönü (205744)</b> durağına gidin.<br><a href="${stop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Biniş durağına yürüyüş navigasyonunu aç</a><br><br>🚌 <b>KM46 — Batı Ataşehir / Kozyatağı Metro</b> hattına binin ve <b>Kozyatağı Metro (225653)</b> durağında inin. KM46, İETT'ye göre Kozyatağı Metro'dan ring olarak çalışır; biniş yönünü durak ekranından kontrol edin.<br><a href="${routeUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 KM46 resmî İETT hat bilgisi</a> <a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">📍 Kozyatağı Metro iniş durağını aç</a>`;
     }
   },
   the_green_park_pendik:{
