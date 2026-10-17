@@ -150,6 +150,16 @@ try {
         record('live Istanbul Modern route uses Tophane T1 and 4-minute final walk', modernAccessValid,
           flow.routeText.slice(-500));
       }
+      if (item.id === 'R11') {
+        const ferryAccess = flow.routeText.includes('Barbaros Hayrettin Paşa İskelesi') &&
+          flow.routeText.includes('Kadıköy (Eski) İskelesi') &&
+          flow.routeText.includes('süre uydurulmuyor') &&
+          flow.routeHtml.includes('kadikoy-besiktas-165') &&
+          (flow.routeHtml.match(/travelmode=walking/g) || []).length >= 2 &&
+          flow.stepCards >= 3;
+        record('live R11 Beşiktaş–Kadıköy route includes both pier access walks and official ferry source without invented duration',
+          ferryAccess, flow.routeText.slice(0, 1500));
+      }
       if (item.id === 'R13') {
         const hotelAccessDisclosed = flow.routeText.includes('Four Seasons Hotel Istanbul at Sultanahmet') &&
           flow.routeText.includes('Sultanahmet T1') &&
