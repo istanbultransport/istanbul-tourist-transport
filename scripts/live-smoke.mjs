@@ -154,6 +154,7 @@ try {
         const ferryAccess = flow.routeText.includes('Barbaros Hayrettin Paşa İskelesi') &&
           flow.routeText.includes('Kadıköy (Eski) İskelesi') &&
           flow.routeText.includes('süre uydurulmuyor') &&
+          flow.routeText.includes('Erişim süresi doğrulanmadı') &&
           flow.routeHtml.includes('kadikoy-besiktas-165') &&
           (flow.routeHtml.match(/travelmode=walking/g) || []).length >= 2 &&
           flow.stepCards >= 3;
