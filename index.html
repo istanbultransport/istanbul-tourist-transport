@@ -1844,6 +1844,9 @@ for(const [mode,line] of Object.entries(railLines)) lineTerminals[mode]={order:l
 marmarayOrder.push(...railLines['Marmaray'].order);
 
 const transferStations={
+  // Verified interchange at Üsküdar: Şehir Hatları ferry pier ↔ Marmaray.
+  // No exact pier-to-platform walk duration is asserted here.
+  'Vapur|Marmaray':['uskudar'], 'Marmaray|Vapur':['uskudar'],
   'T1 Tramvay|T5 Tramvay':['eminonu'], 'T5 Tramvay|T1 Tramvay':['eminonu'],
   'M6 Metro|F4 Füniküler':['hisarustu'], 'F4 Füniküler|M6 Metro':['hisarustu'],
   'T6 Tramvay|Marmaray':['sirkeci','kazlicesme_m'], 'Marmaray|T6 Tramvay':['sirkeci','kazlicesme_m'],
