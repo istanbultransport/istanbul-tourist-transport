@@ -84,7 +84,7 @@ try {
 
   // Exercise every current route fixture through the deployed user interface, not only
   // the in-page route engine. This verifies the live catalogue, selection handoff and
-  // rendered route for R01-R47 on the deployed build.
+  // rendered route for R01-R51 on the deployed build.
   for (const item of routeCases) {
     try {
       const names = await page.evaluate(({ from, to }) => ({
@@ -170,7 +170,7 @@ try {
       record('live UI route flow ' + item.id, false, error.message);
     }
   }
-  record('all live UI route fixtures loaded', Array.isArray(routeCases) && routeCases.length === 47,
+  record('all live UI route fixtures loaded', Array.isArray(routeCases) && routeCases.length === 51,
     'count=' + routeCases.length);
 
   // Exercise the Yıldız Sarayı long-walk case through the deployed UI.
@@ -289,7 +289,7 @@ try {
       const marmarayEntranceTargets = [
         ['yunus_m','Marmaray',40.88444444,29.21055556],
         ['kaynarca_m','Marmaray',40.87138889,29.25583333],
-        ['kartal_hub','Marmaray',40.88861111,29.19111111],
+        ['kartal_m','Marmaray',40.88861111,29.19111111],
         ['suadiye_m','Marmaray',40.96055556,29.08444444]
       ];
       const marmarayEntranceChecks = marmarayEntranceTargets.map(([station, mode, lat, lng]) => {
@@ -304,19 +304,20 @@ try {
       const crossLineStationPairs = [
         { station: 'ayrilik', a: 'M4 Metro', b: 'Marmaray', min: 0, max: 150 },
         { station: 'uskudar', a: 'M5 Metro', b: 'Marmaray', min: 0, max: 200 },
-        { station: 'kartal_hub', a: 'M4 Metro', b: 'Marmaray', min: 500, max: Infinity },
-        { station: 'pendik', a: 'M4 Metro', b: 'Marmaray', min: 500, max: Infinity }
+        { station: 'kartal_hub', bStation: 'kartal_m', a: 'M4 Metro', b: 'Marmaray', min: 500, max: Infinity },
+        { station: 'pendik', bStation: 'pendik_m', a: 'M4 Metro', b: 'Marmaray', min: 500, max: Infinity },
+        { station: 'bostanci', bStation: 'bostanci_m', a: 'M4 Metro', b: 'Marmaray', min: 1000, max: 2000 }
       ];
       const crossLineStationChecks = crossLineStationPairs.map(pair => {
-        const a = fallback.find(row => row.station === pair.station && row.mode === pair.a);
-        const b = fallback.find(row => row.station === pair.station && row.mode === pair.b);
+        const a = fallback.find(row => row.station === (pair.aStation || pair.station) && row.mode === pair.a);
+        const b = fallback.find(row => row.station === (pair.bStation || pair.station) && row.mode === pair.b);
         if (!a || !b || !Number.isFinite(a.lat) || !Number.isFinite(b.lat)) return { station: pair.station, a: pair.a, b: pair.b, meters: null, ok: false };
         const meanLat = (a.lat + b.lat) / 2 * Math.PI / 180;
         const meters = Math.hypot((a.lat - b.lat) * 111320, (a.lng - b.lng) * 111320 * Math.cos(meanLat));
         return { station: pair.station, a: pair.a, b: pair.b, meters: Math.round(meters), ok: meters >= pair.min && meters <= pair.max };
       });
       const marmarayNodeTargets = [
-        ['pendik','Marmaray',40.88024,29.23165,20],
+        ['pendik_m','Marmaray',40.88024,29.23165,20],
         ['erenkoy_m','Marmaray',40.97167,29.07638,10],
         ['sogutlucesme','Marmaray',40.99065,29.03791,75],
         ['ayrilik','Marmaray',41.00015,29.03010,60]
@@ -384,7 +385,7 @@ try {
   record('four Marmaray static fallbacks match station-specific Google Maps entrance pins',
     gpsRegistryAudit.marmarayEntrancesMatchSource,
     JSON.stringify(gpsRegistryAudit.marmarayEntranceChecks));
-  record('four same-name cross-line station pairs preserve correct geometry',
+  record('five same-name cross-line station pairs preserve correct geometry',
     gpsRegistryAudit.crossLineStationPairsOk,
     JSON.stringify(gpsRegistryAudit.crossLineStationChecks));
   record('four Marmaray station nodes remain within secondary-map tolerances',
