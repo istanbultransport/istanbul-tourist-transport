@@ -84,7 +84,7 @@ try {
 
   // Exercise every current route fixture through the deployed user interface, not only
   // the in-page route engine. This verifies the live catalogue, selection handoff and
-  // rendered route for R01-R53 on the deployed build.
+  // rendered route for R01-R54 on the deployed build.
   for (const item of routeCases) {
     try {
       const names = await page.evaluate(({ from, to }) => ({
@@ -170,7 +170,7 @@ try {
       record('live UI route flow ' + item.id, false, error.message);
     }
   }
-  record('all live UI route fixtures loaded', Array.isArray(routeCases) && routeCases.length === 53,
+  record('all live UI route fixtures loaded', Array.isArray(routeCases) && routeCases.length === 54,
     'count=' + routeCases.length);
 
   // Exercise the Yıldız Sarayı long-walk case through the deployed UI.
