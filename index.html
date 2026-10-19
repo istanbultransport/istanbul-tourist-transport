@@ -1981,11 +1981,11 @@ const startRailAccess={
   esenler:{station:'esenler_hub',mode:'M1B Metro',label:'Esenler M1B',direct:true},
   bakirkoy:{station:'bakirkoy_hub',mode:'Marmaray',label:'Bakırköy Marmaray',direct:true},
   kucukcekmece:{station:'kucukcekmece_hub',mode:'Marmaray',label:'Küçükçekmece Marmaray',direct:true},
-  zeytinburnu:{station:'zeytinburnu_hub',mode:'Marmaray',label:'Zeytinburnu Marmaray',direct:true},
+  zeytinburnu:{station:'zeytinburnu_hub',mode:'M1A Metro',label:'Zeytinburnu M1A',direct:true},
   bahcelievler:{station:'bahcelievler_hub',mode:'M1A Metro',label:'Bahçelievler M1A',direct:true},
   buyukcekmece:{station:'beylikduzu_hub',mode:'Metrobüs',label:'Beylikdüzü Metrobüs'},
   esenyurt:{station:'beylikduzu_hub',mode:'Metrobüs',label:'Beylikdüzü Metrobüs'},
-  gungoren:{station:'zeytinburnu_hub',mode:'Marmaray',label:'Zeytinburnu Marmaray'},
+  gungoren:{station:'zeytinburnu_hub',mode:'M1A Metro',label:'Zeytinburnu M1A'},
   kagithane:{station:'kagithane_hub',mode:'M7 Metro',label:'Kağıthane M7',direct:true},
   sariyer:{station:'haciosman_hub',mode:'M2 Metro',label:'Hacıosman M2'},
   ataturk_kent_ormani:{station:'haciosman_hub',mode:'M2 Metro',label:'Hacıosman M2',stationOnly:true,walkMinutes:8},
@@ -2027,7 +2027,7 @@ const startRailAccess={
   galata_semt:{station:'sishane',mode:'M2 Metro',label:'Şişhane M2'},
   moda_semt:{station:'moda',mode:'T3 Tramvay',label:'Moda T3',direct:true},
   ortakoy_semt:{station:'yildiz',mode:'M7 Metro',label:'Yıldız M7'},
-  bostanci_semt:{station:'bostanci',mode:'Marmaray',label:'Bostancı Marmaray',direct:true},
+  bostanci_semt:{station:'bostanci_m',mode:'Marmaray',label:'Bostancı Marmaray',direct:true},
   dudullu_semt:{station:'dudullu',mode:'M5 Metro',label:'Dudullu M5',direct:true},
   kurtkoy:{station:'kurtkoy',mode:'M4 Metro',label:'Kurtköy M4',direct:true},
   atakoy_semt:{station:'atakoy',mode:'Marmaray',label:'Ataköy Marmaray',direct:true},
@@ -3246,7 +3246,7 @@ const touristAccess={
   // multimodal candidate layer decide whether ferry/surface access beats rail.
   anadolu_hisari:{station:'uskudar',mode:'Vapur',label:'Üsküdar İskelesi',local:true},
   cengelkoy:{station:'uskudar',mode:'M5 Metro',label:'Üsküdar M5'},
-  bagdat_caddesi:{station:'bostanci',mode:'Marmaray',label:'Bostancı Marmaray'},
+  bagdat_caddesi:{station:'bostanci_m',mode:'Marmaray',label:'Bostancı Marmaray'},
   kadikoy_carsi:{station:'kadikoy',mode:'M4 Metro',label:'Kadıköy M4'},
   haydarpasa:{station:'kadikoy',mode:'M4 Metro',label:'Kadıköy M4'},
   fenerbahce_park:{station:'feneryolu_m',mode:'Marmaray',label:'Feneryolu Marmaray',stationOnly:true,walkMinutes:7},
@@ -3262,7 +3262,7 @@ const touristAccess={
   asiyan_muzesi:{station:'asiyan',mode:'F4 Füniküler',label:'Aşiyan F4',local:false},
   beykoz_mecidiye_kasri:{station:'uskudar',mode:'M5 Metro',label:'Üsküdar M5',local:true},
   moda_sahili:{station:'moda',mode:'T3 Tramvay',label:'Moda T3'},
-  bostanci_sahili:{station:'bostanci',mode:'Marmaray',label:'Bostancı Marmaray'},
+  bostanci_sahili:{station:'bostanci_m',mode:'Marmaray',label:'Bostancı Marmaray'},
   hurrem_sultan_hamami:{station:'sultanahmet',mode:'T1 Tramvay',label:'Sultanahmet T1'},
   agva:{station:'uskudar',mode:'Marmaray',label:'Üsküdar Marmaray',local:true},
   arap_camii:{station:'halic',mode:'M2 Metro',label:'Haliç M2',local:true},
@@ -3271,7 +3271,7 @@ const touristAccess={
   ataturk_kent_ormani:{station:'haciosman_hub',mode:'M2 Metro',label:'Hacıosman M2',stationOnly:true,walkMinutes:8},
   aydos_ormani:{station:'yakacik',mode:'M4 Metro',label:'Yakacık-Adnan Kahveci M4',stationOnly:true},
   beykoz_cam_ve_billur_muzesi:{station:'uskudar',mode:'M5 Metro',label:'Üsküdar M5',local:true},
-  bostanci:{station:'bostanci',mode:'Marmaray',label:'Bostancı Marmaray',local:false},
+  bostanci:{station:'bostanci_m',mode:'Marmaray',label:'Bostancı Marmaray',local:false},
   burgazada:{station:'kadikoy',mode:'Vapur',label:'Kadıköy İskelesi',local:false},
   buyukada:{station:'kadikoy',mode:'Vapur',label:'Kadıköy İskelesi',local:false},
   buyuk_saray_mozaikleri_muzesi:{station:'sultanahmet',mode:'T1 Tramvay',label:'Sultanahmet T1',local:false},
@@ -3307,12 +3307,12 @@ const touristAccess={
   yapi_kredi_kultur_sanat:{station:'taksim',mode:'M2 Metro',label:'Taksim M2',local:false},
   yeni_camii:{station:'eminonu',mode:'T1 Tramvay',label:'Eminönü T1',local:false},
   yildiz_parki:{station:'yildiz',mode:'M7 Metro',label:'Yıldız M7',stationOnly:true,walkMinutes:16},
-  zeytinburnu_mozaik_muzesi:{station:'zeytinburnu_hub',mode:'Marmaray',label:'Zeytinburnu Marmaray',local:true},
+  zeytinburnu_mozaik_muzesi:{station:'zeytinburnu_hub',mode:'M1A Metro',label:'Zeytinburnu M1A',local:true},
   islam_bilim_ve_teknoloji_tarihi_muzesi:{station:'gulhane',mode:'T1 Tramvay',label:'Gülhane T1',local:false},
   istanbul_bogazi_yalilari:{station:'yildiz',mode:'M7 Metro',label:'Yıldız M7',local:true},
   istanbul_deniz_muzesi:{station:'yildiz',mode:'M7 Metro',label:'Yıldız M7',local:true},
   istanbul_havalimani_muzesi:{station:'istanbul-airport',mode:'M11 Metro',label:'İstanbul Havalimanı M11',local:false},
-  istanbul_oyuncak_muzesi:{station:'bostanci',mode:'Marmaray',label:'Bostancı Marmaray',local:true},
+  istanbul_oyuncak_muzesi:{station:'bostanci_m',mode:'Marmaray',label:'Bostancı Marmaray',local:true},
   istanbul_surlari:{station:'edirnekapi',mode:'T4 Tramvay',label:'Edirnekapı T4',local:true},
   fenerbahce_stadyumu:{station:'kadikoy',mode:'M4 Metro',label:'Kadıköy M4',local:false},
   besiktas_stadyumu:{station:'kabatas',mode:'T1 Tramvay',label:'Kabataş T1',local:false},
@@ -3345,7 +3345,7 @@ const endRailAccess={
   sariyer:{station:'haciosman_hub',mode:'M2 Metro',label:'Hacıosman M2'},
   sisli:{station:'mecidiyekoy',mode:'M2 Metro',label:'Şişli-Mecidiyeköy M2'},
   eyupsultan:{station:'alibeykoy',mode:'M7 Metro',label:'Alibeyköy M7'},
-  gungoren:{station:'zeytinburnu_hub',mode:'Marmaray',label:'Zeytinburnu Marmaray'}
+  gungoren:{station:'zeytinburnu_hub',mode:'M1A Metro',label:'Zeytinburnu M1A'}
 };
 function resolveStationAccess(placeId,targetId){
   // Rota özelinde: Arap Camii → AKM için Şişhane M2 tercih edilir.
@@ -4970,7 +4970,7 @@ function staticGpsStationCoordinates(){
     {station:'yunus_m',mode:'Marmaray',label:'Yunus Marmaray',lat:40.88444444,lng:29.21055556},
     {station:'kaynarca_m',mode:'Marmaray',label:'Kaynarca Marmaray',lat:40.87138889,lng:29.25583333},
     {station:'kartal_m',mode:'Marmaray',label:'Kartal Marmaray',lat:40.88861111,lng:29.19111111},
-    {station:'bostanci',mode:'Marmaray',label:'Bostancı Marmaray',lat:40.95350,lng:29.09640},
+    {station:'bostanci_m',mode:'Marmaray',label:'Bostancı Marmaray',lat:40.95350,lng:29.09640},
     {station:'suadiye_m',mode:'Marmaray',label:'Suadiye Marmaray',lat:40.96055556,lng:29.08444444},
     {station:'erenkoy_m',mode:'Marmaray',label:'Erenköy Marmaray',lat:40.97167,lng:29.07638},
     {station:'goztepe_m',mode:'Marmaray',label:'Göztepe Marmaray',lat:40.97907,lng:29.06175},
@@ -5741,12 +5741,12 @@ async function v23012_6GpsBoardingPresentationQA(){
   add('gps-walk-navigation-target',String(first?.[3]||'').includes('40.88016%2C29.23162'),first?.[3]);
   const p15=currentLocationCorridorPenalty({station:'pendik',mode:'M4 Metro',walkMinutes:5,path:[['pendik','ayrilik','M4 Metro','x']]},[
     {station:'pendik',mode:'M4 Metro',walkMinutes:5,path:[['pendik','ayrilik','M4 Metro','x']]},
-    {station:'pendik',mode:'Marmaray',walkMinutes:15,path:[['pendik','yenikapi','Marmaray','x']]}
+    {station:'pendik_m',mode:'Marmaray',walkMinutes:15,path:[['pendik_m','yenikapi','Marmaray','x']]}
   ],target);
   add('same-node-15-minute-guard',p15>=10000,p15);
   const p16=currentLocationCorridorPenalty({station:'pendik',mode:'M4 Metro',walkMinutes:5,path:[['pendik','ayrilik','M4 Metro','x']]},[
     {station:'pendik',mode:'M4 Metro',walkMinutes:5,path:[['pendik','ayrilik','M4 Metro','x']]},
-    {station:'pendik',mode:'Marmaray',walkMinutes:16,path:[['pendik','yenikapi','Marmaray','x']]}
+    {station:'pendik_m',mode:'Marmaray',walkMinutes:16,path:[['pendik_m','yenikapi','Marmaray','x']]}
   ],target);
   add('same-node-over-15-not-hard-forced',p16<10000,p16);
   out.status=out.failures.length?'FAIL':'PASS';
