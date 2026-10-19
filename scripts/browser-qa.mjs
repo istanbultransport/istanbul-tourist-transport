@@ -157,6 +157,24 @@ try {
     !ferryPierAudit.flow.includes('Karaköy F2'),
     JSON.stringify(ferryPierAudit));
 
+  const maidenTowerAccessAudit = await page.evaluate(() => {
+    const steps = targetAccessSteps(getEndAccess('kiz_kulesi'), 'kiz_kulesi');
+    return {
+      steps: steps.map(s => [s[0],s[1],s[2],s[3]]),
+      hasSalacak: steps.some(s => s[1] === 'salacak_kiz_kulesi' || s[0] === 'salacak_kiz_kulesi'),
+      hasBoat: steps.some(s => s[2] === 'Vapur' && s[1] === 'kiz_kulesi'),
+      hasUnverifiedWalkDisclosure: steps.some(s => s[2] === 'Yürüyüş' && s[3].includes('bağımsız olarak doğrulanmadı')),
+      ferryLabel: ferryPierLabel('salacak_kiz_kulesi','kiz_kulesi'),
+      destinationLabel: ferryPierLabel('kiz_kulesi','salacak_kiz_kulesi')
+    };
+  });
+  record('Kız Kulesi access uses Salacak visitor pier and a boat instead of a false direct walk',
+    maidenTowerAccessAudit.hasSalacak && maidenTowerAccessAudit.hasBoat &&
+    maidenTowerAccessAudit.hasUnverifiedWalkDisclosure &&
+    maidenTowerAccessAudit.ferryLabel === 'Salacak Kız Kulesi Ziyaretçi İskelesi' &&
+    maidenTowerAccessAudit.destinationLabel === 'Kız Kulesi',
+    JSON.stringify(maidenTowerAccessAudit));
+
   const disconnectedTransitAudit = await page.evaluate(() => {
     const path = [
       ['besiktas','kadikoy','Vapur','Beşiktaş → Kadıköy'],

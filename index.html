@@ -638,7 +638,7 @@ function verifiedFeederCandidates(placeId,targetStation){
 
 function nodeLabel(id){
  if(id==='current_location') return 'Mevcut konumum';
- const names={"sogutlucesme":"Söğütlüçeşme Marmaray","levent_m6":"Levent M6","hisarustu":"Boğaziçi Ü.-Hisarüstü M6","eminonu_t5":"Eminönü T5","kucukpazar":"Küçükpazar T5","alibeykoy_t5":"Alibeyköy Merkez T5","zincirlikuyu":"Zincirlikuyu Metrobüs","ayrilik":"Ayrılık Çeşmesi","sirkeci":"Sirkeci","kabatas":"Kabataş","gayrettepe":"Gayrettepe","kagithane_hub":"Kağıthane","taksim":"Taksim","eminonu":"Eminönü","karakoy":"Karaköy","besiktas":"Beşiktaş","uskudar":"Üsküdar","bostanci":"Bostancı","kozyatagi":"Kozyatağı M4","pendik":"Pendik","kartal_hub":"Kartal","maltepe_hub":"Maltepe","zeytinburnu_hub":"Zeytinburnu","sancaktepe_hub":"Sancaktepe M5 bağlantısı","samandira":"Samandıra Merkez","sultanbeyli":"Sultanbeyli","avcilar_hub":"Avcılar Metrobüs bağlantısı","beylikduzu_hub":"Beylikdüzü Metrobüs bağlantısı","buyukcekmece_hub":"Büyükçekmece bağlantısı","bagcilar_hub":"Bağcılar bağlantısı","bahcelievler_hub":"Bahçelievler bağlantısı","basaksehir_hub":"Başakşehir bağlantısı","bayrampasa_hub":"Bayrampaşa bağlantısı","esenler_hub":"Esenler bağlantısı","eyupsultan_hub":"Eyüpsultan bağlantısı","gaziosmanpasa_hub":"Gaziosmanpaşa bağlantısı","gungoren_hub":"Güngören bağlantısı","haciosman_hub":"Hacıosman bağlantısı","kucukcekmece_hub":"Küçükçekmece bağlantısı","atakoy":"Ataköy Marmaray","arnavutkoy_hastane":"Arnavutköy Hastane M11","kayasehir_hub":"Kayaşehir M11","maltepe_hub":"Maltepe","kartal_hub":"Kartal","kagithane_hub":"Kağıthane bağlantısı","kuzguncuk_iskele":"Kuzguncuk İskelesi","alibeykoy":"Alibeyköy M7"};
+ const names={"sogutlucesme":"Söğütlüçeşme Marmaray","levent_m6":"Levent M6","hisarustu":"Boğaziçi Ü.-Hisarüstü M6","eminonu_t5":"Eminönü T5","kucukpazar":"Küçükpazar T5","alibeykoy_t5":"Alibeyköy Merkez T5","zincirlikuyu":"Zincirlikuyu Metrobüs","ayrilik":"Ayrılık Çeşmesi","sirkeci":"Sirkeci","kabatas":"Kabataş","gayrettepe":"Gayrettepe","kagithane_hub":"Kağıthane","taksim":"Taksim","eminonu":"Eminönü","karakoy":"Karaköy","besiktas":"Beşiktaş","uskudar":"Üsküdar","bostanci":"Bostancı","kozyatagi":"Kozyatağı M4","pendik":"Pendik","kartal_hub":"Kartal","maltepe_hub":"Maltepe","zeytinburnu_hub":"Zeytinburnu","sancaktepe_hub":"Sancaktepe M5 bağlantısı","samandira":"Samandıra Merkez","sultanbeyli":"Sultanbeyli","avcilar_hub":"Avcılar Metrobüs bağlantısı","beylikduzu_hub":"Beylikdüzü Metrobüs bağlantısı","buyukcekmece_hub":"Büyükçekmece bağlantısı","bagcilar_hub":"Bağcılar bağlantısı","bahcelievler_hub":"Bahçelievler bağlantısı","basaksehir_hub":"Başakşehir bağlantısı","bayrampasa_hub":"Bayrampaşa bağlantısı","esenler_hub":"Esenler bağlantısı","eyupsultan_hub":"Eyüpsultan bağlantısı","gaziosmanpasa_hub":"Gaziosmanpaşa bağlantısı","gungoren_hub":"Güngören bağlantısı","haciosman_hub":"Hacıosman bağlantısı","kucukcekmece_hub":"Küçükçekmece bağlantısı","atakoy":"Ataköy Marmaray","arnavutkoy_hastane":"Arnavutköy Hastane M11","kayasehir_hub":"Kayaşehir M11","maltepe_hub":"Maltepe","kartal_hub":"Kartal","kagithane_hub":"Kağıthane bağlantısı","kuzguncuk_iskele":"Kuzguncuk İskelesi","salacak_kiz_kulesi":"Salacak Kız Kulesi Ziyaretçi İskelesi","alibeykoy":"Alibeyköy M7"};
  // Hat etiketlerini tek kaynaktan üret: eski/eksik directLineMaps nedeniyle
  // düğüm kimliklerinin (örn. bakirkoy_hub, topkapi_mb) kullanıcıya sızmasını engeller.
  // Alibeyköy fiziksel düğümü hem T5 hem M7 üzerinde. Genel düğüm etiketi
@@ -2801,6 +2801,8 @@ function stationLabelForWalk(station){
 // Vapur adımlarında fiziksel biniş/iniş noktalarını açıkça göster.
 // Ada seferlerinde Kadıköy'ün eski iskele adı ve İDO iskeleleri ayrıca belirtilir.
 function ferryPierLabel(id, otherId){
+  if(id==='salacak_kiz_kulesi') return 'Salacak Kız Kulesi Ziyaretçi İskelesi';
+  if(id==='kiz_kulesi' && otherId==='salacak_kiz_kulesi') return 'Kız Kulesi';
   const base=nodeLabel(id);
   const islandTarget=islandIds?.has?.(otherId);
   if(id==='kadikoy' && islandTarget) return 'Kadıköy (Eski) İskelesi';
@@ -2899,6 +2901,22 @@ function ensureFinalMileForAnyPath(path, targetId){
 
 function targetAccessSteps(access, targetId){
   const station=access?.label || nodeLabel(access?.station);
+
+  // Kız Kulesi'ne kara yoluyla son erişim yoktur: resmi ziyaretçi tekneleri
+  // Salacak ve Karaköy iskelelerinden kalkar. Üsküdar'dan gelen yolcu önce
+  // Salacak ziyaretçi iskelesine ulaşmalı, ardından kule teknesine binmelidir.
+  // Salacak yürüyüş süresi burada doğrulanmadığı için dakika tahmin etmiyoruz.
+  if(targetId==='kiz_kulesi'){
+    const pier='Salacak Kız Kulesi Ziyaretçi İskelesi';
+    const originLabel=station || 'Üsküdar ulaşım merkezi';
+    const walkUrl='https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(originLabel+' İstanbul')+'&destination='+encodeURIComponent(pier+' Üsküdar İstanbul')+'&travelmode=walking';
+    return [
+      ['uskudar','salacak_kiz_kulesi','Yürüyüş',
+        `<b>${originLabel}</b> noktasından <b>${pier}</b> noktasına yürüyün. Yürüme süresi bu rotada bağımsız olarak doğrulanmadı; dakika tahmini vermiyorum. <a href="${walkUrl}" target="_blank" rel="noopener noreferrer">🚶 Salacak iskelesine yaya rotasını haritada aç</a>`],
+      ['salacak_kiz_kulesi','kiz_kulesi','Vapur',
+        `<b>${pier}</b> noktasından <b>Kız Kulesi</b> ziyaretçi teknesine binin. Sefer saatini ve biniş noktasını ziyaret öncesinde resmi Kız Kulesi sitesinden kontrol edin.`]
+    ];
+  }
 
   // Hedefte raylı sistem istasyonuna ulaştıktan sonra son kilometre her zaman
   // ayrı bir kart olarak gösterilir. Böylece yerel hedefler, istasyon-only

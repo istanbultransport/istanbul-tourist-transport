@@ -158,6 +158,15 @@ try {
         record('live R07 Pendik YHT exposes official KM13 route and stop links without inventing walk time',
           pendikBusValid, flow.routeText.slice(-900));
       }
+      if (item.id === 'R35') {
+        const maidenTowerAccessValid =
+          flow.routeText.includes('Salacak Kız Kulesi Ziyaretçi İskelesi') &&
+          flow.routeText.includes('ziyaretçi teknesine binin') &&
+          flow.routeText.includes('yürüme süresi bu rotada bağımsız olarak doğrulanmadı') &&
+          !flow.routeText.includes('Üsküdar M5 istasyonundan Kız Kulesi hedefine yaklaşık 9 dakika yürümelisiniz');
+        record('live R35 Kız Kulesi route uses Salacak pier and a visitor boat, not a direct walk',
+          maidenTowerAccessValid, flow.routeText.slice(-1200));
+      }
       if (item.id === 'R27') {
         const modernAccessValid = flow.routeText.includes('Tophane T1') &&
           flow.routeText.includes('4 dakika') && !flow.routeText.includes('Kabataş T1');
