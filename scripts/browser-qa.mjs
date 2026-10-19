@@ -260,9 +260,43 @@ try {
       record('UI route flow '+item.id, false, error.message);
     }
   }
-  record('all end-to-end UI route flows loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 51, 'count='+cases.routeCases.length);
+  record('all end-to-end UI route flows loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 53, 'count='+cases.routeCases.length);
 
-  record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 51, 'count='+cases.routeCases.length);
+  record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 53, 'count='+cases.routeCases.length);
+
+
+  const greenParkRouteAudit = await page.evaluate(() => {
+    const resolve = (from,to) => route(from,to) || minimumRailRoute(from,to,4) ||
+      selectBestRoute(generateRouteCandidates(from,to))?.path || null;
+    const pendik = resolve('the_green_park_pendik','the_green_park_bostanci');
+    const bostanci = resolve('the_green_park_bostanci','yeldegirmeni');
+    const pendikAccess = getStartRailAccess('the_green_park_pendik');
+    const bostanciAccess = getStartRailAccess('the_green_park_bostanci');
+    const yeldegirmeniAccess = getEndAccess('yeldegirmeni');
+    return {
+      pendikAccess: {station:pendikAccess?.station,mode:pendikAccess?.mode,label:pendikAccess?.label},
+      bostanciAccess: {station:bostanciAccess?.station,mode:bostanciAccess?.mode,label:bostanciAccess?.label},
+      yeldegirmeniAccess: {station:yeldegirmeniAccess?.station,mode:yeldegirmeniAccess?.mode,label:yeldegirmeniAccess?.label},
+      pendik: pendik?.map(s=>[s[0],s[1],s[2],String(s[3]||'')]) || null,
+      bostanci: bostanci?.map(s=>[s[0],s[1],s[2],String(s[3]||'')]) || null
+    };
+  });
+  const p52 = greenParkRouteAudit.pendik || [];
+  const p53 = greenParkRouteAudit.bostanci || [];
+  record('Green Park Pendik starts from Kaynarca Marmaray, not Tavşantepe M4',
+    greenParkRouteAudit.pendikAccess.station === 'kaynarca_m' &&
+    greenParkRouteAudit.pendikAccess.mode === 'Marmaray' &&
+    p52[0]?.[0] === 'the_green_park_pendik' && p52[0]?.[1] === 'kaynarca_m' &&
+    p52[0]?.[2] === 'Yürüyüş' && p52.some(s=>s[2] === 'Marmaray'),
+    JSON.stringify({access:greenParkRouteAudit.pendikAccess,path:p52}));
+  record('Green Park Bostancı → Yeldeğirmeni walks to Bostancı M4 and uses Ayrılık Çeşmesi access',
+    greenParkRouteAudit.bostanciAccess.station === 'bostanci' &&
+    greenParkRouteAudit.bostanciAccess.mode === 'M4 Metro' &&
+    greenParkRouteAudit.yeldegirmeniAccess.station === 'ayrilik' &&
+    p53[0]?.[0] === 'the_green_park_bostanci' && p53[0]?.[1] === 'bostanci' &&
+    p53[0]?.[2] === 'Yürüyüş' && p53.some(s=>s[2] === 'M4 Metro') &&
+    p53.some(s=>s[1] === 'yeldegirmeni' && s[2] === 'Yürüyüş'),
+    JSON.stringify({start:greenParkRouteAudit.bostanciAccess,end:greenParkRouteAudit.yeldegirmeniAccess,path:p53}));
 
   // Atatürk Kent Ormanı: the Hacıosman M2 access is roughly an 8-minute walk, not 1 minute.
   const forestRouteAudit = await page.evaluate(() => {
