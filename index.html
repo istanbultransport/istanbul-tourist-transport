@@ -1401,6 +1401,29 @@ function airportToAnatolianRailRoute(startId,targetId){
 function ensureFinalLocalAccess(path,targetId){
   if(!Array.isArray(path) || !path.length) return path;
   const access=touristAccess[targetId];
+
+  // Special physical destinations whose catalogue IDs must not be mistaken
+  // for rail stations. The generic graph can otherwise end at the destination
+  // label without rendering the actual visitor ferry/boat access.
+  if(targetId==='kanlica' || targetId==='kiz_kulesi'){
+    const expectedFrom=targetId==='kanlica' ? 'uskudar' : 'salacak_kiz_kulesi';
+    const expectedMode='Vapur';
+    const alreadyHasVerifiedAccess=path.some(step =>
+      step?.[0]===expectedFrom && step?.[1]===targetId && step?.[2]===expectedMode
+    );
+    if(alreadyHasVerifiedAccess) return path;
+
+    let prefix=path;
+    const last=prefix[prefix.length-1];
+    if(last?.[1]===targetId && last?.[2]!==expectedMode){
+      prefix=prefix.slice(0,-1);
+    }
+    if(prefix[prefix.length-1]?.[1]===access?.station){
+      return prefix.concat(targetAccessSteps({...access,direct:false},targetId));
+    }
+    return path;
+  }
+
   if(!access?.local) return path;
   // Rota motoru raylı sistem ayağını doğru en yakın istasyonda bitirdiyse,
   // hedefe kalan son yerel ulaşımı mutlaka ekle. Böylece hedefin ilçesi/istasyonu
