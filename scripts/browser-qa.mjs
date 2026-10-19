@@ -102,7 +102,7 @@ try {
       }
       if (!Array.isArray(path) || !path.length) return { ok:false,reason:'route missing' };
       const validation = validateRoute(path);
-      return { ok:validation.ok,reason:validation.reason,steps:path.length,modes:path.map(s=>s[2]),path:path.map(s=>[s[0],s[1],s[2]]),finalMile:path.some(s=>s[2]==='Son ulaşım'),walk:path.some(s=>s[2]==='Yürüyüş') };
+      return { ok:validation.ok,reason:validation.reason,steps:path.length,modes:path.map(s=>s[2]),path:path.map(s=>[s[0],s[1],s[2],s[3]]),finalMile:path.some(s=>s[2]==='Son ulaşım'),walk:path.some(s=>s[2]==='Yürüyüş') };
     }, item);
     record('route fixture '+item.id, result.ok === true, result.reason || JSON.stringify(result));
     if (item.id === 'R48') {
