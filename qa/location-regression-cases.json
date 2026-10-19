@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "title": "Istanbul Tourist Transport Planner — 53-place manual regression set",
+  "title": "Istanbul Tourist Transport Planner — 55-place manual regression set",
   "purpose": "Validate existing registered place selection and route handoff without paid Google Places API. The catalogue entries are matched to the current places array where marked existing-catalog; business records outside the catalogue require address/coordinate verification and integration before they can be considered runnable. Anadolu Hisarı Kalesi/Müzesi için kaynakla çapraz kontrol edilmiş hedef POI koordinatı ve dört yeni rota regresyon senaryosu eklendi; bunlar canlı test edilmeden PASS sayılmaz. İstanbul Havalimanı ↔ Atatürk Kent Ormanı için iki yönlü rota ve Hacıosman M2 son erişim süresi ayrıca regresyon kapsamına alındı.",
   "policy": {
     "noPaidApi": true,
@@ -544,6 +544,26 @@
         "https://moovitapp.com/index/tr/toplu_ta%C5%9F%C4%B1ma-Y%C4%B1ld%C4%B1z_Saray%C4%B1_Milli_Saraylar-Istanbul-site_43221241-1563",
         "https://moovitapp.com/index/tr/toplu_ta%C5%9F%C4%B1ma-Y%C4%B1ld%C4%B1z_Saray%C4%B1_M%C3%BCzesi-Istanbul-site_231397636-1563"
       ]
+    },
+    {
+      "id": "kanlica",
+      "name": "Kanlıca",
+      "type": "district",
+      "side": "Anadolu Yakası",
+      "source": "existing-catalog",
+      "lat": 41.101,
+      "lng": 29.069,
+      "note": "Vapur başlangıç erişimi Üsküdar İskelesi olarak açıklanmalı; metinde başka iskele adı gösterilmemeli."
+    },
+    {
+      "id": "bostanci",
+      "name": "Bostancı",
+      "type": "tourist-point",
+      "side": "Anadolu Yakası",
+      "source": "existing-catalog",
+      "lat": 40.95185,
+      "lng": 29.09426,
+      "note": "Bostancı Şehir Hatları iskelesi / Marmaray-M4 bağlantı bölgesi."
     }
   ],
   "routeCases": [
@@ -828,6 +848,18 @@
       "from": "taksim_meydani",
       "to": "yildiz_sarayi",
       "focus": "Taksim → Yıldız Sarayı; canlı rota akışı, U1 alternatifi, Yıldız Teknik Üniversitesi biniş durağı, Yahya Efendi iniş durağı ve iki yürüyüş navigasyon bağlantısı."
+    },
+    {
+      "id": "R48",
+      "from": "kanlica",
+      "to": "bostanci",
+      "focus": "Kanlıca → Bostancı; vapur başlangıç adımı gerçek hedef iskeleyi (Üsküdar) söylemeli, Kadıköy diye sabitlenmemeli."
+    },
+    {
+      "id": "R49",
+      "from": "bostanci",
+      "to": "kanlica",
+      "focus": "Bostancı → Kanlıca; ters yönde doğru iskele/aktarma ve hedef erişimi."
     }
   ],
   "perCaseChecks": [
