@@ -860,6 +860,18 @@
       "from": "bostanci",
       "to": "kanlica",
       "focus": "Bostancı → Kanlıca; ters yönde doğru iskele/aktarma ve hedef erişimi."
+    },
+    {
+      "id": "R50",
+      "from": "bayrampasa",
+      "to": "aqua_florya",
+      "focus": "Bayrampaşa → Aqua Florya: Bayrampaşa-Maltepe M1A/M1B metro istasyonu, metrobüs durağıyla karıştırılmamalı; Yenikapı üzerinden Marmaray ve son yürüyüş."
+    },
+    {
+      "id": "R51",
+      "from": "aqua_florya",
+      "to": "bayrampasa",
+      "focus": "Aqua Florya → Bayrampaşa: Florya Akvaryum Marmaray erişimi, Yenikapı aktarması ve Bayrampaşa-Maltepe M1A/M1B istasyonu; metrobüs/metro kimlikleri karışmamalı."
     }
   ],
   "perCaseChecks": [
