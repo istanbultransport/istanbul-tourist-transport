@@ -600,8 +600,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.37-kanlicaferrylabel-core' &&
-    htmlBuild === 'V230.12.37-KANLICA-FERRY-LABEL' &&
+    cacheName === 'itp-v230.12.38-routeaudit-core' &&
+    htmlBuild === 'V230.12.38-ROUTE-NODE-AUDIT' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
