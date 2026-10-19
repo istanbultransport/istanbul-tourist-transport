@@ -1,16 +1,16 @@
-<!-- V230.12.37-KANLICA-FERRY-LABEL: ferry-start instructions use the configured access hub; Kanlıca-Bostancı regression coverage. -->
+<!-- V230.12.38-ROUTE-NODE-AUDIT: ferry-start instructions use the configured access hub; Kanlıca-Bostancı regression coverage. -->
 <!doctype html>
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.37-KANLICA-FERRY-LABEL">
+<meta name="build-id" content="V230.12.38-ROUTE-NODE-AUDIT">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.36</title>
+<title>Istanbul Tourist Transport Planner — V230.12.38</title>
 <script>
 (function(){
-  window.__APP_BUILD_ID__='V230.12.37-KANLICA-FERRY-LABEL';
+  window.__APP_BUILD_ID__='V230.12.38-ROUTE-NODE-AUDIT';
   try{
     if('serviceWorker' in navigator){
       window.addEventListener('load',function(){
@@ -184,7 +184,7 @@ footer{padding:28px 18px;color:var(--muted);font-size:12px}footer a{color:var(--
 </head>
 <body>
 <header><div class="wrap">
-<div class="top"><div><h1>Istanbul Tourist Transport Planner</h1><p class="sub">Önce nerede olduğunu seç. Sonra gideceğin yeri seç. Rota otomatik oluşsun.</p></div><span class="tag" id="buildBadge">V230.12.37-KANLICA-FERRY-LABEL</span></div>
+<div class="top"><div><h1>Istanbul Tourist Transport Planner</h1><p class="sub">Önce nerede olduğunu seç. Sonra gideceğin yeri seç. Rota otomatik oluşsun.</p></div><span class="tag" id="buildBadge">V230.12.38-ROUTE-NODE-AUDIT</span></div>
 <div class="panel search">
 <h2 id="stationSearchTitle">📍 Şu an neredesin?</h2>
 <div id="stationSearchHint" style="margin:0 0 10px;font-size:12px;font-weight:800;color:#5f6b76">📍 Yakınındaki durağın tam adını yaz.</div>
@@ -845,6 +845,12 @@ const surfaceTransferRegistry={
   'ayrilik|M4 Metro|Marmaray':{type:'station_internal',difficulty:0,walkMinutes:0,label:'İstasyon içi Marmaray aktarması',verified:true},
   'kozyatagi|M4 Metro|M8 Metro':{type:'station_internal',difficulty:0,walkMinutes:0,label:'İstasyon içi M8 aktarması',verified:true},
   'kozyatagi|M8 Metro|M4 Metro':{type:'station_internal',difficulty:0,walkMinutes:0,label:'İstasyon içi M4 aktarması',verified:true},
+  'bostanci|M4 Metro|M8 Metro':{type:'station_internal',difficulty:0,walkMinutes:0,label:'Bostancı M4–M8 aktarması',verified:true},
+  'bostanci|M8 Metro|M4 Metro':{type:'station_internal',difficulty:0,walkMinutes:0,label:'Bostancı M8–M4 aktarması',verified:true},
+  'sogutlucesme|Marmaray|Metrobüs':{type:'station_internal',difficulty:0,walkMinutes:0,label:'Söğütlüçeşme Marmaray–Metrobüs aktarması',verified:true,source:'İETT resmî Metrobüs hatları ve aktarma bilgisi'},
+  'sogutlucesme|Metrobüs|Marmaray':{type:'station_internal',difficulty:0,walkMinutes:0,label:'Söğütlüçeşme Metrobüs–Marmaray aktarması',verified:true,source:'İETT resmî Metrobüs hatları ve aktarma bilgisi'},
+  'yenikapi|Marmaray|T6 Tramvay':{type:'station_internal',difficulty:0,walkMinutes:0,label:'Yenikapı Marmaray–T6 aktarması',verified:true},
+  'yenikapi|T6 Tramvay|Marmaray':{type:'station_internal',difficulty:0,walkMinutes:0,label:'Yenikapı T6–Marmaray aktarması',verified:true},
   // Ünalan'da Metro İstanbul metrobüs entegrasyonunu doğruluyor; yakın yüzey
   // bağlantısı ayrıca sınıflandırılır, fakat uydurma tek bir metre değeri verilmez.
   'unalan|M4 Metro|Metrobüs':{type:'surface_short',difficulty:1,walkMinutes:2,label:'Kısa yüzey bağlantısı — Metrobüs',verified:true,source:'Metro İstanbul entegrasyonu + yakın durak verisi'},
@@ -1139,8 +1145,8 @@ function directRouteForMode(mode,a,b){
 // resmi/gerçek entegrasyon noktalarından geçiş yapılır.
 const railLines={
   'Metrobüs': {
-    order:['beylikduzu_hub','hadimkoy_mb','cumhuriyet_mb','beylikduzu_belediye_mb','beylikduzu_mb','guzelyurt_mb','haramidere_mb','haramidere_sanayi_mb','saadetdere_mb','mustafa_kemal_pasa_mb','cihangir_univ_mb','avcilar_hub','sukrubey_mb','ibb_sosyal_mb','kucukcekmece_mb','cennet_mb','florya_mb','besyol_mb','sefakoy_mb','yenibosna','sirinevler','bahcelievler_hub','incirli','zeytinburnu_hub','merter','cevizlibag_mb','topkapi_mb','bayrampasa_hub','edirnekapi_mb','ayvansaray_mb','halicioglu_mb','okmeydani_mb','darulaceze_mb','okmeydani_hastane_mb','caglayan_mb','mecidiyekoy','zincirlikuyu','sehitler_koprusu_mb','burhaniye_mb','altunizade','acibadem_mb','unalan','fikirtepe_mb','sogutlucesme'],
-    labels:{beylikduzu_hub:'Beylikdüzü Metrobüs',hadimkoy_mb:'Beykent Metrobüs',cumhuriyet_mb:'Cumhuriyet Mahallesi Metrobüs',beylikduzu_belediye_mb:'Beylikdüzü Belediye Metrobüs',beylikduzu_mb:'Beylikdüzü Metrobüs',guzelyurt_mb:'Güzelyurt Metrobüs',haramidere_mb:'Haramidere Metrobüs',haramidere_sanayi_mb:'Haramidere Sanayi Metrobüs',saadetdere_mb:'Saadetdere Mahallesi Metrobüs',mustafa_kemal_pasa_mb:'Mustafa Kemal Paşa Metrobüs',cihangir_univ_mb:'Cihangir-Üniversite Mahallesi Metrobüs',avcilar_hub:'Avcılar Merkez-Üniversite Kampüsü Metrobüs',sukrubey_mb:'Şükrübey Metrobüs',ibb_sosyal_mb:'İBB Sosyal Tesisleri Metrobüs',kucukcekmece_mb:'Küçükçekmece Metrobüs',cennet_mb:'Cennet Mahallesi Metrobüs',florya_mb:'Florya Metrobüs',besyol_mb:'Beşyol Metrobüs',sefakoy_mb:'Sefaköy Metrobüs',yenibosna:'Yenibosna Metrobüs',sirinevler:'Şirinevler Metrobüs',bahcelievler_hub:'Bahçelievler Metrobüs',incirli:'İncirli Metrobüs',zeytinburnu_hub:'Zeytinburnu Metrobüs',merter:'Merter Metrobüs',cevizlibag_mb:'Cevizlibağ Metrobüs',topkapi_mb:'Topkapı Metrobüs',bayrampasa_hub:'Bayrampaşa-Maltepe Metrobüs',edirnekapi_mb:'Edirnekapı Metrobüs',ayvansaray_mb:'Ayvansaray-Eyüp Sultan Metrobüs',halicioglu_mb:'Halıcıoğlu Metrobüs',okmeydani_mb:'Okmeydanı Metrobüs',darulaceze_mb:'Darülaceze-Perpa Metrobüs',okmeydani_hastane_mb:'Okmeydanı Hastane Metrobüs',caglayan_mb:'Çağlayan Metrobüs',mecidiyekoy:'Mecidiyeköy Metrobüs',zincirlikuyu:'Zincirlikuyu Metrobüs',sehitler_koprusu_mb:'15 Temmuz Şehitler Köprüsü Metrobüs',burhaniye_mb:'Burhaniye Metrobüs',altunizade:'Altunizade Metrobüs',acibadem_mb:'Acıbadem Metrobüs',unalan:'Uzunçayır Metrobüs',fikirtepe_mb:'Fikirtepe Metrobüs',sogutlucesme:'Söğütlüçeşme Metrobüs'},
+    order:['beylikduzu_hub','hadimkoy_mb','cumhuriyet_mb','beylikduzu_belediye_mb','beylikduzu_mb','guzelyurt_mb','haramidere_mb','haramidere_sanayi_mb','saadetdere_mb','mustafa_kemal_pasa_mb','cihangir_univ_mb','avcilar_hub','sukrubey_mb','ibb_sosyal_mb','kucukcekmece_mb','cennet_mb','florya_mb','besyol_mb','sefakoy_mb','yenibosna','sirinevler','bahcelievler_hub','incirli','zeytinburnu_hub','merter','cevizlibag_mb','topkapi_mb','bayrampasa_mb','edirnekapi_mb','ayvansaray_mb','halicioglu_mb','okmeydani_mb','darulaceze_mb','okmeydani_hastane_mb','caglayan_mb','mecidiyekoy','zincirlikuyu','sehitler_koprusu_mb','burhaniye_mb','altunizade','acibadem_mb','unalan','fikirtepe_mb','sogutlucesme'],
+    labels:{beylikduzu_hub:'Beylikdüzü Metrobüs',hadimkoy_mb:'Beykent Metrobüs',cumhuriyet_mb:'Cumhuriyet Mahallesi Metrobüs',beylikduzu_belediye_mb:'Beylikdüzü Belediye Metrobüs',beylikduzu_mb:'Beylikdüzü Metrobüs',guzelyurt_mb:'Güzelyurt Metrobüs',haramidere_mb:'Haramidere Metrobüs',haramidere_sanayi_mb:'Haramidere Sanayi Metrobüs',saadetdere_mb:'Saadetdere Mahallesi Metrobüs',mustafa_kemal_pasa_mb:'Mustafa Kemal Paşa Metrobüs',cihangir_univ_mb:'Cihangir-Üniversite Mahallesi Metrobüs',avcilar_hub:'Avcılar Merkez-Üniversite Kampüsü Metrobüs',sukrubey_mb:'Şükrübey Metrobüs',ibb_sosyal_mb:'İBB Sosyal Tesisleri Metrobüs',kucukcekmece_mb:'Küçükçekmece Metrobüs',cennet_mb:'Cennet Mahallesi Metrobüs',florya_mb:'Florya Metrobüs',besyol_mb:'Beşyol Metrobüs',sefakoy_mb:'Sefaköy Metrobüs',yenibosna:'Yenibosna Metrobüs',sirinevler:'Şirinevler Metrobüs',bahcelievler_hub:'Bahçelievler Metrobüs',incirli:'İncirli Metrobüs',zeytinburnu_hub:'Zeytinburnu Metrobüs',merter:'Merter Metrobüs',cevizlibag_mb:'Cevizlibağ Metrobüs',topkapi_mb:'Topkapı Metrobüs',bayrampasa_mb:'Bayrampaşa-Maltepe Metrobüs',edirnekapi_mb:'Edirnekapı Metrobüs',ayvansaray_mb:'Ayvansaray-Eyüp Sultan Metrobüs',halicioglu_mb:'Halıcıoğlu Metrobüs',okmeydani_mb:'Okmeydanı Metrobüs',darulaceze_mb:'Darülaceze-Perpa Metrobüs',okmeydani_hastane_mb:'Okmeydanı Hastane Metrobüs',caglayan_mb:'Çağlayan Metrobüs',mecidiyekoy:'Mecidiyeköy Metrobüs',zincirlikuyu:'Zincirlikuyu Metrobüs',sehitler_koprusu_mb:'15 Temmuz Şehitler Köprüsü Metrobüs',burhaniye_mb:'Burhaniye Metrobüs',altunizade:'Altunizade Metrobüs',acibadem_mb:'Acıbadem Metrobüs',unalan:'Uzunçayır Metrobüs',fikirtepe_mb:'Fikirtepe Metrobüs',sogutlucesme:'Söğütlüçeşme Metrobüs'},
     terminals:['Beylikdüzü','Söğütlüçeşme']
   },
   'M4 Metro': {
@@ -1154,8 +1160,8 @@ const railLines={
     terminals:['Bostancı','Parseller']
   },
   'Marmaray': {
-    order:['halkali','mustafa_kemal_m','kucukcekmece_hub','florya_m','florya_akvaryum_m','yesilkoy_m','yesilyurt_m','atakoy','bakirkoy_hub','yenimahalle_m','zeytinburnu_hub','kazlicesme_m','yenikapi','sirkeci','uskudar','ayrilik','sogutlucesme','feneryolu_m','goztepe_m','erenkoy_m','suadiye_m','bostanci','kucukyali_m','idealtepe_m','surayya_plaji_m','maltepe_hub','cevizli_m','atalar_m','basak_m','kartal_hub','yunus_m','kaynarca_m','pendik','tersane_m','guzelyali_m','aydintepe_m','icmeler_m','tuzla','cayirova_m','fatih_m','osmangazi_m','darica_m','gebze'],
-    labels:{gebze:'Gebze Marmaray',darica_m:'Darıca Marmaray',osmangazi_m:'Osmangazi Marmaray',fatih_m:'Fatih Marmaray',cayirova_m:'Çayırova Marmaray',tuzla:'Tuzla Marmaray',icmeler_m:'İçmeler Marmaray',aydintepe_m:'Aydıntepe Marmaray',guzelyali_m:'Güzelyalı Marmaray',tersane_m:'Tersane Marmaray',pendik:'Pendik Marmaray',kaynarca_m:'Kaynarca Marmaray',yunus_m:'Yunus Marmaray',kartal_hub:'Kartal Marmaray',basak_m:'Başak Marmaray',atalar_m:'Atalar Marmaray',cevizli_m:'Cevizli Marmaray',maltepe_hub:'Maltepe Marmaray',surayya_plaji_m:'Süreyya Plajı Marmaray',idealtepe_m:'İdealtepe Marmaray',kucukyali_m:'Küçükyalı Marmaray',bostanci:'Bostancı Marmaray',suadiye_m:'Suadiye Marmaray',erenkoy_m:'Erenköy Marmaray',goztepe_m:'Göztepe Marmaray',feneryolu_m:'Feneryolu Marmaray',sogutlucesme:'Söğütlüçeşme Marmaray',ayrilik:'Ayrılık Çeşmesi Marmaray',uskudar:'Üsküdar Marmaray',sirkeci:'Sirkeci Marmaray',yenikapi:'Yenikapı Marmaray',kazlicesme_m:'Kazlıçeşme Marmaray',zeytinburnu_hub:'Zeytinburnu Marmaray',yenimahalle_m:'Yenimahalle Marmaray',bakirkoy_hub:'Bakırköy Marmaray',atakoy:'Ataköy Marmaray',yesilyurt_m:'Yeşilyurt Marmaray',yesilkoy_m:'Yeşilköy Marmaray',florya_akvaryum_m:'Florya Akvaryum Marmaray',florya_m:'Florya Marmaray',kucukcekmece_hub:'Küçükçekmece Marmaray',mustafa_kemal_m:'Mustafa Kemal Marmaray',halkali:'Halkalı Marmaray'},
+    order:['halkali','mustafa_kemal_m','kucukcekmece_hub','florya_m','florya_akvaryum_m','yesilkoy_m','yesilyurt_m','atakoy','bakirkoy_hub','yenimahalle_m','kazlicesme_m','yenikapi','sirkeci','uskudar','ayrilik','sogutlucesme','feneryolu_m','goztepe_m','erenkoy_m','suadiye_m','bostanci_m','kucukyali_m','idealtepe_m','surayya_plaji_m','maltepe_m','cevizli_m','atalar_m','basak_m','kartal_m','yunus_m','kaynarca_m','pendik_m','tersane_m','guzelyali_m','aydintepe_m','icmeler_m','tuzla','cayirova_m','fatih_m','osmangazi_m','darica_m','gebze'],
+    labels:{gebze:'Gebze Marmaray',darica_m:'Darıca Marmaray',osmangazi_m:'Osmangazi Marmaray',fatih_m:'Fatih Marmaray',cayirova_m:'Çayırova Marmaray',tuzla:'Tuzla Marmaray',icmeler_m:'İçmeler Marmaray',aydintepe_m:'Aydıntepe Marmaray',guzelyali_m:'Güzelyalı Marmaray',tersane_m:'Tersane Marmaray',pendik_m:'Pendik Marmaray',kaynarca_m:'Kaynarca Marmaray',yunus_m:'Yunus Marmaray',kartal_m:'Kartal Marmaray',basak_m:'Başak Marmaray',atalar_m:'Atalar Marmaray',cevizli_m:'Cevizli Marmaray',maltepe_m:'Maltepe Marmaray',surayya_plaji_m:'Süreyya Plajı Marmaray',idealtepe_m:'İdealtepe Marmaray',kucukyali_m:'Küçükyalı Marmaray',bostanci_m:'Bostancı Marmaray',suadiye_m:'Suadiye Marmaray',erenkoy_m:'Erenköy Marmaray',goztepe_m:'Göztepe Marmaray',feneryolu_m:'Feneryolu Marmaray',sogutlucesme:'Söğütlüçeşme Marmaray',ayrilik:'Ayrılık Çeşmesi Marmaray',uskudar:'Üsküdar Marmaray',sirkeci:'Sirkeci Marmaray',yenikapi:'Yenikapı Marmaray',kazlicesme_m:'Kazlıçeşme Marmaray',yenimahalle_m:'Yenimahalle Marmaray',bakirkoy_hub:'Bakırköy Marmaray',atakoy:'Ataköy Marmaray',yesilyurt_m:'Yeşilyurt Marmaray',yesilkoy_m:'Yeşilköy Marmaray',florya_akvaryum_m:'Florya Akvaryum Marmaray',florya_m:'Florya Marmaray',kucukcekmece_hub:'Küçükçekmece Marmaray',mustafa_kemal_m:'Mustafa Kemal Marmaray',halkali:'Halkalı Marmaray'},
     terminals:['Halkalı','Gebze']
   },
   'M5 Metro': {
@@ -1235,8 +1241,8 @@ const railLines={
     terminals:['Sirkeci','Kazlıçeşme']
   },
   'M7 Metro': {
-    order:['yildiz','fulya','mecidiyekoy','caglayan','kagithane_hub','nurtepe','alibeykoy','circir','veysel_karani','yesilpinar','kazim_karabekir','yenimahalle_m7','karadeniz','giyimkent','oruc_reis','goztepe_mah','mahmutbey'],
-    labels:{yildiz:'Yıldız M7',fulya:'Fulya M7',mecidiyekoy:'Mecidiyeköy M7',caglayan:'Çağlayan M7',kagithane_hub:'Kağıthane M7',nurtepe:'Nurtepe M7',alibeykoy:'Alibeyköy M7',circir:'Çırçır Mahallesi M7',veysel_karani:'Veysel Karani-Akşemsettin M7',yesilpinar:'Yeşilpınar M7',kazim_karabekir:'Kazım Karabekir M7',yenimahalle_m7:'Yenimahalle M7',karadeniz:'Karadeniz Mahallesi M7',giyimkent:'Giyimkent-Tekstilkent M7',oruc_reis:'Oruç Reis M7',goztepe_mah:'Göztepe Mahallesi M7',mahmutbey:'Mahmutbey M7'},
+    order:['yildiz','fulya','mecidiyekoy','caglayan','kagithane_hub','nurtepe','alibeykoy','circir','veysel_karani_m7','yesilpinar','kazim_karabekir','yenimahalle_m7','karadeniz','giyimkent','oruc_reis','goztepe_mah','mahmutbey'],
+    labels:{yildiz:'Yıldız M7',fulya:'Fulya M7',mecidiyekoy:'Mecidiyeköy M7',caglayan:'Çağlayan M7',kagithane_hub:'Kağıthane M7',nurtepe:'Nurtepe M7',alibeykoy:'Alibeyköy M7',circir:'Çırçır Mahallesi M7',veysel_karani_m7:'Veysel Karani-Akşemsettin M7',yesilpinar:'Yeşilpınar M7',kazim_karabekir:'Kazım Karabekir M7',yenimahalle_m7:'Yenimahalle M7',karadeniz:'Karadeniz Mahallesi M7',giyimkent:'Giyimkent-Tekstilkent M7',oruc_reis:'Oruç Reis M7',goztepe_mah:'Göztepe Mahallesi M7',mahmutbey:'Mahmutbey M7'},
     terminals:['Yıldız','Mahmutbey']
   },
   'M9 Metro': {
@@ -1849,7 +1855,7 @@ const transferStations={
   'Vapur|Marmaray':['uskudar'], 'Marmaray|Vapur':['uskudar'],
   'T1 Tramvay|T5 Tramvay':['eminonu'], 'T5 Tramvay|T1 Tramvay':['eminonu'],
   'M6 Metro|F4 Füniküler':['hisarustu'], 'F4 Füniküler|M6 Metro':['hisarustu'],
-  'T6 Tramvay|Marmaray':['sirkeci','kazlicesme_m'], 'Marmaray|T6 Tramvay':['sirkeci','kazlicesme_m'],
+  'T6 Tramvay|Marmaray':['sirkeci','kazlicesme_m','yenikapi'], 'Marmaray|T6 Tramvay':['sirkeci','kazlicesme_m','yenikapi'],
   'T6 Tramvay|T1 Tramvay':['sirkeci'], 'T1 Tramvay|T6 Tramvay':['sirkeci'],
   'T6 Tramvay|M1A Metro':['yenikapi'], 'M1A Metro|T6 Tramvay':['yenikapi'],
   'T6 Tramvay|M1B Metro':['yenikapi'], 'M1B Metro|T6 Tramvay':['yenikapi'],
@@ -1858,10 +1864,11 @@ const transferStations={
   'M7 Metro|T5 Tramvay':['alibeykoy'], 'T5 Tramvay|M7 Metro':['alibeykoy'],
   'M4 Metro|T3 Tramvay':['kadikoy'], 'T3 Tramvay|M4 Metro':['kadikoy'],
   'M8 Metro|Marmaray':['bostanci'], 'Marmaray|M8 Metro':['bostanci'],
-  'M8 Metro|M4 Metro':['kozyatagi'], 'M4 Metro|M8 Metro':['kozyatagi'],
+  'M8 Metro|M4 Metro':['kozyatagi','bostanci'], 'M4 Metro|M8 Metro':['kozyatagi','bostanci'],
   'M8 Metro|M5 Metro':['dudullu'], 'M5 Metro|M8 Metro':['dudullu'],
   'M4 Metro|Metrobüs':['unalan'], 'Metrobüs|M4 Metro':['unalan'],
   'M5 Metro|Metrobüs':['altunizade'], 'Metrobüs|M5 Metro':['altunizade'],
+  'Metrobüs|Marmaray':['sogutlucesme'], 'Marmaray|Metrobüs':['sogutlucesme'],
   'M1A Metro|M1B Metro':['yenikapi','aksaray','emniyet_fatih','topkapi_ulubatli','bayrampasa_hub','sagmalcilar','kocatepe','otogar'],
   'M1B Metro|M1A Metro':['yenikapi','aksaray','emniyet_fatih','topkapi_ulubatli','bayrampasa_hub','sagmalcilar','kocatepe','otogar'],
   'M1A Metro|Marmaray':['yenikapi'], 'Marmaray|M1A Metro':['yenikapi'],
@@ -2011,7 +2018,7 @@ const startRailAccess={
   balat:{station:'balat',mode:'T5 Tramvay',label:'Balat T5',direct:true},
   fener:{station:'fener',mode:'T5 Tramvay',label:'Fener T5',direct:true},
   florya:{station:'florya_m',mode:'Marmaray',label:'Florya Marmaray',direct:true},
-  caddebostan:{station:'bostanci',mode:'Marmaray',label:'Bostancı Marmaray'},
+  caddebostan:{station:'bostanci_m',mode:'Marmaray',label:'Bostancı Marmaray'},
   suadiye:{station:'suadiye_m',mode:'Marmaray',label:'Suadiye Marmaray',direct:true},
   taksim_semt:{station:'taksim',mode:'M2 Metro',label:'Taksim M2',direct:true},
   sultanahmet_semt:{station:'sultanahmet',mode:'T1 Tramvay',label:'Sultanahmet T1',direct:true},
@@ -4959,10 +4966,10 @@ function staticGpsStationCoordinates(){
     // En yakın tek istasyona kilitlenmek, örneğin Pendik M4'e 5 dk ve Pendik
     // Marmaray'a 10 dk mesafedeki kullanıcıyı hedef Erenköy ise gereksiz yere
     // M4 → Ayrılık Çeşmesi → Marmaray döngüsüne sokabiliyordu.
-    {station:'pendik',mode:'Marmaray',label:'Pendik Marmaray',lat:40.88016,lng:29.23162},
+    {station:'pendik_m',mode:'Marmaray',label:'Pendik Marmaray',lat:40.88016,lng:29.23162},
     {station:'yunus_m',mode:'Marmaray',label:'Yunus Marmaray',lat:40.88444444,lng:29.21055556},
     {station:'kaynarca_m',mode:'Marmaray',label:'Kaynarca Marmaray',lat:40.87138889,lng:29.25583333},
-    {station:'kartal_hub',mode:'Marmaray',label:'Kartal Marmaray',lat:40.88861111,lng:29.19111111},
+    {station:'kartal_m',mode:'Marmaray',label:'Kartal Marmaray',lat:40.88861111,lng:29.19111111},
     {station:'bostanci',mode:'Marmaray',label:'Bostancı Marmaray',lat:40.95350,lng:29.09640},
     {station:'suadiye_m',mode:'Marmaray',label:'Suadiye Marmaray',lat:40.96055556,lng:29.08444444},
     {station:'erenkoy_m',mode:'Marmaray',label:'Erenköy Marmaray',lat:40.97167,lng:29.07638},
@@ -5779,7 +5786,7 @@ window.v23012_6GpsBoardingPresentationQA=v23012_6GpsBoardingPresentationQA;
   window.v23012_6AirportBoardingGuardQA=v23012_6AirportBoardingGuardQA;
 })();
 </script>
-<script>/* V230.12.37-KANLICA-FERRY-LABEL focused QA */
+<script>/* V230.12.38-ROUTE-NODE-AUDIT focused QA */
 (function(){
  function v223Fix3QA(){
   const out={status:'PASS',failures:[],checks:{}};
@@ -6152,7 +6159,7 @@ function v222DataAudit(){
  window.__V222_DATA_AUDIT__=out; return out;
 }
 window.v222DataAudit=v222DataAudit;
-console.info('[Istanbul Tourist Transport Planner] BUILD V230.12.37-KANLICA-FERRY-LABEL');
+console.info('[Istanbul Tourist Transport Planner] BUILD V230.12.38-ROUTE-NODE-AUDIT');
 })();
 
 function v227WalkingNavigationQA(){
