@@ -122,13 +122,12 @@ try {
         : flow.headingStepLabel === 'PRATİK ROTA';
       const valid = flow.from === item.from && flow.to === item.to &&
         flow.routeText.length > 0 && flow.stepCards > 0 && stepCountConsistent;
-      if (true) // Log all 54 live route texts for semantic audit, not just R01-R28. {
+      // Log all 54 live route texts for semantic audit, not just R01-R28.
         console.log('LIVE ROUTE AUDIT ' + item.id + ': ' + JSON.stringify({
           expectedFrom: item.from, actualFrom: flow.from,
           expectedTo: item.to, actualTo: flow.to,
           stepCards: flow.stepCards, routeText: flow.routeText
         }));
-      }
       record('live UI route flow ' + item.id, valid, JSON.stringify({
         expectedFrom: item.from, actualFrom: flow.from,
         expectedTo: item.to, actualTo: flow.to,
