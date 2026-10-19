@@ -2856,7 +2856,7 @@ function annotateSurfaceTransfers(path){
       if(verified){
         const meta=surfaceTransferRegistry[`${node}|${previousMode}|${mode}`] ||
           surfaceTransferRegistry[`${node}|${mode}|${previousMode}`] ||
-          {type:'station_internal',difficulty:0,walkMinutes:0,label:`${nodeLabel(node)} ${mode.replace(' Metro','')} aktarması`,verified:true};
+          {type:'station_internal',difficulty:0,walkMinutes:0,label:`${railLines[mode]?.labels?.[node]||nodeLabel(node)} aktarması`,verified:true};
         return [...step,{surfaceTransfer:meta}];
       }
     }
