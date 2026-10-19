@@ -1403,23 +1403,36 @@ function ensureFinalLocalAccess(path,targetId){
   const access=touristAccess[targetId];
 
   // Special physical destinations whose catalogue IDs must not be mistaken
-  // for rail stations. The generic graph can otherwise end at the destination
-  // label without rendering the actual visitor ferry/boat access.
-  if(targetId==='kanlica' || targetId==='kiz_kulesi'){
-    const expectedFrom=targetId==='kanlica' ? 'uskudar' : 'salacak_kiz_kulesi';
-    const expectedMode='Vapur';
+  // for rail stations. The generic graph can otherwise omit the actual final
+  // visitor boat even when the visual route nodes happen to look plausible.
+  if(targetId==='kiz_kulesi'){
+    const pierId='salacak_kiz_kulesi';
+    const boatText='<b>Salacak Kız Kulesi Ziyaretçi İskelesi</b> noktasından <b>Kız Kulesi</b> ziyaretçi teknesine binin. Sefer saatini ve biniş noktasını ziyaret öncesinde resmi Kız Kulesi sitesinden kontrol edin.';
+    const pierIndex=path.findIndex(step=>step?.[1]===pierId);
+    if(pierIndex>=0){
+      const prefix=path.slice(0,pierIndex+1);
+      const walk=prefix[prefix.length-1];
+      if(walk?.[0]==='uskudar' && walk?.[1]===pierId){
+        const walkUrl='https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent('Üsküdar ulaşım merkezi İstanbul')+'&destination='+encodeURIComponent('Salacak Kız Kulesi Ziyaretçi İskelesi Üsküdar İstanbul')+'&travelmode=walking';
+        walk[2]='Yürüyüş';
+        walk[3]='<b>Üsküdar ulaşım merkezi</b> noktasından <b>Salacak Kız Kulesi Ziyaretçi İskelesi</b> noktasına yürüyün. Yürüme süresi bu rotada bağımsız olarak doğrulanmadı; dakika tahmini vermiyorum. <a href="'+walkUrl+'" target="_blank" rel="noopener noreferrer">🚶 Salacak iskelesine yaya rotasını haritada aç</a>';
+      }
+      return prefix.concat([[pierId,'kiz_kulesi','Vapur',boatText]]);
+    }
+    const last=path[path.length-1];
+    if(last?.[1]===access?.station){
+      return path.concat(targetAccessSteps({...access,direct:false},targetId));
+    }
+    return path;
+  }
+  if(targetId==='kanlica'){
     const alreadyHasVerifiedAccess=path.some(step =>
-      step?.[0]===expectedFrom && step?.[1]===targetId && step?.[2]===expectedMode
+      step?.[0]==='uskudar' && step?.[1]==='kanlica' && step?.[2]==='Vapur'
     );
     if(alreadyHasVerifiedAccess) return path;
-
-    let prefix=path;
-    const last=prefix[prefix.length-1];
-    if(last?.[1]===targetId && last?.[2]!==expectedMode){
-      prefix=prefix.slice(0,-1);
-    }
-    if(prefix[prefix.length-1]?.[1]===access?.station){
-      return prefix.concat(targetAccessSteps({...access,direct:false},targetId));
+    const last=path[path.length-1];
+    if(last?.[1]===access?.station){
+      return path.concat(targetAccessSteps({...access,direct:false},targetId));
     }
     return path;
   }
