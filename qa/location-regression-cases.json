@@ -913,6 +913,12 @@
       "from": "the_green_park_bostanci",
       "to": "yeldegirmeni",
       "focus": "The Green Park Hotel Bostancı → Yeldeğirmeni: otelden Bostancı M4'e yürüyüş, Ayrılık Çeşmesi erişimi ve Yeldeğirmeni son yürüyüşü doğru olmalı."
+    },
+    {
+      "id": "R54",
+      "from": "the_green_park_bostanci",
+      "to": "the_green_park_pendik",
+      "focus": "The Green Park Hotel Bostancı → The Green Park Pendik: Bostancı M4 erişimi ve hedef otel için Kaynarca Marmaray erişimi; Tavşantepe son hedef olarak seçilmemeli."
     }
   ],
   "perCaseChecks": [
