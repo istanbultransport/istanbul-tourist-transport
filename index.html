@@ -1472,6 +1472,10 @@ function hasVerifiedTransitTransfers(path){
     const prev=path[i-1], cur=path[i];
     if(!Array.isArray(prev)||!Array.isArray(cur)) continue;
     const pm=prev[2], cm=cur[2];
+    // İki ardışık gerçek ulaşım adımı arasında düğüm kopukluğu varsa
+    // aktarma doğrulanamaz; bu yolu sessizce geçerli sayma.
+    // Yürüyüş/yüzey erişimi ayrı bir adım olarak geldiyse aşağıdaki kontrol uygulanmaz.
+    if(!nonTransit.has(pm) && !nonTransit.has(cm) && prev[1]!==cur[0]) return false;
     if(nonTransit.has(pm)||nonTransit.has(cm)||pm===cm) continue;
     const node=prev[1]===cur[0] ? prev[1] : null;
     if(!node) continue;

@@ -116,6 +116,19 @@ try {
     }
   }
 
+  // A disconnected pair of transit legs must never pass route validation.
+  const disconnectedTransitAudit = await page.evaluate(() => {
+    const path = [
+      ['besiktas','kadikoy','Vapur','Beşiktaş → Kadıköy'],
+      ['yildiz','mecidiyekoy','M7 Metro','Yıldız → Mecidiyeköy']
+    ];
+    return { validation: validateRoute(path), transferCheck: hasVerifiedTransitTransfers(path) };
+  });
+  record('disconnected transit legs are rejected by route validation',
+    disconnectedTransitAudit.validation.ok === false &&
+    disconnectedTransitAudit.transferCheck === false,
+    JSON.stringify(disconnectedTransitAudit));
+
   const bayrampasaAquaAudit = await page.evaluate(() => {
     const pairs = [['bayrampasa','aqua_florya'],['aqua_florya','bayrampasa']];
     return pairs.map(([from,to]) => {
