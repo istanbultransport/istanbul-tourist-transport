@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "title": "Istanbul Tourist Transport Planner — 56-place manual regression set",
+  "title": "Istanbul Tourist Transport Planner — 58-place manual regression set",
   "purpose": "Validate existing registered place selection and route handoff without paid Google Places API. The catalogue entries are matched to the current places array where marked existing-catalog; business records outside the catalogue require address/coordinate verification and integration before they can be considered runnable. Anadolu Hisarı Kalesi/Müzesi için kaynakla çapraz kontrol edilmiş hedef POI koordinatı ve dört yeni rota regresyon senaryosu eklendi; bunlar canlı test edilmeden PASS sayılmaz. İstanbul Havalimanı ↔ Atatürk Kent Ormanı için iki yönlü rota ve Hacıosman M2 son erişim süresi ayrıca regresyon kapsamına alındı.",
   "policy": {
     "noPaidApi": true,
@@ -573,6 +573,26 @@
       "source": "existing-catalog",
       "lat": 41.0346,
       "lng": 28.9118
+    },
+    {
+      "id": "the_green_park_bostanci",
+      "name": "The Green Park Hotel Bostancı",
+      "type": "hotel",
+      "side": "Anadolu Yakası",
+      "source": "existing-catalog",
+      "lat": 40.96568,
+      "lng": 29.11057,
+      "note": "Otel erişimi Bostancı M4 üzerinden; Yeldeğirmeni için Ayrılık Çeşmesi erişimi kontrol edilmeli."
+    },
+    {
+      "id": "yeldegirmeni",
+      "name": "Yeldeğirmeni",
+      "type": "neighborhood",
+      "side": "Anadolu Yakası",
+      "source": "existing-catalog",
+      "lat": 40.997,
+      "lng": 29.028,
+      "note": "Hedef erişimi Ayrılık Çeşmesi Marmaray ve son yürüyüş."
     }
   ],
   "routeCases": [
@@ -881,6 +901,24 @@
       "from": "aqua_florya",
       "to": "bayrampasa",
       "focus": "Aqua Florya → Bayrampaşa: Florya Akvaryum Marmaray erişimi, Yenikapı aktarması ve Bayrampaşa-Maltepe M1A/M1B istasyonu; metrobüs/metro kimlikleri karışmamalı."
+    },
+    {
+      "id": "R52",
+      "from": "the_green_park_pendik",
+      "to": "the_green_park_bostanci",
+      "focus": "The Green Park Pendik → The Green Park Hotel Bostancı: otelden en yakın raylı erişim Kaynarca Marmaray olmalı; Tavşantepe M4 yanlış varsayılmamalı."
+    },
+    {
+      "id": "R53",
+      "from": "the_green_park_bostanci",
+      "to": "yeldegirmeni",
+      "focus": "The Green Park Hotel Bostancı → Yeldeğirmeni: otelden Bostancı M4'e yürüyüş, Ayrılık Çeşmesi erişimi ve Yeldeğirmeni son yürüyüşü doğru olmalı."
+    },
+    {
+      "id": "R54",
+      "from": "the_green_park_bostanci",
+      "to": "the_green_park_pendik",
+      "focus": "The Green Park Hotel Bostancı → The Green Park Pendik: Bostancı M4 erişimi ve hedef otel için Kaynarca Marmaray erişimi; Tavşantepe son hedef olarak seçilmemeli."
     }
   ],
   "perCaseChecks": [
