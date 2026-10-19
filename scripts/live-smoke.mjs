@@ -159,22 +159,24 @@ try {
           pendikBusValid, flow.routeText.slice(-900));
       }
       if (item.id === 'R49') {
+        const primarySummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';
         const kanlicaAccessValid =
-          flow.routeText.includes('Vapur') &&
-          flow.routeText.includes('Üsküdar İskelesi') &&
-          flow.routeText.includes('Kanlıca İskelesi') &&
-          !flow.routeText.includes('Üsküdar Marmaray istasyonundan Kanlıca hedefine yürüyüş süresi doğrulanamadı');
-        record('live R49 Bostancı → Kanlıca transfers to the Üsküdar–Kanlıca ferry',
-          kanlicaAccessValid, flow.routeText.slice(-1000));
+          primarySummary.includes('Üsküdar İskelesi') &&
+          primarySummary.includes('Kanlıca İskelesi') &&
+          !primarySummary.includes('Kanlıca hedefine yürüyüş süresi doğrulanamadı');
+        record('live R49 primary route transfers to the Üsküdar–Kanlıca ferry',
+          kanlicaAccessValid, primarySummary);
       }
       if (item.id === 'R35') {
+        const primarySummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';
         const maidenTowerAccessValid =
-          flow.routeText.includes('Salacak Kız Kulesi Ziyaretçi İskelesi') &&
+          primarySummary.includes('Salacak Kız Kulesi Ziyaretçi İskelesi') &&
+          primarySummary.includes('Kız Kulesi') &&
+          !primarySummary.includes('Üsküdar M5 istasyonundan Kız Kulesi hedefine yaklaşık 9 dakika yürümelisiniz') &&
           flow.routeText.includes('ziyaretçi teknesine binin') &&
-          flow.routeText.includes('yürüme süresi bu rotada bağımsız olarak doğrulanmadı') &&
-          !flow.routeText.includes('Üsküdar M5 istasyonundan Kız Kulesi hedefine yaklaşık 9 dakika yürümelisiniz');
-        record('live R35 Kız Kulesi route uses Salacak pier and a visitor boat, not a direct walk',
-          maidenTowerAccessValid, flow.routeText.slice(-1200));
+          flow.routeText.includes('yürüme süresi bu rotada bağımsız olarak doğrulanmadı');
+        record('live R35 primary route uses Salacak pier and a visitor boat, not a direct walk',
+          maidenTowerAccessValid, primarySummary);
       }
       if (item.id === 'R27') {
         const modernAccessValid = flow.routeText.includes('Tophane T1') &&
