@@ -117,6 +117,19 @@ try {
   }
 
   // A disconnected pair of transit legs must never pass route validation.
+  const ferryPierAudit = await page.evaluate(() => ({
+    karakoy: ferryPierLabel('karakoy','uskudar'),
+    uskudar: ferryPierLabel('uskudar','karakoy'),
+    flow: routeFlow([['karakoy','uskudar','Vapur','Karaköy → Üsküdar vapuru']])
+  }));
+  record('ferry route summary uses pier names instead of rail-line labels',
+    ferryPierAudit.karakoy === 'Karaköy İskelesi' &&
+    ferryPierAudit.uskudar === 'Üsküdar İskelesi' &&
+    ferryPierAudit.flow.includes('Karaköy İskelesi') &&
+    ferryPierAudit.flow.includes('Üsküdar İskelesi') &&
+    !ferryPierAudit.flow.includes('Karaköy F2'),
+    JSON.stringify(ferryPierAudit));
+
   const disconnectedTransitAudit = await page.evaluate(() => {
     const path = [
       ['besiktas','kadikoy','Vapur','Beşiktaş → Kadıköy'],

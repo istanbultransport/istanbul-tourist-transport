@@ -2806,8 +2806,29 @@ function ferryPierLabel(id, otherId){
   if(id==='kadikoy' && islandTarget) return 'Kadıköy (Eski) İskelesi';
   if(id==='pendik') return 'Pendik İDO İskelesi';
   if(id==='tuzla') return 'Tuzla İDO İskelesi';
+  // Ferry endpoints are not always named like their rail station. In particular,
+  // Karaköy is also the F2 funicular node; never turn that line label into a pier.
+  const knownPiers={
+    kadikoy:'Kadıköy İskelesi',
+    besiktas:'Beşiktaş İskelesi',
+    karakoy:'Karaköy İskelesi',
+    eminonu:'Eminönü İskelesi',
+    uskudar:'Üsküdar İskelesi',
+    bostanci:'Bostancı İskelesi',
+    moda:'Moda İskelesi',
+    kabatas:'Kabataş İskelesi',
+    ortakoy:'Ortaköy İskelesi',
+    kanlica:'Kanlıca İskelesi',
+    sariyer:'Sarıyer İskelesi',
+    kuzguncuk_iskele:'Kuzguncuk İskelesi',
+    kinaliada:'Kınalıada İskelesi',
+    burgazada:'Burgazada İskelesi',
+    heybeliada:'Heybeliada İskelesi',
+    buyukada:'Büyükada İskelesi'
+  };
+  if(knownPiers[id]) return knownPiers[id];
   if(/İskelesi$/.test(base)) return base;
-  return `${base} İskelesi`;
+  return `${base.replace(/\\s+(?:F[124]|M\\d+|T\\d+|Marmaray)$/, '')} İskelesi`;
 }
 
 function annotateSurfaceTransfers(path){
@@ -4444,10 +4465,10 @@ function routeFlow(path,startId=null){
   path.forEach((e,i)=>{
     const [from,to,mode,txt,meta]=e;
     const gpsWalkLabel=(mode==='Yürüyüş' && from==='current_location' && i===0 && meta?.walkStationLabel) ? meta.walkStationLabel : null;
-    const fromLabel=stepNodeLabel(from,mode);
+    const fromLabel=mode==='Vapur' ? ferryPierLabel(from,to) : stepNodeLabel(from,mode);
     const registeredStartAccess=startId && typeof startLocalAccessRegistry!=='undefined' ? startLocalAccessRegistry[startId] : null;
     const registeredWalkLabel=i===0 && mode==='Yürüyüş' && registeredStartAccess?.label ? registeredStartAccess.label : null;
-    const toLabel=gpsWalkLabel || registeredWalkLabel || stepNodeLabel(to,mode);
+    const toLabel=gpsWalkLabel || registeredWalkLabel || (mode==='Vapur' ? ferryPierLabel(to,from) : stepNodeLabel(to,mode));
     if(i===0) labels.push(`<span class="flow-node start">${fromLabel}</span>`);
     labels.push(`<span class="flow-arrow">↓</span><span class="flow-node ${i===path.length-1?'end':''}">${toLabel}</span>`);
   });
