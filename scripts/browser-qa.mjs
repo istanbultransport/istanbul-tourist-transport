@@ -144,7 +144,10 @@ try {
   const ferryPierAudit = await page.evaluate(() => ({
     karakoy: ferryPierLabel('karakoy','uskudar'),
     uskudar: ferryPierLabel('uskudar','karakoy'),
-    flow: routeFlow([['karakoy','uskudar','Vapur','Karaköy → Üsküdar vapuru']])
+    flow: routeFlow([
+      ['karakoy_lokantasi','karakoy','Yürüyüş','Lokantadan Karaköy yönüne yürü'],
+      ['karakoy','uskudar','Vapur','Karaköy → Üsküdar vapuru']
+    ])
   }));
   record('ferry route summary uses pier names instead of rail-line labels',
     ferryPierAudit.karakoy === 'Karaköy İskelesi' &&

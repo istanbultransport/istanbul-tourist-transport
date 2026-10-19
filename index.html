@@ -4497,7 +4497,10 @@ function routeFlow(path,startId=null){
     const fromLabel=mode==='Vapur' ? ferryPierLabel(from,to) : stepNodeLabel(from,mode);
     const registeredStartAccess=startId && typeof startLocalAccessRegistry!=='undefined' ? startLocalAccessRegistry[startId] : null;
     const registeredWalkLabel=i===0 && mode==='Yürüyüş' && registeredStartAccess?.label ? registeredStartAccess.label : null;
-    const toLabel=gpsWalkLabel || registeredWalkLabel || (mode==='Vapur' ? ferryPierLabel(to,from) : stepNodeLabel(to,mode));
+    const next=path[i+1];
+    const toLabel=gpsWalkLabel || registeredWalkLabel ||
+      (next?.[2]==='Vapur' && next[0]===to ? ferryPierLabel(to,next[1]) :
+       mode==='Vapur' ? ferryPierLabel(to,from) : stepNodeLabel(to,mode));
     if(i===0) labels.push(`<span class="flow-node start">${fromLabel}</span>`);
     labels.push(`<span class="flow-arrow">↓</span><span class="flow-node ${i===path.length-1?'end':''}">${toLabel}</span>`);
   });
