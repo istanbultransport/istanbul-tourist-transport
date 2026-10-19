@@ -134,6 +134,13 @@ try {
         stepCards: flow.stepCards, headingStepLabel: flow.headingStepLabel,
         summaryStepCount: flow.summaryStepCount, routeText: flow.routeText.slice(0, 180)
       }));
+      if (item.id === 'R13') {
+        const zeroDistanceM2Ride = flow.routeText.includes('Yenikapı yönündeki M2 Metro trenine bin.') &&
+          flow.routeText.includes('Yenikapı M2 (Son durak)');
+        record('live R13 does not present a zero-distance Yenikapı M2 transfer as a train ride',
+          !zeroDistanceM2Ride && flow.routeText.includes('İstasyon içi M2 Metro aktarması'),
+          flow.routeText.slice(flow.routeText.indexOf('Yenikapı Marmaray'), flow.routeText.indexOf('Gayrettepe M2') + 700));
+      }
       if (item.id === 'R50' || item.id === 'R51') {
         const primarySummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';
         const primaryStartAccess = flow.routeText.split('🧭 Yolculuk özeti')[0] || '';

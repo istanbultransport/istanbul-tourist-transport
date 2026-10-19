@@ -2832,12 +2832,35 @@ function ferryPierLabel(id, otherId){
 }
 
 function annotateSurfaceTransfers(path){
-  return (path||[]).map(step=>{
+  const steps=path||[];
+  return steps.map((step,index)=>{
     if(!Array.isArray(step)) return step;
     if(step[4]?.surfaceTransfer) return step;
     const key=`${step[0]}|${step[2]}|${step[1]}`;
-    const meta=surfaceTransferRegistry[key];
-    return meta ? [...step,{surfaceTransfer:meta}] : step;
+    const registered=surfaceTransferRegistry[key];
+    if(registered) return [...step,{surfaceTransfer:registered}];
+    // The route graph may encode a verified interchange as a zero-distance
+    // transit edge without attaching display metadata. Recover that metadata
+    // from the preceding transit mode and the explicit interchange registry.
+    if(step[0]===step[1] && isPrimaryTransitMode(step[2])){
+      let previousMode=null;
+      for(let i=index-1;i>=0;i--){
+        const prior=steps[i];
+        if(!Array.isArray(prior) || ['Yürüyüş','İlçe içi ulaşım','Yerel ulaşım','Son ulaşım'].includes(prior[2])) continue;
+        previousMode=prior[2];
+        break;
+      }
+      const node=step[0], mode=step[2];
+      const verified=previousMode && Array.isArray(transferStations[`${previousMode}|${mode}`]) &&
+        transferStations[`${previousMode}|${mode}`].includes(node);
+      if(verified){
+        const meta=surfaceTransferRegistry[`${node}|${previousMode}|${mode}`] ||
+          surfaceTransferRegistry[`${node}|${mode}|${previousMode}`] ||
+          {type:'station_internal',difficulty:0,walkMinutes:0,label:`İstasyon içi ${mode} aktarması`,verified:true};
+        return [...step,{surfaceTransfer:meta}];
+      }
+    }
+    return step;
   });
 }
 
@@ -4464,6 +4487,12 @@ function routeFlow(path,startId=null){
   const labels=[];
   path.forEach((e,i)=>{
     const [from,to,mode,txt,meta]=e;
+    const transferMeta=surfaceTransferMeta(e);
+    if(from===to && transferMeta?.type==='station_internal'){
+      const transferLabel=transferMeta.label || `İstasyon içi ${mode} aktarması`;
+      labels.push(`<span class="flow-arrow">↔</span><span class="flow-node transfer">${transferLabel}</span>`);
+      return;
+    }
     const gpsWalkLabel=(mode==='Yürüyüş' && from==='current_location' && i===0 && meta?.walkStationLabel) ? meta.walkStationLabel : null;
     const fromLabel=mode==='Vapur' ? ferryPierLabel(from,to) : stepNodeLabel(from,mode);
     const registeredStartAccess=startId && typeof startLocalAccessRegistry!=='undefined' ? startLocalAccessRegistry[startId] : null;
@@ -5524,7 +5553,9 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
    if(gpsStation.adaptiveStart && Array.isArray(gpsStation.prefixPath)) normalizedOptions.forEach(opt=>{opt.path=[...gpsStation.prefixPath,...opt.path]});
    else normalizedOptions.forEach(opt=>{opt.path=[['current_location',gpsStation.station,'Yürüyüş',`<b>Mevcut konumundan</b> <b>${gpsStation.label}</b> istasyonuna yürü.<br>${currentLocationWalkingNavigationHtmlForStation(gpsStation)}`],...opt.path];});
  }
- const optionBlocks=normalizedOptions ? normalizedOptions.map((opt,idx)=>{
+ if(normalizedPath) normalizedPath=annotateSurfaceTransfers(normalizedPath);
+ if(normalizedOptions) normalizedOptions.forEach(opt=>{opt.path=annotateSurfaceTransfers(opt.path);});
+  const optionBlocks=normalizedOptions ? normalizedOptions.map((opt,idx)=>{
    const stops=opt.path.map(e=>stepNodeLabel(e[1],e[2])).join(' → ');
    const tc=transferCount(opt.path);
    const subtitle=opt.subtitle && opt.subtitle.includes('direkt') ? (opt.path[0]?.[2]==='İlçe içi ulaşım' ? 'İstasyona erişim + direkt ulaşım' : opt.subtitle) : `${tc} aktarma`;

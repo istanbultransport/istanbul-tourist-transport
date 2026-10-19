@@ -117,6 +117,21 @@ try {
   }
 
   // A disconnected pair of transit legs must never pass route validation.
+  const internalTransferAudit = await page.evaluate(() => {
+    const path = annotateSurfaceTransfers([
+      ['sirkeci','yenikapi','Marmaray','Sirkeci → Yenikapı'],
+      ['yenikapi','yenikapi','M2 Metro','Yenikapı M2 internal transfer'],
+      ['yenikapi','gayrettepe','M2 Metro','Yenikapı → Gayrettepe']
+    ]);
+    const flow = routeFlow(path);
+    return {meta: surfaceTransferMeta(path[1])?.type || null, flow};
+  });
+  record('zero-distance Yenikapı M2 edge is rendered as a transfer, not a train ride',
+    internalTransferAudit.meta === 'station_internal' &&
+    internalTransferAudit.flow.includes('Yenikapı M2 aktarması') &&
+    !internalTransferAudit.flow.includes('Yenikapı M2 → Yenikapı M2'),
+    JSON.stringify(internalTransferAudit));
+
   const bayrampasaAccessAudit = await page.evaluate(() => ({
     start: getStartRailAccess('bayrampasa')?.label || '',
     end: getEndRailAccess('bayrampasa')?.label || ''
