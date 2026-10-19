@@ -134,6 +134,14 @@ try {
         stepCards: flow.stepCards, headingStepLabel: flow.headingStepLabel,
         summaryStepCount: flow.summaryStepCount, routeText: flow.routeText.slice(0, 180)
       }));
+      if (item.id === 'R50' || item.id === 'R51') {
+        const primarySummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';
+        const primaryStartAccess = flow.routeText.split('🧭 Yolculuk özeti')[0] || '';
+        const accessLabelValid = primarySummary.includes('Bayrampaşa-Maltepe M1A') &&
+          !primaryStartAccess.includes('Bayrampaşa-Maltepe M1B istasyonuna');
+        record('live ' + item.id + ' Bayrampaşa access label agrees with the selected M1 route', accessLabelValid,
+          primaryStartAccess.slice(-500) + ' | ' + primarySummary);
+      }
       if (item.id === 'R07') {
         const pendikBusValid = flow.routeText.includes('KM13') &&
           flow.routeText.includes('PENDİK YHT İSTASYONU') &&

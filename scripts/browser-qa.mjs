@@ -117,6 +117,15 @@ try {
   }
 
   // A disconnected pair of transit legs must never pass route validation.
+  const bayrampasaAccessAudit = await page.evaluate(() => ({
+    start: getStartRailAccess('bayrampasa')?.label || '',
+    end: getEndRailAccess('bayrampasa')?.label || ''
+  }));
+  record('Bayrampaşa access label does not force M1B when route can use M1A or M1B',
+    bayrampasaAccessAudit.start === 'Bayrampaşa-Maltepe M1A/M1B' &&
+    bayrampasaAccessAudit.end === 'Bayrampaşa-Maltepe M1A/M1B',
+    JSON.stringify(bayrampasaAccessAudit));
+
   const ferryPierAudit = await page.evaluate(() => ({
     karakoy: ferryPierLabel('karakoy','uskudar'),
     uskudar: ferryPierLabel('uskudar','karakoy'),
