@@ -1,10 +1,10 @@
-# 55-place / 51-route manual regression
+# 56-place / 51-route manual regression
 
 ## Purpose
-Run a controlled no-paid-API regression pass before deciding whether to integrate Google Places. Dataset: `qa/location-regression-cases.json` (55 places, 51 route scenarios).
+Run a controlled no-paid-API regression pass before deciding whether to integrate Google Places. Dataset: `qa/location-regression-cases.json` (56 places, 51 route scenarios).
 
 ## Coverage and limits
-- 49 entries match the current in-app place catalogue by ID/name and have the catalogue's stored coordinates.
+- 52 entries match the current in-app place catalogue by ID/name and have the catalogue's stored coordinates.
 - Three business records are integrated into the in-app catalogue and route selection: Four Seasons Hotel Istanbul at Sultanahmet, Karaköy Lokantası and Çiya Sofrası. Their coordinates are cross-checked but have not been field-surveyed. Faros Karaköy remains excluded from production selection because its point is approximate; it stays a non-runnable gap probe.
 - This dataset is a **test plan**; CI verifies the source and a browser QA page exercises all 51 route fixtures (R01–R51). Hosted-browser/field validation is still required before claiming production readiness.
 - Do not invent coordinates, station choices, walking times, or ETAs. Verify business identity and route details against reliable current sources during execution.
