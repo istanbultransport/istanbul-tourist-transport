@@ -91,7 +91,7 @@ check('build ID and service-worker cache version match', !!buildMinor && !!cache
 
 if (regression) {
   check('manual regression contains at least 55 places', Array.isArray(regression.locations) && regression.locations.length >= 55, String(regression.locations?.length));
-  check('manual regression contains at least 51 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length >= 53, String(regression.routeCases?.length));
+  check('manual regression contains at least 51 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length >= 54, String(regression.routeCases?.length));
   check('manual regression title matches actual location count', regression.title?.includes(`${regression.locations?.length}-place manual regression set`) === true, String(regression.title));
   check('manual regression guide matches actual location and route counts', read('qa/20-location-manual-regression.md').includes(`# ${regression.locations?.length}-place / ${regression.routeCases?.length}-route manual regression`));
   const locationIds = new Set((regression.locations || []).map(place => place.id));
@@ -166,6 +166,7 @@ check('Marmaray omits Zeytinburnu and separates same-name M4 nodes', !marmarayBl
   check('The Green Park Pendik uses Kaynarca Marmaray access', !!pendikHotelAccess && pendikHotelAccess[1] === 'kaynarca_m' && pendikHotelAccess[2] === 'Marmaray' && pendikHotelAccess[3] === 'Kaynarca Marmaray', JSON.stringify(pendikHotelAccess?.slice(1)));
   check('The Green Park Pendik walking access targets Kaynarca Marmaray', html.includes("hotelWalkingAccessText('The Green Park Pendik','40.87251,29.25102','Kaynarca Marmaray',6)"));
   check('Green Park Bostancı → Yeldeğirmeni route fixtures exist', regression.routeCases.some(x=>x.id==='R53'&&x.from==='the_green_park_bostanci'&&x.to==='yeldegirmeni'));
+check('Green Park Bostancı → Pendik route fixture exists', regression.routeCases.some(x=>x.id==='R54'&&x.from==='the_green_park_bostanci'&&x.to==='the_green_park_pendik'));
 
 console.log(`Static QA: ${pass.length} passed, ${fail.length} failed`);
 for (const name of pass) console.log(`PASS  ${name}`);
