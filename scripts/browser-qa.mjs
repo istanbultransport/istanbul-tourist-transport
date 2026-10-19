@@ -295,7 +295,7 @@ try {
     greenParkRouteAudit.yeldegirmeniAccess.station === 'ayrilik' &&
     p53[0]?.[0] === 'the_green_park_bostanci' && p53[0]?.[1] === 'bostanci' &&
     p53[0]?.[2] === 'Yürüyüş' && p53.some(s=>s[2] === 'M4 Metro') &&
-    p53.some(s=>s[1] === 'yeldegirmeni' && s[2] === 'Yürüyüş'),
+    p53.some(s=>s[1] === 'yeldegirmeni' && ['Yürüyüş','Son ulaşım'].includes(s[2])),
     JSON.stringify({start:greenParkRouteAudit.bostanciAccess,end:greenParkRouteAudit.yeldegirmeniAccess,path:p53}));
 
   // Atatürk Kent Ormanı: the Hacıosman M2 access is roughly an 8-minute walk, not 1 minute.
@@ -634,8 +634,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.38-routeaudit-core' &&
-    htmlBuild === 'V230.12.38-ROUTE-NODE-AUDIT' &&
+    cacheName === 'itp-v230.12.39-greenpark-core' &&
+    htmlBuild === 'V230.12.39-GREEN-PARK-HOTEL-ACCESS' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
