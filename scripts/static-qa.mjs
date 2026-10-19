@@ -91,7 +91,7 @@ check('build ID and service-worker cache version match', !!buildMinor && !!cache
 
 if (regression) {
   check('manual regression contains at least 55 places', Array.isArray(regression.locations) && regression.locations.length >= 55, String(regression.locations?.length));
-  check('manual regression contains at least 49 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length >= 49, String(regression.routeCases?.length));
+  check('manual regression contains at least 49 route cases', Array.isArray(regression.routeCases) && regression.routeCases.length >= 51, String(regression.routeCases?.length));
   check('manual regression title matches actual location count', regression.title?.includes(`${regression.locations?.length}-place manual regression set`) === true, String(regression.title));
   check('manual regression guide matches actual location and route counts', read('qa/20-location-manual-regression.md').includes(`# ${regression.locations?.length}-place / ${regression.routeCases?.length}-route manual regression`));
   const locationIds = new Set((regression.locations || []).map(place => place.id));
@@ -133,6 +133,33 @@ if (regression) {
 const forestAccessRows = [...html.matchAll(/ataturk_kent_ormani:\{station:'haciosman_hub',mode:'M2 Metro',label:'Hacıosman M2',stationOnly:true,walkMinutes:8\}/g)];
 check('Atatürk Kent Ormanı start/end access both use Hacıosman M2 and 8-minute walk', forestAccessRows.length === 2);
 check('Atatürk Kent Ormanı legacy last-mile walk time matches the 8-minute access record', /ataturk_kent_ormani:\s*8\s*,/.test(html));
+
+
+const railSectionForNodeAudit = html.slice(html.indexOf('const railLines={'), html.indexOf('const lineTerminals', html.indexOf('const railLines={')));
+const parsedLinesForNodeAudit = [...railSectionForNodeAudit.matchAll(/'([^']+)'\s*:\s*\{\s*order:\[([^\]]*)\]/g)]
+  .map(match => ({ name: match[1], nodes: [...match[2].matchAll(/'([^']+)'/g)].map(node => node[1]) }));
+const nodeLinesForAudit = new Map();
+for (const line of parsedLinesForNodeAudit) for (const node of line.nodes) {
+  if (!nodeLinesForAudit.has(node)) nodeLinesForAudit.set(node, []);
+  nodeLinesForAudit.get(node).push(line.name);
+}
+const transferTextForNodeAudit = html.slice(html.indexOf('const transferStations={'), html.indexOf('};', html.indexOf('const transferStations={')) + 2);
+const transferPairsForNodeAudit = new Map([...transferTextForNodeAudit.matchAll(/'([^']+)\|([^']+)'\s*:\s*\[([^\]]*)\]/g)]
+  .map(match => [match[1] + '|' + match[2], new Set([...match[3].matchAll(/'([^']+)'/g)].map(node => node[1]))]));
+const undeclaredSharedNodes = [];
+for (const [node, modes] of nodeLinesForAudit) {
+  for (let i = 0; i < modes.length; i++) for (let j = i + 1; j < modes.length; j++) {
+    const a = modes[i], b = modes[j];
+    if (!transferPairsForNodeAudit.get(a + '|' + b)?.has(node) && !transferPairsForNodeAudit.get(b + '|' + a)?.has(node)) undeclaredSharedNodes.push({node,a,b});
+  }
+}
+check('all shared rail-node IDs have an explicit transfer declaration', undeclaredSharedNodes.length === 0, JSON.stringify(undeclaredSharedNodes));
+const metrobusBlockForAudit = railSectionForNodeAudit.slice(railSectionForNodeAudit.indexOf("'Metrobüs': {"), railSectionForNodeAudit.indexOf("'M4 Metro':"));
+const m7BlockForAudit = railSectionForNodeAudit.slice(railSectionForNodeAudit.indexOf("'M7 Metro': {"), railSectionForNodeAudit.indexOf("'M9 Metro':"));
+const marmarayBlockForAudit = railSectionForNodeAudit.slice(railSectionForNodeAudit.indexOf("'Marmaray': {"), railSectionForNodeAudit.indexOf("'M5 Metro':"));
+check('Bayrampaşa Metrobüs and M1A/M1B use separate node IDs', metrobusBlockForAudit.includes('bayrampasa_mb') && !metrobusBlockForAudit.includes('bayrampasa_hub'));
+check('M5 and M7 Veysel Karani stations use separate node IDs', m7BlockForAudit.includes('veysel_karani_m7') && !m7BlockForAudit.includes("'veysel_karani'"));
+check('Marmaray omits Zeytinburnu and separates same-name M4 nodes', !marmarayBlockForAudit.includes('zeytinburnu_hub') && marmarayBlockForAudit.includes('bostanci_m') && marmarayBlockForAudit.includes('kartal_m') && marmarayBlockForAudit.includes('pendik_m'));
 
 console.log(`Static QA: ${pass.length} passed, ${fail.length} failed`);
 for (const name of pass) console.log(`PASS  ${name}`);
