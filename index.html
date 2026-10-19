@@ -2902,6 +2902,15 @@ function ensureFinalMileForAnyPath(path, targetId){
 function targetAccessSteps(access, targetId){
   const station=access?.label || nodeLabel(access?.station);
 
+  // Kanlıca'ya Üsküdar'dan kara yolu son erişimi uydurma. Marmaray ile
+  // Üsküdar'a gelen yolcu burada inip doğrulanmış Üsküdar–Kanlıca vapuruna geçer.
+  if(targetId==='kanlica' && access?.station==='uskudar'){
+    const edge=(ferryGraph.uskudar||[]).find(e=>e[0]==='kanlica');
+    if(edge){
+      return [['uskudar','kanlica','Vapur',edge[2]]];
+    }
+  }
+
   // Kız Kulesi'ne kara yoluyla son erişim yoktur: resmi ziyaretçi tekneleri
   // Salacak ve Karaköy iskelelerinden kalkar. Üsküdar'dan gelen yolcu önce
   // Salacak ziyaretçi iskelesine ulaşmalı, ardından kule teknesine binmelidir.

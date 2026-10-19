@@ -175,6 +175,21 @@ try {
     maidenTowerAccessAudit.destinationLabel === 'Kız Kulesi',
     JSON.stringify(maidenTowerAccessAudit));
 
+  const kanlicaDestinationAudit = await page.evaluate(() => {
+    const steps = targetAccessSteps(getEndAccess('kanlica'), 'kanlica');
+    return {
+      steps: steps.map(s => [s[0],s[1],s[2],s[3]]),
+      hasFerry: steps.some(s => s[0] === 'uskudar' && s[1] === 'kanlica' && s[2] === 'Vapur'),
+      pierFrom: ferryPierLabel('uskudar','kanlica'),
+      pierTo: ferryPierLabel('kanlica','uskudar')
+    };
+  });
+  record('Kanlıca destination access uses the verified Üsküdar ferry instead of an unverified long walk',
+    kanlicaDestinationAudit.hasFerry &&
+    kanlicaDestinationAudit.pierFrom === 'Üsküdar İskelesi' &&
+    kanlicaDestinationAudit.pierTo === 'Kanlıca İskelesi',
+    JSON.stringify(kanlicaDestinationAudit));
+
   const disconnectedTransitAudit = await page.evaluate(() => {
     const path = [
       ['besiktas','kadikoy','Vapur','Beşiktaş → Kadıköy'],

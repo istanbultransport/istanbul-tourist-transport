@@ -158,6 +158,15 @@ try {
         record('live R07 Pendik YHT exposes official KM13 route and stop links without inventing walk time',
           pendikBusValid, flow.routeText.slice(-900));
       }
+      if (item.id === 'R49') {
+        const kanlicaAccessValid =
+          flow.routeText.includes('Vapur') &&
+          flow.routeText.includes('Üsküdar İskelesi') &&
+          flow.routeText.includes('Kanlıca İskelesi') &&
+          !flow.routeText.includes('Üsküdar Marmaray istasyonundan Kanlıca hedefine yürüyüş süresi doğrulanamadı');
+        record('live R49 Bostancı → Kanlıca transfers to the Üsküdar–Kanlıca ferry',
+          kanlicaAccessValid, flow.routeText.slice(-1000));
+      }
       if (item.id === 'R35') {
         const maidenTowerAccessValid =
           flow.routeText.includes('Salacak Kız Kulesi Ziyaretçi İskelesi') &&
