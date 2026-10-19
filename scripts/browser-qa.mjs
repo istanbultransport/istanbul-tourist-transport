@@ -115,6 +115,27 @@ try {
         JSON.stringify(result.path));
     }
   }
+
+  const bayrampasaAquaAudit = await page.evaluate(() => {
+    const pairs = [['bayrampasa','aqua_florya'],['aqua_florya','bayrampasa']];
+    return pairs.map(([from,to]) => {
+      let path = route(from,to);
+      if (!path) path = minimumRailRoute(from,to,4,null,null);
+      if (!path) path = selectBestRoute(generateRouteCandidates(from,to))?.path || null;
+      if (!Array.isArray(path) || !path.length) return {from,to,ok:false,reason:'route missing'};
+      const modes = path.map(step => step[2]);
+      const wrongBayrampasaMode = path.some(step =>
+        (step[2] === 'Metrobüs' && [step[0],step[1]].includes('bayrampasa_hub')) ||
+        (['M1A Metro','M1B Metro'].includes(step[2]) && [step[0],step[1]].includes('bayrampasa_mb')));
+      return {from,to,ok:!wrongBayrampasaMode && modes.includes('Marmaray') &&
+        modes.some(mode => mode === 'M1A Metro' || mode === 'M1B Metro'),
+        wrongBayrampasaMode,modes,path:path.map(step=>[step[0],step[1],step[2],step[3]])};
+    });
+  });
+  record('Bayrampaşa ↔ Aqua Florya keeps metro and Metrobüs nodes separate in both directions',
+    bayrampasaAquaAudit.length === 2 && bayrampasaAquaAudit.every(item => item.ok),
+    JSON.stringify(bayrampasaAquaAudit));
+
   // Audit the shared ferry-start access formatter across every catalogue place
   // that resolves to a Vapur start access and can reach Bostancı by rail.
   const ferryStartAudit = await page.evaluate(() => {
@@ -239,9 +260,9 @@ try {
       record('UI route flow '+item.id, false, error.message);
     }
   }
-  record('all end-to-end UI route flows loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 49, 'count='+cases.routeCases.length);
+  record('all end-to-end UI route flows loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 51, 'count='+cases.routeCases.length);
 
-  record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 49, 'count='+cases.routeCases.length);
+  record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 51, 'count='+cases.routeCases.length);
 
   // Atatürk Kent Ormanı: the Hacıosman M2 access is roughly an 8-minute walk, not 1 minute.
   const forestRouteAudit = await page.evaluate(() => {
@@ -421,12 +442,13 @@ try {
         const pairs = [
           { station: 'ayrilik', a: 'M4 Metro', b: 'Marmaray', min: 0, max: 150 },
           { station: 'uskudar', a: 'M5 Metro', b: 'Marmaray', min: 0, max: 200 },
-          { station: 'kartal_hub', a: 'M4 Metro', b: 'Marmaray', min: 500, max: Infinity },
-          { station: 'pendik', a: 'M4 Metro', b: 'Marmaray', min: 500, max: Infinity }
+          { station: 'kartal_hub', bStation: 'kartal_m', a: 'M4 Metro', b: 'Marmaray', min: 500, max: Infinity },
+          { station: 'pendik', bStation: 'pendik_m', a: 'M4 Metro', b: 'Marmaray', min: 500, max: Infinity },
+          { station: 'bostanci', bStation: 'bostanci_m', a: 'M4 Metro', b: 'Marmaray', min: 1000, max: 2000 }
         ];
         return pairs.every(pair => {
-          const a = gps.find(row => row.station === pair.station && row.mode === pair.a);
-          const b = gps.find(row => row.station === pair.station && row.mode === pair.b);
+          const a = gps.find(row => row.station === (pair.aStation || pair.station) && row.mode === pair.a);
+          const b = gps.find(row => row.station === (pair.bStation || pair.station) && row.mode === pair.b);
           if (!a || !b || !Number.isFinite(a.lat) || !Number.isFinite(b.lat)) return false;
           const meanLat = (a.lat + b.lat) / 2 * Math.PI / 180;
           const meters = Math.hypot((a.lat - b.lat) * 111320, (a.lng - b.lng) * 111320 * Math.cos(meanLat));
@@ -435,7 +457,7 @@ try {
       })(),
       marmarayNodeChecksOk: (() => {
         const targets = [
-          { station: 'pendik', lat: 40.88024, lng: 29.23165, tolerance: 20 },
+          { station: 'pendik_m', lat: 40.88024, lng: 29.23165, tolerance: 20 },
           { station: 'erenkoy_m', lat: 40.97167, lng: 29.07638, tolerance: 10 },
           { station: 'sogutlucesme', lat: 40.99065, lng: 29.03791, tolerance: 75 },
           { station: 'ayrilik', lat: 41.00015, lng: 29.03010, tolerance: 60 }
@@ -478,7 +500,7 @@ try {
   record('M11 Olimpiyatköy fallback targets geotagged entrance', accessAudit.olimpiyatM11EntranceOk);
   record('M11 Kağıthane fallback targets geotagged Entrance 1', accessAudit.kagithaneM11EntranceOk);
   record('M11 Kayaşehir entrance is distinct from M3 Kayaşehir Merkez', accessAudit.kayasehirM11EntranceOk);
-  record('four same-name cross-line station coordinate pairs preserve correct geometry', accessAudit.crossLineStationPairsOk);
+  record('five same-name cross-line station coordinate pairs preserve correct geometry', accessAudit.crossLineStationPairsOk);
   record('four Marmaray station nodes remain within secondary-map tolerances', accessAudit.marmarayNodeChecksOk);
   record('four M11/M3/M7/M9 line-specific points preserve expected geometry', accessAudit.m11LinePairGeometryOk);
   record('station exit registry entries have names and IDs', accessAudit.exitsOk);
