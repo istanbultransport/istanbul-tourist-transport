@@ -4704,7 +4704,9 @@ function renderPath(path,targetId){
     if(mode==='Vapur'){
       const fromPier=ferryPierLabel(from,to);
       const toPier=ferryPierLabel(to,from);
-      explanation='';
+      // Special visitor-boat instructions (e.g. Kız Kulesi) are essential
+      // boarding guidance, not generic ferry directions; render them.
+      explanation=String(text||'').includes('ziyaretçi teknesine binin') ? String(text) : '';
     }
     if(mode==='Yürüyüş'){
       const mins=touristWalkTime(from,to);
