@@ -174,7 +174,7 @@ try {
           primarySummary.includes('Kız Kulesi') &&
           !primarySummary.includes('Üsküdar M5 istasyonundan Kız Kulesi hedefine yaklaşık 9 dakika yürümelisiniz') &&
           flow.routeText.includes('ziyaretçi teknesine binin') &&
-          flow.routeText.includes('yürüme süresi bu rotada bağımsız olarak doğrulanmadı');
+          flow.routeText.toLocaleLowerCase('tr-TR').includes('yürüme süresi bu rotada bağımsız olarak doğrulanmadı');
         record('live R35 primary route uses Salacak pier and a visitor boat, not a direct walk',
           maidenTowerAccessValid, primarySummary);
       }
