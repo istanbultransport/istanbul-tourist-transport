@@ -3051,16 +3051,21 @@ function iettStopLabel(name,code){
 const lastMileBusRegistry = {
   // Verified: İETT 139A Şemsipaşa → Ağva Merkez. The official route lists
   // both Üsküdar Marmaray and Şemsipaşa as Üsküdar stops.
-  // Verified İETT: 15/15F serve Anadolu Hisarı from Üsküdar-side stops.
+  // 15 is the primary Üsküdar-side option. 15F only serves the Üsküdar
+  // routing on departures marked G by İETT; disclose this in the UI.
   // This is access data, not a destination-specific routing rule.
   anadolu_hisari_from_uskudar: {
     key: 'uskudar|anadolu_hisari', targetId: 'anadolu_hisari', station: 'uskudar',
     stopName: 'Üsküdar Camii Önü', stopQuery: 'Üsküdar Camii Önü, Üsküdar, İstanbul',
-    walkToStopMinutes: 4, line: '15 / 15F', direction: 'Anadolu Hisarı / Beykoz',
+    walkToStopMinutes: 4, line: '15', direction: 'Anadolu Hisarı / Beykoz',
     boardStop: 'Üsküdar Camii Önü', alightStop: 'Anadolu Hisarı',
     alightQuery: 'Anadolu Hisarı, Beykoz, İstanbul', targetQuery: 'Anadolu Hisarı, Beykoz, İstanbul',
-    iettUrl: 'https://iett.istanbul/RouteDetail?hkod=15F',
-    source: 'İETT 15 / 15F official route', verified: true
+    iettUrl: 'https://iett.istanbul/RouteDetail?hkod=15',
+    alternatives: [
+      { line: '15F (yalnızca G işaretli seferler Üsküdar güzergâhından geçer)', iettUrl: 'https://iett.istanbul/RouteDetail?hkod=15F' }
+    ],
+    serviceNote: '15F kullanacaksanız İETT sefer listesinde G işareti olan seferi seçin. G işareti olmayan 15F seferi Üsküdar güzergâhından geçmeyebilir.',
+    source: 'İETT resmî 15 ve 15F hat sayfaları; 15F Üsküdar güzergâhı G işaretli seferlerle sınırlı', verified: true
   },
   // Official IETT pages list FB1/FB2 at Kadıköy Çarşı (224672) and
   // Şükrü Saraçoğlu Stadı (224723); both routes serve the stadium stop.
@@ -3209,6 +3214,7 @@ function renderLastMileBusPlan(plan, target) {
     boardWalk,
     boardStatus,
     `🚌 <b>${iett}</b> hattına <b>${plan.direction}</b> yönünde binin.`,
+    plan.serviceNote ? `⚠️ <b>Sefer notu:</b> ${plan.serviceNote}` : '',
     `🛑 <b>${plan.alightStop}</b> durağında inin.`,
     alightStatus,
     statusNotice,
