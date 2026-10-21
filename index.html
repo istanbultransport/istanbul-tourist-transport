@@ -3157,13 +3157,17 @@ const lastMileBusRegistry = {
     walkToStopMinutes: 8,
     line: '48G',
     direction: 'Mescid-i Selam',
+    // İETT's current official stop page marks stop 118272 as KAPALI.
+    // Do not recommend this boarding point until an open, direction-correct
+    // stop is verified; a route-level stop listing alone is not sufficient.
     boardStop: 'Göktürk Deresi — Kemerburgaz yönü (İETT durak 118272)',
     alightStop: 'Kent Ormanı',
     alightQuery: 'Kent Ormanı İETT Durağı, İstanbul',
     targetQuery: 'Kemerburgaz Kent Ormanı, İstanbul',
     iettUrl: 'https://iett.istanbul/RouteDetail?hkod=48G&routename=G%C3%96KT%C3%9CRK-+MESC%C4%B0D%C4%B0+SELAM',
     source: 'İETT 48G official route + Kemerburgaz Kent Ormanı official access page',
-    verified: true
+    verificationNote: 'İETT durak 118272 resmî kayıtta KAPALI; açık ve doğru yönlü biniş durağı doğrulanana kadar bağlantı devre dışı.',
+    verified: false
   }
 };
 
@@ -3286,7 +3290,7 @@ const startLocalAccessRegistry={
       const stop=currentLocationWalkingNavUrl(iettStopLabel('Ataşehir Bulvarı - Ataşehir Yönü','205744')+' İstanbul');
       const iett=getIettStop('Kozyatağı Metro','225653').iettUrl;
       const routeUrl='https://iett.istanbul/RouteDetail?hkod=KM46';
-      return `<b>📍 ${hotel}</b> içinden doğrudan <b>Kozyatağı M4</b>'e yürümeyin.<br><br>🚶 <b>1. Yaklaşık 3 dakika yürüyün.</b> <b>Ataşehir Bulvarı - Ataşehir Yönü (205744)</b> durağına gidin.<br><a href="${stop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Biniş durağına yürüyüş navigasyonunu aç</a><br><br>🚌 <b>KM46 — Batı Ataşehir / Kozyatağı Metro</b> hattına binin ve <b>Kozyatağı Metro (225653)</b> durağında inin. KM46, İETT'ye göre Kozyatağı Metro'dan ring olarak çalışır; biniş yönünü durak ekranından kontrol edin.<br><a href="${routeUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 KM46 resmî İETT hat bilgisi</a> <a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">📍 Kozyatağı Metro iniş durağını aç</a>`;
+      return `<b>📍 ${hotel}</b> içinden doğrudan <b>Kozyatağı M4</b>'e yürümeyin.<br><br>🚶 <b>1. Yaklaşık 3 dakika yürüyün.</b> <b>Ataşehir Bulvarı - Ataşehir Yönü (205744)</b> durağına gidin.<br><a href="${stop}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#eef6ff;border:1px solid #cfe1f5;color:#1559aa;font-weight:900;text-decoration:none">🧭 Biniş durağına yürüyüş navigasyonunu aç</a><br><br>🚌 <b>KM46 — Batı Ataşehir / Kozyatağı Metro</b> hattına yalnızca <b>Kozyatağı Metro yönündeki normal seferde</b> binin ve <b>Kozyatağı Metro (225653)</b> durağında inin. İETT'ye göre <b>(-1) işaretli seferler Kozyatağı Metro'ya gitmez</b>; bunlar Bostancı Peronlar yönünde farklı güzergâh izler. Otobüsün sefer ekranında (-1) işareti olmadığını kontrol edin.<br><a href="${routeUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">🚌 KM46 resmî İETT hat bilgisi</a> <a href="${iett}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f5f7fa;border:1px solid #d7dde5;color:#1559aa;font-weight:900;text-decoration:none">📍 Kozyatağı Metro iniş durağını aç</a>`;
     }
   },
   the_green_park_pendik:{
@@ -4796,7 +4800,13 @@ function renderPath(path,targetId){
       return `<div class="step ${i===0?'now':''}"><div class="num">${i+1}</div><div><span class="step-badge">${i===0?'ŞİMDİ':'SIRADAKİ'}</span><p style="margin-top:10px;line-height:1.65">${text}</p></div></div>`;
     }
     const explicitWalkMins=(e[4] && Number.isFinite(Number(e[4].walkMinutes))) ? Number(e[4].walkMinutes) : null;
-    const walkMins=mode==='Yürüyüş' ? (touristWalkTime(from,to) ?? explicitWalkMins) : null;
+    // An explicit safety note in a walk leg overrides generic map-derived
+    // estimates: do not show a guessed duration when the route text says it
+    // has not been independently verified.
+    const walkCopy=String(text||'');
+    const walkDurationUnverified=mode==='Yürüyüş' && /süre.{0,30}doğrulanmadı|dakika tahmini vermiyorum/i.test(walkCopy);
+    const walkMins=mode==='Yürüyüş' && !walkDurationUnverified
+      ? (explicitWalkMins ?? touristWalkTime(from,to)) : null;
     const modeTitle=walkMins ? `Yürüyüş — yaklaşık ${Math.round(walkMins)} dk` : mode;
     if(mode==='Yürüyüş'){
       const currentLocationWalk = from==='current_location' && i===0;
@@ -4810,9 +4820,11 @@ function renderPath(path,targetId){
         ? (walkMins
           ? `<p style="margin-top:10px">📍 <b>Başlangıç noktanız telefonunuzun GPS konumu.</b><br>🚶 <b>${currentWalkLabel}</b> istasyonuna yaklaşık <b>${walkMins} dakika</b> yürüyün.<br><span style="display:block;margin-top:8px;font-size:12px;opacity:.9">ℹ️ ${currentWalkLabel} sizin bulunduğunuz konum değil; burası rotadaki ilk yürüyüşle ulaşacağınız istasyondur.</span></p>`
           : `<p style="margin-top:10px">📍 <b>Başlangıç noktanız telefonunuzun GPS konumu.</b><br>🚶 <b>${currentWalkLabel}</b> istasyonuna yürüyerek ulaşın.<br><span style="display:block;margin-top:8px;font-size:12px;opacity:.9">ℹ️ ${currentWalkLabel} sizin bulunduğunuz konum değil; burası rotadaki ilk yürüyüşle ulaşacağınız istasyondur.</span></p>`)
-        : (walkMins
-          ? `<p style="margin-top:10px"><b>${fromLabel}</b> → <b>${toLabel}</b><br>Yaklaşık <b>${walkMins} dakika</b> yürü.</p>`
-          : `<p style="margin-top:10px"><b>${fromLabel}</b> → <b>${toLabel}</b><br>Yürüyerek ulaş.</p>`);
+        : (walkDurationUnverified && walkCopy
+          ? `<p style="margin-top:10px;line-height:1.65">${walkCopy}</p>`
+          : (walkMins
+            ? `<p style="margin-top:10px"><b>${fromLabel}</b> → <b>${toLabel}</b><br>Yaklaşık <b>${walkMins} dakika</b> yürü.</p>`
+            : `<p style="margin-top:10px"><b>${fromLabel}</b> → <b>${toLabel}</b><br>Yürüyerek ulaş.</p>`));
       const navHtml=currentWalkDestination
         ? (currentWalkNav ? `<a class="current-location-nav" href="${currentWalkNav}" target="_blank" rel="noopener noreferrer">🚶 Yürü — istasyona navigasyonu aç</a>` : '')
         : currentWalkNav;
@@ -4907,19 +4919,18 @@ function lastMilePresentationQA(){
   const mismatchText=String(mismatch?.[3]||'');
   add('over-16-without-verified-bus-discloses-fallback',mismatchText.includes('19 dakika')&&mismatchText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),mismatchText);
 
-  add('bus-registry-indexed',lastMileBusPlanIndex.get('gokturk_m11|kemerburgaz_kent_ormani')?.verified===true,'verified bus plan index');
+  const closedStopPlan=lastMileBusRegistry.kemerburgaz_kent_ormani_from_gokturk;
+  add('closed-48G-stop-not-indexed-for-recommendation',
+    closedStopPlan?.verified===false &&
+    /118272.*KAPALI|KAPALI.*118272/i.test(closedStopPlan?.verificationNote||'') &&
+    !lastMileBusPlanIndex.has('gokturk_m11|kemerburgaz_kent_ormani'),
+    JSON.stringify({plan:closedStopPlan, indexed:lastMileBusPlanIndex.has('gokturk_m11|kemerburgaz_kent_ormani')})
+  );
 
   const busAccess=getEndAccess('kemerburgaz_kent_ormani') || {station:'gokturk_m11',mode:'M11 Metro',label:'Göktürk M11',walkMinutes:21};
   const bus=lastMileStep(busAccess,'kemerburgaz_kent_ormani');
   const busText=String(bus?.[3]||'');
-  add('>16-verified-bus-plan',busText.includes('48G')&&busText.includes('Kent Ormanı'),busText);
-  add('>16-board-stop',busText.includes('Göktürk Deresi — Kemerburgaz yönü (İETT durak 118272)'),busText);
-  add('>16-boarding-navigation-uses-stop-coordinates',busText.includes('destination=41.17660%2C28.89078')&&lastMileBusPlanIndex.get('gokturk_m11|kemerburgaz_kent_ormani')?.stopCode==='118272',busText);
-  add('>16-bus-direction',busText.includes('Mescid-i Selam'),busText);
-  add('>16-alight-stop',busText.includes('Kent Ormanı'),busText);
-  add('>16-boarding-navigation',busText.includes('otobüs durağına navigasyonu aç'),busText);
-  add('>16-final-navigation',busText.includes('hedefe navigasyonu aç'),busText);
-  add('>16-official-iett-link',busText.includes('iett.istanbul/RouteDetail?hkod=48G'),busText);
+  add('>16-closed-stop-falls-back-without-fabricated-bus',!busText.includes('48G')&&busText.includes('doğrulanmış otobüs bağlantısı bulunamadı'),busText);
 
   const fenerAccess={station:'kadikoy',mode:'M4 Metro',label:'Kadıköy M4',walkMinutes:18};
   const fener=lastMileStep(fenerAccess,'fenerbahce_stadyumu');
