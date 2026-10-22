@@ -91,10 +91,21 @@ try {
 
   // Route-engine fixture regression, run against the actual in-page data/graph.
   for (const item of cases.routeCases) {
-    const result = await page.evaluate(({ from, to }) => {
+    const result = await page.evaluate(({ from, to, id }) => {
       const hasId = id => typeof places!=='undefined' && Array.isArray(places) && places.some(p => p.id === id);
       if (!hasId(from) || !hasId(to)) return { ok:false,reason:'endpoint missing' };
       let path = route(from,to);
+      // R31 specifically tests the ferry alternative, not merely the first valid route().
+      // The normal route() can return a rail path before multimodal candidates are considered.
+      if (id === 'R31') {
+        const candidates = generateRouteCandidates(from,to);
+        const ferryCandidate = candidates.find(candidate =>
+          Array.isArray(candidate.path) &&
+          candidate.path.some(step => step[0] === 'moda' && step[1] === 'karakoy' && step[2] === 'Vapur') &&
+          candidate.path.some(step => step[0] === 'karakoy' && step[1] === 'galata' && step[2] === 'Son ulaşım')
+        );
+        if (ferryCandidate) path = ferryCandidate.path;
+      }
       if (!path) path = minimumRailRoute(from,to,4,null,null);
       if (!path) {
         const candidates = generateRouteCandidates(from,to);
@@ -105,6 +116,13 @@ try {
       return { ok:validation.ok,reason:validation.reason,steps:path.length,modes:path.map(s=>s[2]),path:path.map(s=>[s[0],s[1],s[2],s[3]]),finalMile:path.some(s=>s[2]==='Son ulaşım'),walk:path.some(s=>s[2]==='Yürüyüş') };
     }, item);
     record('route fixture '+item.id, result.ok === true, result.reason || JSON.stringify(result));
+    if (item.id === 'R31') {
+      const ferryLeg = result.path.find(step => step[0] === 'moda' && step[1] === 'karakoy' && step[2] === 'Vapur');
+      const lastMile = result.path.find(step => step[0] === 'karakoy' && step[1] === 'galata' && step[2] === 'Son ulaşım');
+      record('R31 Moda Sahili → Galata offers the Moda–Karaköy ferry and explicit Galata last mile',
+        !!ferryLeg && !!lastMile && String(ferryLeg[3]).includes('Karaköy'),
+        JSON.stringify(result.path));
+    }
     if (item.id === 'R48') {
       const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
       record('R48 Kanlıca → Bostancı preserves the Kanlıca → Üsküdar ferry leg and names the correct hub',

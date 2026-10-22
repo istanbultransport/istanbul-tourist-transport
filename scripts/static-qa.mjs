@@ -168,6 +168,9 @@ check('Marmaray omits Zeytinburnu and separates same-name M4 nodes', !marmarayBl
   check('Green Park Bostancı → Yeldeğirmeni route fixtures exist', regression.routeCases.some(x=>x.id==='R53'&&x.from==='the_green_park_bostanci'&&x.to==='yeldegirmeni'));
 check('Green Park Bostancı → Pendik route fixture exists', regression.routeCases.some(x=>x.id==='R54'&&x.from==='the_green_park_bostanci'&&x.to==='the_green_park_pendik'));
 
+check('Galata has a ferry-only access override that preserves rail access elsewhere', html.includes("ferryEndAccessOverrides") && html.includes("galata:{station:'karakoy',mode:'Vapur',label:'Karaköy İskelesi',local:true,direct:false}"));
+check('Galata route branch evaluates ferry alternative before rail-only fallback', html.includes("if(b==='galata'){\n     const ferryCandidate=multimodalFerryCandidate(a,b);\n     if(ferryCandidate) return ferryCandidate.path;\n   }"));
+check('browser QA guards Moda Sahili → Galata ferry and final-mile behavior', read('scripts/browser-qa.mjs').includes('R31 Moda Sahili → Galata offers the Moda–Karaköy ferry and explicit Galata last mile'));
 console.log(`Static QA: ${pass.length} passed, ${fail.length} failed`);
 for (const name of pass) console.log(`PASS  ${name}`);
 for (const name of fail) console.error(`FAIL  ${name}`);
