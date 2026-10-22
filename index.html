@@ -3,11 +3,11 @@
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.41-AIRPORT-ETA-CALIBRATION">
+<meta name="build-id" content="V230.12.42-HAVAIST-SULTANAHMET-ALTERNATIVE">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.41</title>
+<title>Istanbul Tourist Transport Planner — V230.12.42</title>
 <script>
 (function(){
   window.__APP_BUILD_ID__='V230.12.39-GREEN-PARK-HOTEL-ACCESS';
@@ -637,6 +637,7 @@ function verifiedFeederCandidates(placeId,targetStation){
  */
 
 function nodeLabel(id){
+ if(id==='havaist_sultanahmet') return 'Çatladıkapı Havaist durağı (Sultanahmet)';
  if(id==='current_location') return 'Mevcut konumum';
  const names={"sogutlucesme":"Söğütlüçeşme Marmaray","levent_m6":"Levent M6","hisarustu":"Boğaziçi Ü.-Hisarüstü M6","eminonu_t5":"Eminönü T5","kucukpazar":"Küçükpazar T5","alibeykoy_t5":"Alibeyköy Merkez T5","zincirlikuyu":"Zincirlikuyu Metrobüs","ayrilik":"Ayrılık Çeşmesi","sirkeci":"Sirkeci","kabatas":"Kabataş","gayrettepe":"Gayrettepe","kagithane_hub":"Kağıthane","taksim":"Taksim","eminonu":"Eminönü","karakoy":"Karaköy","besiktas":"Beşiktaş","uskudar":"Üsküdar","bostanci":"Bostancı","kozyatagi":"Kozyatağı M4","pendik":"Pendik","kartal_hub":"Kartal","maltepe_hub":"Maltepe","zeytinburnu_hub":"Zeytinburnu","sancaktepe_hub":"Sancaktepe M5 bağlantısı","samandira":"Samandıra Merkez","sultanbeyli":"Sultanbeyli","avcilar_hub":"Avcılar Metrobüs bağlantısı","beylikduzu_hub":"Beylikdüzü Metrobüs bağlantısı","buyukcekmece_hub":"Büyükçekmece bağlantısı","bagcilar_hub":"Bağcılar bağlantısı","bahcelievler_hub":"Bahçelievler bağlantısı","basaksehir_hub":"Başakşehir bağlantısı","bayrampasa_hub":"Bayrampaşa bağlantısı","esenler_hub":"Esenler bağlantısı","eyupsultan_hub":"Eyüpsultan bağlantısı","gaziosmanpasa_hub":"Gaziosmanpaşa bağlantısı","gungoren_hub":"Güngören bağlantısı","haciosman_hub":"Hacıosman bağlantısı","kucukcekmece_hub":"Küçükçekmece bağlantısı","atakoy":"Ataköy Marmaray","arnavutkoy_hastane":"Arnavutköy Hastane M11","kayasehir_hub":"Kayaşehir M11","maltepe_hub":"Maltepe","kartal_hub":"Kartal","kagithane_hub":"Kağıthane bağlantısı","kuzguncuk_iskele":"Kuzguncuk İskelesi","salacak_kiz_kulesi":"Salacak Kız Kulesi Ziyaretçi İskelesi","alibeykoy":"Alibeyköy M7"};
  // Hat etiketlerini tek kaynaktan üret: eski/eksik directLineMaps nedeniyle
@@ -786,7 +787,7 @@ function stepExplanation(mode,fromLabel,toLabel,direction,nextMode){
   return `${fromLabel} noktasından hareket et ve <b>${toLabel}</b> noktasında in.`;
 }
 function stepTitle(mode){
- const icons={"M6 Metro":"🚇","F4 Füniküler":"🚇","T6 Tramvay":"🚋","M8 Metro":"🚇","M1A Metro":"🚇","M4 Metro":"🚇","T3 Tramvay":"🚋","T5 Tramvay":"🚋","M11 Metro":"🚇","M2 Metro":"🚇","Marmaray":"🚆","T1 Tramvay":"🚋","F1 Füniküler":"🚇","F2 Füniküler":"🚇","T2 Tramvay":"🚋","TF1 Teleferik":"🚠","TF2 Teleferik":"🚠","Vapur":"🚢","Yürüyüş":"🚶","Son ulaşım":"📍","İlçe içi ulaşım":"🚌 🚶‍♂️ 🚕","Metrobüs":"🚌","M1 / Metrobüs":"🚌","M1":"🚇","M3 / M1B":"🚇","M7 / T4":"🚇","M7 / M11":"🚇","M5 Metro":"🚇","Otobüs / yürüyüş":"🚌","Yerel ulaşım":"🚌 🚶‍♂️"};
+ const icons={"M6 Metro":"🚇","F4 Füniküler":"🚇","T6 Tramvay":"🚋","M8 Metro":"🚇","M1A Metro":"🚇","M4 Metro":"🚇","T3 Tramvay":"🚋","T5 Tramvay":"🚋","M11 Metro":"🚇","M2 Metro":"🚇","Marmaray":"🚆","T1 Tramvay":"🚋","F1 Füniküler":"🚇","F2 Füniküler":"🚇","T2 Tramvay":"🚋","TF1 Teleferik":"🚠","TF2 Teleferik":"🚠","Vapur":"🚢","Otobüs (Havaist)":"🚌","Yürüyüş":"🚶","Son ulaşım":"📍","İlçe içi ulaşım":"🚌 🚶‍♂️ 🚕","Metrobüs":"🚌","M1 / Metrobüs":"🚌","M1":"🚇","M3 / M1B":"🚇","M7 / T4":"🚇","M7 / M11":"🚇","M5 Metro":"🚇","Otobüs / yürüyüş":"🚌","Yerel ulaşım":"🚌 🚶‍♂️"};
  return `${icons[mode]||'🚉'} ${mode}`;
 }
 function stepNodeLabel(id,mode){
@@ -4272,7 +4273,11 @@ function busWinsOnlyWithMeaningfulAdvantage(busPath,otherPath){
   // A small time advantage is not enough. A very large access improvement can be.
   return busReason;
 }
+function routeHasUnknownDuration(path){ return (path||[]).some(s=>s?.[4]?.durationUnknown===true); }
 function compareRouteQuality(a,b){
+  const aUnknown=routeHasUnknownDuration(a), bUnknown=routeHasUnknownDuration(b);
+  // An alternative with unverified duration must not outrank known-duration route options.
+  if(aUnknown!==bUnknown) return aUnknown ? 1 : -1;
   const x=routeQuality(a), y=routeQuality(b);
   if(routeHasBus(a)!==routeHasBus(b)){
     const busPath=routeHasBus(a)?a:b;
@@ -4294,6 +4299,22 @@ function validateRoute(path){
   if(!hasVerifiedTransitTransfers(path)) return {ok:false,reason:'unverified transit transfer'};
   return {ok:true,reason:null};
 }
+function havaistSultanahmetAirportCandidate(a,b){
+  const stopId='havaist_sultanahmet';
+  const officialRoute='https://blog.hava.ist/havaist-sultanahmet-hatti-yeniden-hizmette/';
+  const timetable='https://web.hava.ist/sefer-saatleri.php';
+  const stopQuery='Çatladıkapı Nikah Sarayı Karşısı İETT Durağı (Sultanahmet)';
+  const walkToStop='<b>'+stopQuery+'</b> durağına yürüyün. Yürüme süresi doğrulanmadığı için dakika tahmini verilmemiştir. <a href="https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(stopQuery)+'&travelmode=walking&dir_action=navigate" target="_blank" rel="noopener noreferrer">Durağa yürüyüş yolunu aç</a>.';
+  const busToAirport='<b>Çatladıkapı Nikah Sarayı karşısındaki Sultanahmet Havaist durağında</b> Havaist Sultanahmet hattına binip <b>İstanbul Havalimanı</b> durağında inin. Resmî hat durakları: Sirkeci, Şişhane 6, Türabi Baba Parkı, Hasköy Parkı ve Miniatürk. Trafiğe bağlı yolculuk süresi tahmin edilmemiştir. <a href="'+timetable+'" target="_blank" rel="noopener noreferrer">Resmî sefer saatlerini kontrol et</a>.';
+  const busFromAirport='<b>İstanbul Havalimanı</b> durağından Havaist Sultanahmet hattına binip <b>'+stopQuery+'</b> durağında inin. Trafiğe bağlı yolculuk süresi tahmin edilmemiştir. <a href="'+timetable+'" target="_blank" rel="noopener noreferrer">Resmî sefer saatlerini kontrol et</a>.';
+  const walkToHotel='<b>Sultanahmet Havaist durağından Four Seasons Hotel Istanbul at Sultanahmet yönüne yürüyün.</b> Yürüme süresi doğrulanmadığı için dakika tahmini verilmemiştir. <a href="https://www.google.com/maps/dir/?api=1&destination=Four%20Seasons%20Hotel%20Istanbul%20at%20Sultanahmet&travelmode=walking&dir_action=navigate" target="_blank" rel="noopener noreferrer">Otele yürüyüş yolunu aç</a>.';
+  const unknownWalk={surfaceTransfer:{type:'surface_long',walkMinutes:null,difficulty:1,sourceUrl:officialRoute}};
+  const unknownBus={durationUnknown:true,sourceUrl:officialRoute};
+  if(a==='four_seasons_sultanahmet' && b==='istanbul-airport') return [[a,stopId,'Yürüyüş',walkToStop,unknownWalk],[stopId,b,'Otobüs (Havaist)',busToAirport,unknownBus]];
+  if(a==='istanbul-airport' && b==='four_seasons_sultanahmet') return [[a,stopId,'Otobüs (Havaist)',busFromAirport,unknownBus],[stopId,b,'Yürüyüş',walkToHotel,unknownWalk]];
+  return null;
+}
+
 function generateRouteCandidates(a,b){
   const candidates=[];
   const add=(title,subtitle,path)=>{
@@ -4308,6 +4329,8 @@ function generateRouteCandidates(a,b){
   if(rail) add('Rota',`${countModeTransfers(rail)} aktarma`,rail);
   const ferry=multimodalFerryCandidate(a,b);
   if(ferry?.path) add('Ana ulaşım + vapur',`${ferry.transfers} aktarma`,ferry.path);
+  const havaist=havaistSultanahmetAirportCandidate(a,b);
+  if(havaist) add('Havaist Sultanahmet hattı','Durağa yürüyüş + direkt otobüs; süre doğrulanmadı',havaist);
   const nearby=nearbyDirectRoute(a,b);
   if(nearby) add('Yerel erişim', 'Yakın bağlantı', nearby);
   // Gerçek IETT verisi bağlanmadan otobüs hattı UYDURMA. Bus adayları yalnızca
