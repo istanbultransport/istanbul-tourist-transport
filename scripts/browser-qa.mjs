@@ -307,6 +307,47 @@ try {
         headingStepLabel: flow.headingStepLabel, summaryStepCount: flow.summaryStepCount,
         routeText: flow.routeText.slice(0, 240)
       }));
+      const routeSummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';
+      const busRailCases = {
+        R07: { bus: ['KM13','RouteDetail?hkod=KM13'], rail: ['Sirkeci Marmaray','Ayrılık Çeşmesi Marmaray','Pendik M4'] },
+        R24: { bus: ['KM46','RouteDetail?hkod=KM46'], rail: ['Kozyatağı M4','Ayrılık Çeşmesi M4','Yenikapı Marmaray','Gayrettepe M2','İstanbul Havalimanı M11'] },
+        R42: { bus: ['15 İETT','RouteDetail?hkod=15'], rail: ['Üsküdar Marmaray'] },
+        R43: { bus: ['15F','RouteDetail?hkod=15F'], rail: ['Sabiha Gökçen Havalimanı M4','Ayrılık Çeşmesi M4','Üsküdar Marmaray'] },
+        R44: { bus: ['15F','RouteDetail?hkod=15F'], rail: ['İstanbul Havalimanı M11','Gayrettepe M11','Yenikapı M2','Üsküdar Marmaray'] },
+        R47: { bus: ['U1','RouteDetail?hkod=U1'], rail: ['Taksim M2','Şişli-Mecidiyeköy M2','Yıldız M7'] }
+      };
+      const railOnlyCases = {
+        R01: ['Pendik M4','Ayrılık Çeşmesi M4','Yenikapı Marmaray','Gayrettepe M2','İstanbul Havalimanı M11'],
+        R02: ['Kadıköy M4','Ayrılık Çeşmesi M4','Sirkeci Marmaray','Sultanahmet T1'],
+        R05: ['Taksim M2','Yenikapı Marmaray','Ayrılık Çeşmesi Marmaray','Sabiha Gökçen Havalimanı M4'],
+        R06: ['Sabiha Gökçen Havalimanı M4','Kadıköy M4'],
+        R08: ['Üsküdar Marmaray','Sirkeci Marmaray','Sultanahmet T1'],
+        R10: ['Yıldız M7','Mecidiyeköy M7','Taksim M2'],
+        R13: ['Sultanahmet T1','Sirkeci T1','Yenikapı Marmaray','Gayrettepe M2','İstanbul Havalimanı M11'],
+        R37: ['Kaynarca Marmaray','Ayrılık Çeşmesi Marmaray','Sabiha Gökçen Havalimanı M4'],
+        R38: ['Florya Akvaryum Marmaray','Halkalı Marmaray','İstanbul Havalimanı M11'],
+        R50: ['Bayrampaşa-Maltepe M1A','Yenikapı M1A','Florya Akvaryum Marmaray'],
+        R51: ['Florya Akvaryum Marmaray','Yenikapı Marmaray','Bayrampaşa-Maltepe M1A'],
+        R52: ['Kaynarca Marmaray','Ayrılık Çeşmesi Marmaray','Bostancı M4'],
+        R54: ['Bostancı M4','Ayrılık Çeşmesi M4','Kaynarca Marmaray']
+      };
+      const busLinePattern = /(?:\b15F\b|\b15S\b|\b15 İETT\b|\bFB1\b|\bFB2\b|\bU1\b|\b48G\b|\b48U\b|\b139A\b|\bKM13\b|\bKM46\b)/i;
+      if (busRailCases[item.id]) {
+        const test = busRailCases[item.id];
+        const verifiedBusPresent = test.bus.every(token => flow.routeText.includes(token) || flow.routeHtml.includes(token));
+        const railBackbonePreserved = test.rail.every(label => routeSummary.includes(label));
+        const busKeptOutOfPrimarySummary = !busLinePattern.test(routeSummary);
+        record(item.id+' keeps verified bus as an access option without replacing the rail backbone',
+          verifiedBusPresent && railBackbonePreserved && busKeptOutOfPrimarySummary,
+          JSON.stringify({verifiedBusPresent,railBackbonePreserved,busKeptOutOfPrimarySummary,routeSummary:routeSummary.trim(),expectedBus:test.bus,expectedRail:test.rail}));
+      }
+      if (railOnlyCases[item.id]) {
+        const railBackbonePreserved = railOnlyCases[item.id].every(label => routeSummary.includes(label));
+        const noBusLinePromotedToPrimaryRoute = !busLinePattern.test(routeSummary);
+        record(item.id+' preserves expected rail corridor without promoting a bus line to the primary route',
+          railBackbonePreserved && noBusLinePromotedToPrimaryRoute,
+          JSON.stringify({railBackbonePreserved,noBusLinePromotedToPrimaryRoute,routeSummary:routeSummary.trim(),expectedRail:railOnlyCases[item.id]}));
+      }
       if(item.id==='R13'){
         const hotelAccessDisclosed = flow.routeText.includes('Four Seasons Hotel Istanbul at Sultanahmet') &&
           flow.routeText.includes('Sultanahmet T1') &&
