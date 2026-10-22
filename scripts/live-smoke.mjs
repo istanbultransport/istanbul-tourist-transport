@@ -212,7 +212,7 @@ try {
       if (item.id === 'R53') {
         const greenParkYeldegirmeniValid = flow.routeText.includes('Bostancı M4') &&
           flow.routeText.includes('Ayrılık Çeşmesi M4') &&
-          flow.routeText.includes('Yeldegirmeni') &&
+          flow.routeText.includes('Yeldeğirmeni') &&
           flow.routeText.includes('yürüyüş süresi doğrulanamadı') &&
           flow.routeText.includes('Tahmin · son erişim hariç') &&
           !flow.routeText.includes('Tavşantepe');
