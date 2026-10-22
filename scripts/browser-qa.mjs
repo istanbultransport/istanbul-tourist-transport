@@ -134,6 +134,38 @@ try {
     }
   }
 
+  // Airport ETA calibration: long-distance lines must not use the generic 2.2-minutes-per-stop fallback.
+  const airportEtaAudit = await page.evaluate(() => ({
+    m11GayrettepeToAirport: etaSegmentMinutes('gayrettepe','istanbul-airport','M11 Metro'),
+    marmarayPendikToYenikapi: etaSegmentMinutes('pendik_m','yenikapi','Marmaray')
+  }));
+  record('M11 Gayrettepe → İstanbul Havalimanı ETA is calibrated near 30 minutes',
+    airportEtaAudit.m11GayrettepeToAirport >= 25 && airportEtaAudit.m11GayrettepeToAirport <= 35,
+    JSON.stringify(airportEtaAudit));
+  record('Marmaray Pendik → Yenikapı ETA is calibrated near 48–50 minutes',
+    airportEtaAudit.marmarayPendikToYenikapi >= 45 && airportEtaAudit.marmarayPendikToYenikapi <= 55,
+    JSON.stringify(airportEtaAudit));
+
+  const airportRouteEtaAudit = await page.evaluate(() => [
+    {id:'R01',from:'pendik',to:'istanbul-airport',min:95,max:125},
+    {id:'R13',from:'four_seasons_sultanahmet',to:'istanbul-airport',min:65,max:95},
+    {id:'R24',from:'radisson_blu_istanbul_asia',to:'istanbul-airport',min:80,max:115}
+  ].map(item => {
+    let path=route(item.from,item.to);
+    if(!path) path=minimumRailRoute(item.from,item.to,4,null,null);
+    if(!path) {
+      const candidates=generateRouteCandidates(item.from,item.to);
+      path=selectBestRoute(candidates)?.path || candidates?.[0]?.path || null;
+    }
+    const eta=path ? estimatePath(path) : null;
+    return {id:item.id,base:eta?.base ?? null,low:eta?.low ?? null,high:eta?.high ?? null,min:item.min,max:item.max,modes:(path||[]).map(step=>step[2])};
+  }));
+  for (const item of airportRouteEtaAudit) {
+    record('airport route '+item.id+' has a plausible end-to-end ETA estimate',
+      Number.isFinite(item.base) && item.base >= item.min && item.base <= item.max,
+      JSON.stringify(item));
+  }
+
   // A disconnected pair of transit legs must never pass route validation.
   const internalTransferAudit = await page.evaluate(() => {
     const path = annotateSurfaceTransfers([
@@ -750,8 +782,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.40-greenpark-core' &&
-    htmlBuild === 'V230.12.40-UNKNOWN-LAST-MILE-ETA-DISCLOSURE' &&
+    cacheName === 'itp-v230.12.41-airport-eta-core' &&
+    htmlBuild === 'V230.12.41-AIRPORT-ETA-CALIBRATION' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
