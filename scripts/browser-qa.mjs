@@ -138,6 +138,9 @@ try {
     if (q.transitTransfers>=3) reviewFlags.push('transfers>=3');
     if (q.localSteps>=2) reviewFlags.push('local-steps>=2');
     if (q.busSteps>=2) reviewFlags.push('bus-steps>=2');
+    // Airport routes should be reviewed when the candidate builder exposes no meaningful comparison set.
+    // This is a coverage signal, not evidence that the selected route is wrong.
+    if (['R01','R13','R24'].includes(item.id) && result.candidateAuditPerformed && result.candidateCount < 2) reviewFlags.push('airport-alternative-coverage<2');
     if (reviewFlags.length) console.log('ROUTE_QUALITY_REVIEW '+JSON.stringify({id:item.id,from:item.from,to:item.to,flags:reviewFlags,quality:q,candidateAuditPerformed:result.candidateAuditPerformed,candidateCount:result.candidateAuditPerformed?result.candidateCount:null,candidates:result.candidateAuditPerformed?result.candidateSummary:undefined,legs:(result.path||[]).map(s=>({from:s[0],to:s[1],mode:s[2]}))}));
     if (item.id === 'R48') {
       const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
