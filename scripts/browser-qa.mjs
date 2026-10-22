@@ -90,6 +90,7 @@ try {
   record('no uncaught browser console errors', consoleErrors.length === 0, consoleErrors.slice(0, 5).join(' | '));
 
   // Route-engine fixture regression, run against the actual in-page data/graph.
+  const routeResultsById = {};
   for (const item of cases.routeCases) {
     const result = await page.evaluate(({ from, to }) => {
       const hasId = id => typeof places!=='undefined' && Array.isArray(places) && places.some(p => p.id === id);
@@ -105,6 +106,7 @@ try {
       return { ok:validation.ok,reason:validation.reason,steps:path.length,modes:path.map(s=>s[2]),path:path.map(s=>[s[0],s[1],s[2],s[3]]),finalMile:path.some(s=>s[2]==='Son ulaşım'),walk:path.some(s=>s[2]==='Yürüyüş') };
     }, item);
     record('route fixture '+item.id, result.ok === true, result.reason || JSON.stringify(result));
+    routeResultsById[item.id] = {from:item.from,to:item.to,...result};
     if (item.id === 'R48') {
       const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
       record('R48 Kanlıca → Bostancı preserves the Kanlıca → Üsküdar ferry leg and names the correct hub',
@@ -411,6 +413,21 @@ try {
 
   record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 54, 'count='+cases.routeCases.length);
 
+  for (const [forwardId, reverseId] of [['R45','R46'],['R48','R49'],['R52','R54']]) {
+    const forward = routeResultsById[forwardId];
+    const reverse = routeResultsById[reverseId];
+    const forwardEndpoints = !!forward?.path?.length &&
+      forward.path[0][0] === forward.from &&
+      forward.path[forward.path.length-1][1] === forward.to;
+    const reverseEndpoints = !!reverse?.path?.length &&
+      reverse.path[0][0] === reverse.from &&
+      reverse.path[reverse.path.length-1][1] === reverse.to;
+    const reciprocalEndpoints = !!forward && !!reverse &&
+      forward.from === reverse.to && forward.to === reverse.from;
+    record(forwardId+'/'+reverseId+' reverse routes preserve origin and destination endpoints',
+      reciprocalEndpoints && forwardEndpoints && reverseEndpoints,
+      JSON.stringify({forward:forward && {from:forward.from,to:forward.to,path:forward.path},reverse:reverse && {from:reverse.from,to:reverse.to,path:reverse.path}}));
+  }
 
   const greenParkRouteAudit = await page.evaluate(() => {
     const resolve = (from,to) => route(from,to) || minimumRailRoute(from,to,4) ||
