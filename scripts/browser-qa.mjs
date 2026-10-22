@@ -118,7 +118,7 @@ try {
         quality:{score:qualityScore,transitTransfers:quality.transitTransfers,walkMinutes:quality.walkMinutes,
           localSteps:quality.localSteps,busSteps:quality.busSteps,railStops:quality.railStops,
           surfaceMinutes:quality.surfaceMinutes,surfacePenalty:quality.surfacePenalty},
-        candidateCount:candidates.length,
+        candidateCount:candidates.length,candidateAuditPerformed:candidateAuditIds.has(id),
         qualityMetricsFinite:Number.isFinite(qualityScore) && Object.values(quality).every(value=>Number.isFinite(value)),
         candidateRankingOk,selectedCandidateMatchesFirst
       };
@@ -137,7 +137,7 @@ try {
     if (q.transitTransfers>=3) reviewFlags.push('transfers>=3');
     if (q.localSteps>=2) reviewFlags.push('local-steps>=2');
     if (q.busSteps>=2) reviewFlags.push('bus-steps>=2');
-    if (reviewFlags.length) console.log('ROUTE_QUALITY_REVIEW '+JSON.stringify({id:item.id,from:item.from,to:item.to,flags:reviewFlags,quality:q,candidateCount:result.candidateCount}));
+    if (reviewFlags.length) console.log('ROUTE_QUALITY_REVIEW '+JSON.stringify({id:item.id,from:item.from,to:item.to,flags:reviewFlags,quality:q,candidateAuditPerformed:result.candidateAuditPerformed,candidateCount:result.candidateAuditPerformed?result.candidateCount:null,legs:(result.path||[]).map(s=>({from:s[0],to:s[1],mode:s[2]}))}));
     if (item.id === 'R48') {
       const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
       record('R48 Kanlıca → Bostancı preserves the Kanlıca → Üsküdar ferry leg and names the correct hub',
