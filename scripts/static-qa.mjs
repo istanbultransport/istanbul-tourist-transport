@@ -168,6 +168,12 @@ check('Marmaray omits Zeytinburnu and separates same-name M4 nodes', !marmarayBl
   check('Green Park Bostancı → Yeldeğirmeni route fixtures exist', regression.routeCases.some(x=>x.id==='R53'&&x.from==='the_green_park_bostanci'&&x.to==='yeldegirmeni'));
 check('Green Park Bostancı → Pendik route fixture exists', regression.routeCases.some(x=>x.id==='R54'&&x.from==='the_green_park_bostanci'&&x.to==='the_green_park_pendik'));
 
+check('route quality audit documentation defines metrics and limitations', read('qa/route-quality-audit.md').includes('do **not** prove the chosen journey is fastest'));
+const browserQa = read('scripts/browser-qa.mjs');
+check('browser QA emits route quality metrics and candidate-ranking assertions',
+  browserQa.includes('has finite route-quality metrics') &&
+  browserQa.includes('candidate ranking is consistent') &&
+  browserQa.includes('ROUTE_QUALITY_REVIEW'));
 console.log(`Static QA: ${pass.length} passed, ${fail.length} failed`);
 for (const name of pass) console.log(`PASS  ${name}`);
 for (const name of fail) console.error(`FAIL  ${name}`);
