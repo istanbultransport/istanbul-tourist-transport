@@ -173,6 +173,7 @@ const browserQa = read('scripts/browser-qa.mjs');
 check('browser QA emits route quality metrics and candidate-ranking assertions',
   browserQa.includes('has finite route-quality metrics') &&
   browserQa.includes('candidate ranking is consistent') &&
+  browserQa.includes('airport-alternative-coverage<2') &&
   browserQa.includes('ROUTE_QUALITY_REVIEW'));
 console.log(`Static QA: ${pass.length} passed, ${fail.length} failed`);
 for (const name of pass) console.log(`PASS  ${name}`);
