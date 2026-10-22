@@ -3,11 +3,11 @@
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.39-GREEN-PARK-HOTEL-ACCESS">
+<meta name="build-id" content="V230.12.40-UNKNOWN-LAST-MILE-ETA-DISCLOSURE">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>Istanbul Tourist Transport Planner — V230.12.39</title>
+<title>Istanbul Tourist Transport Planner — V230.12.40</title>
 <script>
 (function(){
   window.__APP_BUILD_ID__='V230.12.39-GREEN-PARK-HOTEL-ACCESS';
@@ -4519,7 +4519,7 @@ function etaSegmentMinutes(from,to,mode){
   return Math.max(1,stops*perStop);
 }
 function estimatePath(path){
-  if(!path||!path.length) return {low:0,high:0,transfers:0,base:0};
+  if(!path||!path.length) return {low:0,high:0,transfers:0,base:0,hasUnverifiedFinalAccess:false};
   let ride=0,transfers=0,firstTransitType=null;
   let previousTransit=stationSearchAccess[start?.id]?.mode || null;
   for(let i=0;i<path.length;i++){
@@ -4548,7 +4548,9 @@ function estimatePath(path){
   const base=ride+firstWait+transferWait;
   const low=Math.max(5,Math.round((base*0.9)/5)*5);
   const high=Math.max(low+5,Math.ceil((base*1.1)/5)*5);
-  return {low,high,transfers,base:Math.round(base*10)/10};
+  // Do not present an incomplete estimate as the whole journey when the final access has no verified walking duration.
+  const hasUnverifiedFinalAccess=path.some(step=>step?.[2]==='Son ulaşım' && /yürüyüş süresi doğrulanamadı|yürüme süresi doğrulanamadı/i.test(String(step?.[3]||'')));
+  return {low,high,transfers,base:Math.round(base*10)/10,hasUnverifiedFinalAccess};
 }
 function compressConsecutiveTransitStepsForDisplay(path){
   if(!Array.isArray(path) || !path.length) return path || [];
@@ -5662,7 +5664,7 @@ function buildRouteToTargetCore(target,gpsStart,gpsStation){
  const est=estimatePath(activePath);
  const heading=normalizedOptions ? '' : `<p>Her adımda <b>nereden bineceğin, hangi yöne gideceğin ve nerede ineceğin</b> gösterilir.</p>`;
  const displayActivePath=compressConsecutiveTransitStepsForDisplay(activePath);
- const summary=`<div class="route-summary"><div class="route-stat"><b>${est.low}–${est.high} dk</b><span>Tahmini yolculuk</span></div><div class="route-stat"><b>${est.transfers}</b><span>aktarma</span></div><div class="route-stat"><b>${displayActivePath.length}</b><span>ulaşım adımı</span></div></div>`;
+ const summary=`<div class="route-summary"><div class="route-stat"><b>${est.low}–${est.high} dk</b><span>${est.hasUnverifiedFinalAccess?'Tahmin · son erişim hariç':'Tahmini yolculuk'}</span></div><div class="route-stat"><b>${est.transfers}</b><span>aktarma</span></div><div class="route-stat"><b>${displayActivePath.length}</b><span>ulaşım adımı</span></div></div>`;
  const flow=routeFlow(activePath,start.id);
  const contextHelp=routeContextHelp(stationSearchAccess[start.id]?.station || start.id,activePath);
  panel.innerHTML=`<div class="route-change"><button type="button" class="change-btn route-start-btn" onclick="changeStart()">← Başlangıç noktasını değiştir</button><button type="button" class="change-btn route-reset-btn" onclick="newRoute()">↻ Rotayı sıfırla</button><button type="button" class="change-btn route-target-btn" onclick="changeTarget()">Hedefi değiştir →</button></div><div class="routehead"><div><h2>${gpsStart ? "📍 Mevcut konumum" : start.emoji+" "+start.name} → ${target.emoji} ${target.name}</h2>${heading}</div><div class="pill">${normalizedOptions ? 'PRATİK ROTA' : displayActivePath.length+' ULAŞIM ADIMI'}</div></div>${summary}${flow}${contextHelp}
