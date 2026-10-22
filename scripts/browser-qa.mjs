@@ -90,6 +90,7 @@ try {
   record('no uncaught browser console errors', consoleErrors.length === 0, consoleErrors.slice(0, 5).join(' | '));
 
   // Route-engine fixture regression, run against the actual in-page data/graph.
+  const routeResultsById = {};
   for (const item of cases.routeCases) {
     const result = await page.evaluate(({ from, to }) => {
       const hasId = id => typeof places!=='undefined' && Array.isArray(places) && places.some(p => p.id === id);
@@ -105,6 +106,15 @@ try {
       return { ok:validation.ok,reason:validation.reason,steps:path.length,modes:path.map(s=>s[2]),path:path.map(s=>[s[0],s[1],s[2],s[3]]),finalMile:path.some(s=>s[2]==='Son ulaşım'),walk:path.some(s=>s[2]==='Yürüyüş') };
     }, item);
     record('route fixture '+item.id, result.ok === true, result.reason || JSON.stringify(result));
+    routeResultsById[item.id] = {from:item.from,to:item.to,...result};
+    if (item.id === 'R49') {
+      const ferryLeg = result.path.find(step => step[2] === 'Vapur');
+      const reverseFerryValid = result.path[0]?.[0] === 'bostanci' &&
+        result.path[result.path.length-1]?.[1] === 'kanlica' &&
+        !!ferryLeg && ferryLeg[0] === 'uskudar' && ferryLeg[1] === 'kanlica';
+      record('R49 Bostancı → Kanlıca preserves reverse route endpoints and includes a ferry leg',
+        reverseFerryValid, JSON.stringify(result.path));
+    }
     if (item.id === 'R48') {
       const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
       record('R48 Kanlıca → Bostancı preserves the Kanlıca → Üsküdar ferry leg and names the correct hub',
@@ -307,6 +317,49 @@ try {
         headingStepLabel: flow.headingStepLabel, summaryStepCount: flow.summaryStepCount,
         routeText: flow.routeText.slice(0, 240)
       }));
+      const routeSummary = flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0] || '';
+      const busRailCases = {
+        R07: { bus: ['KM13','RouteDetail?hkod=KM13'], rail: ['Sirkeci Marmaray','Ayrılık Çeşmesi Marmaray','Pendik M4'] },
+        R24: { bus: ['KM46','RouteDetail?hkod=KM46'], rail: ['Kozyatağı M4','Ayrılık Çeşmesi M4','Yenikapı Marmaray','Gayrettepe M2','İstanbul Havalimanı M11'] },
+        R42: { bus: ['15F','RouteDetail?hkod=15F'], rail: ['Üsküdar Marmaray'] },
+        R43: { bus: ['15F','RouteDetail?hkod=15F'], rail: ['Sabiha Gökçen Havalimanı M4','Ayrılık Çeşmesi M4','Üsküdar Marmaray'] },
+        R44: { bus: ['15F','RouteDetail?hkod=15F'], rail: ['İstanbul Havalimanı M11','Gayrettepe M11','Yenikapı M2','Üsküdar Marmaray'] },
+        R47: { bus: ['U1','RouteDetail?hkod=U1'], rail: ['Taksim M2','Şişli-Mecidiyeköy M2','Yıldız M7'] }
+      };
+      const railOnlyCases = {
+        R01: ['Pendik M4','Ayrılık Çeşmesi M4','Yenikapı Marmaray','Gayrettepe M2','İstanbul Havalimanı M11'],
+        R02: ['Kadıköy M4','Ayrılık Çeşmesi M4','Sirkeci Marmaray','Sultanahmet T1'],
+        R05: ['Taksim M2','Yenikapı M2','Ayrılık Çeşmesi Marmaray','Sabiha Gökçen Havalimanı M4'],
+        R06: ['Sabiha Gökçen Havalimanı M4','Kadıköy M4'],
+        R08: ['Üsküdar Marmaray','Sirkeci Marmaray','Sultanahmet T1'],
+        R10: ['Yıldız M7','Mecidiyeköy M7','Taksim M2'],
+        R13: ['Sultanahmet T1','Sirkeci T1','Yenikapı Marmaray','Gayrettepe M2','İstanbul Havalimanı M11'],
+        R37: ['Kaynarca Marmaray','Ayrılık Çeşmesi Marmaray','Sabiha Gökçen Havalimanı M4'],
+        R38: ['Florya Akvaryum Marmaray','Halkalı Marmaray','İstanbul Havalimanı M11'],
+        R50: ['Bayrampaşa-Maltepe M1A','Yenikapı M1A','Florya Akvaryum Marmaray'],
+        R51: ['Florya Akvaryum Marmaray','Yenikapı Marmaray','Bayrampaşa-Maltepe M1A'],
+        R52: ['Kaynarca Marmaray','Ayrılık Çeşmesi Marmaray','Bostancı M4'],
+        R54: ['Bostancı M4','Ayrılık Çeşmesi M4','Kaynarca Marmaray']
+      };
+      const busLinePattern = /(?:\b15F\b|\b15S\b|\b15 İETT\b|\bFB1\b|\bFB2\b|\bU1\b|\b48G\b|\b48U\b|\b139A\b|\bKM13\b|\bKM46\b)/i;
+      if (busRailCases[item.id]) {
+        const test = busRailCases[item.id];
+        const busTokenMatches = test.bus.map(token => ({token, present:flow.routeText.includes(token) || flow.routeHtml.includes(token)}));
+        const verifiedBusPresent = busTokenMatches.every(match => match.present);
+        const busLinks = [...flow.routeHtml.matchAll(/href=["']([^"']*(?:RouteDetail|StationDetail)[^"']*)["']/gi)].map(match => match[1]).filter(href => /(?:RouteDetail|StationDetail)/i.test(href));
+        const railBackbonePreserved = test.rail.every(label => routeSummary.includes(label));
+        const busKeptOutOfPrimarySummary = !busLinePattern.test(routeSummary);
+        record(item.id+' keeps verified bus as an access option without replacing the rail backbone',
+          verifiedBusPresent && railBackbonePreserved && busKeptOutOfPrimarySummary,
+          JSON.stringify({verifiedBusPresent,busTokenMatches,busLinks,railBackbonePreserved,busKeptOutOfPrimarySummary,routeSummary:routeSummary.trim(),expectedBus:test.bus,expectedRail:test.rail}));
+      }
+      if (railOnlyCases[item.id]) {
+        const railBackbonePreserved = railOnlyCases[item.id].every(label => routeSummary.includes(label));
+        const noBusLinePromotedToPrimaryRoute = !busLinePattern.test(routeSummary);
+        record(item.id+' preserves expected rail corridor without promoting a bus line to the primary route',
+          railBackbonePreserved && noBusLinePromotedToPrimaryRoute,
+          JSON.stringify({railBackbonePreserved,noBusLinePromotedToPrimaryRoute,routeSummary:routeSummary.trim(),expectedRail:railOnlyCases[item.id]}));
+      }
       if(item.id==='R13'){
         const hotelAccessDisclosed = flow.routeText.includes('Four Seasons Hotel Istanbul at Sultanahmet') &&
           flow.routeText.includes('Sultanahmet T1') &&
@@ -336,6 +389,24 @@ try {
         record('R24 Radisson access names official KM46 route and the exact alighting stop',
           km46Access, flow.routeText.slice(0,1300));
       }
+      if (['R42','R43','R44'].includes(item.id)) {
+        const uskudarBusAccess = flow.routeText.includes('Üsküdar Camii Önü') &&
+          flow.routeText.includes('Anadolu Hisarı') &&
+          flow.routeText.includes('G işareti olan sefer') &&
+          flow.routeHtml.includes('RouteDetail?hkod=15') &&
+          flow.routeHtml.includes('RouteDetail?hkod=15F');
+        record(item.id+' verifies official 15/15F stops and 15F limited-trip warning',
+          uskudarBusAccess, JSON.stringify({uskudarBusAccess,routeText:flow.routeText.slice(-1600)}));
+      }
+      if (item.id === 'R47') {
+        const u1StopsVerified = flow.routeText.includes('Yıldız Teknik Üniversitesi - Beşiktaş Yönü') &&
+          flow.routeText.includes('Yahya Efendi') &&
+          flow.routeHtml.includes('RouteDetail?hkod=U1') &&
+          flow.routeHtml.includes('StationDetail?dkod=113401') &&
+          flow.routeHtml.includes('EnStationDetail?dkod=112041');
+        record('R47 verifies official U1 boarding/alighting stops and source links',
+          u1StopsVerified, JSON.stringify({u1StopsVerified,routeText:flow.routeText.slice(-1400)}));
+      }
       if(item.id==='R21'){
         const routeSummary=flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0]||'';
         const verifiedMarriottAccess=flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&
@@ -350,6 +421,21 @@ try {
 
   record('all route fixtures loaded', Array.isArray(cases.routeCases) && cases.routeCases.length === 54, 'count='+cases.routeCases.length);
 
+  for (const [forwardId, reverseId] of [['R45','R46'],['R48','R49'],['R52','R54']]) {
+    const forward = routeResultsById[forwardId];
+    const reverse = routeResultsById[reverseId];
+    const forwardEndpoints = !!forward?.path?.length &&
+      forward.path[0][0] === forward.from &&
+      forward.path[forward.path.length-1][1] === forward.to;
+    const reverseEndpoints = !!reverse?.path?.length &&
+      reverse.path[0][0] === reverse.from &&
+      reverse.path[reverse.path.length-1][1] === reverse.to;
+    const reciprocalEndpoints = !!forward && !!reverse &&
+      forward.from === reverse.to && forward.to === reverse.from;
+    record(forwardId+'/'+reverseId+' reverse routes preserve origin and destination endpoints',
+      reciprocalEndpoints && forwardEndpoints && reverseEndpoints,
+      JSON.stringify({forward:forward && {from:forward.from,to:forward.to,path:forward.path},reverse:reverse && {from:reverse.from,to:reverse.to,path:reverse.path}}));
+  }
 
   const greenParkRouteAudit = await page.evaluate(() => {
     const resolve = (from,to) => route(from,to) || minimumRailRoute(from,to,4) ||
