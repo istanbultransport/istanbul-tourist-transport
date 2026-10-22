@@ -111,7 +111,7 @@ try {
       const ferryLeg = result.path.find(step => step[2] === 'Vapur');
       const reverseFerryValid = result.path[0]?.[0] === 'bostanci' &&
         result.path[result.path.length-1]?.[1] === 'kanlica' &&
-        !!ferryLeg;
+        !!ferryLeg && ferryLeg[0] === 'uskudar' && ferryLeg[1] === 'kanlica';
       record('R49 Bostancı → Kanlıca preserves reverse route endpoints and includes a ferry leg',
         reverseFerryValid, JSON.stringify(result.path));
     }
