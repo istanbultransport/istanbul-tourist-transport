@@ -116,6 +116,19 @@ try {
     }
   }
 
+  // Airport ETA calibration: long-distance lines must use realistic full-line timings,
+  // not the generic 2.2-minutes-per-stop fallback.
+  const airportEtaAudit = await page.evaluate(() => ({
+    m11GayrettepeToAirport: etaSegmentMinutes('gayrettepe','istanbul-airport','M11 Metro'),
+    marmarayPendikToYenikapi: etaSegmentMinutes('pendik_m','yenikapi','Marmaray')
+  }));
+  record('M11 Gayrettepe → İstanbul Havalimanı ETA is calibrated near 30 minutes',
+    airportEtaAudit.m11GayrettepeToAirport >= 25 && airportEtaAudit.m11GayrettepeToAirport <= 35,
+    JSON.stringify(airportEtaAudit));
+  record('Marmaray Pendik → Yenikapı ETA is calibrated near 48–50 minutes',
+    airportEtaAudit.marmarayPendikToYenikapi >= 45 && airportEtaAudit.marmarayPendikToYenikapi <= 55,
+    JSON.stringify(airportEtaAudit));
+
   // A disconnected pair of transit legs must never pass route validation.
   const internalTransferAudit = await page.evaluate(() => {
     const path = annotateSurfaceTransfers([
