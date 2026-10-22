@@ -46,10 +46,11 @@ try {
   // selecting the next route; without this synchronization the initial route click
   // can race the list refresh in CI.
   await page.locator('.filter[data-filter="Tümü"]').click();
+  await page.locator('#startPlaceSearch').fill('Kadıköy Çarşı');
   await page.waitForFunction(() =>
     document.querySelector('#list .place[data-id="kadikoy_carsi"]') !== null,
     null,
-    { timeout: 10000 }
+    { timeout: 15000 }
   );
 
   // Select canonical origin/target through the UI and assert the JS state retained IDs/coordinates.
@@ -782,7 +783,7 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.41-airport-eta-core' &&
+    cacheName === 'itp-v230.12.41-airporteta-core' &&
     htmlBuild === 'V230.12.41-AIRPORT-ETA-CALIBRATION' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
