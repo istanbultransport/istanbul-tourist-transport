@@ -168,6 +168,9 @@ check('Marmaray omits Zeytinburnu and separates same-name M4 nodes', !marmarayBl
   check('Green Park Bostancı → Yeldeğirmeni route fixtures exist', regression.routeCases.some(x=>x.id==='R53'&&x.from==='the_green_park_bostanci'&&x.to==='yeldegirmeni'));
 check('Green Park Bostancı → Pendik route fixture exists', regression.routeCases.some(x=>x.id==='R54'&&x.from==='the_green_park_bostanci'&&x.to==='the_green_park_pendik'));
 
+check('Havaist Sultanahmet airport alternative uses official stop, timetable, and unknown-duration metadata', html.includes('function havaistSultanahmetAirportCandidate') && html.includes('Çatladıkapı Nikah Sarayı Karşısı İETT Durağı (Sultanahmet)') && html.includes('web.hava.ist/sefer-saatleri.php') && html.includes('durationUnknown:true'));
+check('unknown-duration Havaist candidates rank behind routes with known duration heuristics', html.includes('function routeHasUnknownDuration(path)') && html.includes('if(aUnknown!==bUnknown) return aUnknown ? 1 : -1;'));
+check('browser QA covers both directions of the Havaist Sultanahmet airport alternative', read('scripts/browser-qa.mjs').includes("Havaist airport alternative '+direction+' direction is source-backed and duration-safe") && read('scripts/browser-qa.mjs').includes("Havaist unknown-duration option stays behind known route '+direction"));
 console.log(`Static QA: ${pass.length} passed, ${fail.length} failed`);
 for (const name of pass) console.log(`PASS  ${name}`);
 for (const name of fail) console.error(`FAIL  ${name}`);
