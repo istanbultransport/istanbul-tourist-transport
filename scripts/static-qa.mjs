@@ -165,6 +165,8 @@ check('Marmaray omits Zeytinburnu and separates same-name M4 nodes', !marmarayBl
   const pendikHotelAccess = html.match(/the_green_park_pendik:\{station:'([^']+)',mode:'([^']+)',label:'([^']+)'/);
   check('The Green Park Pendik uses Kaynarca Marmaray access', !!pendikHotelAccess && pendikHotelAccess[1] === 'kaynarca_m' && pendikHotelAccess[2] === 'Marmaray' && pendikHotelAccess[3] === 'Kaynarca Marmaray', JSON.stringify(pendikHotelAccess?.slice(1)));
   check('The Green Park Pendik walking access targets Kaynarca Marmaray', html.includes("hotelWalkingAccessText('The Green Park Pendik','40.87251,29.25102','Kaynarca Marmaray',6)"));
+check('known Green Park hotel last-mile walks are included in ETA calculation', html.includes("'bostanci|the_green_park_bostanci': 10") && html.includes("'kaynarca_m|the_green_park_pendik': 6"));
+check('unverified final walking duration is excluded from the displayed journey ETA', html.includes('hasUnverifiedFinalAccess=true') && html.includes('Tahmin · son erişim hariç'));
   check('Green Park Bostancı → Yeldeğirmeni route fixtures exist', regression.routeCases.some(x=>x.id==='R53'&&x.from==='the_green_park_bostanci'&&x.to==='yeldegirmeni'));
 check('Green Park Bostancı → Pendik route fixture exists', regression.routeCases.some(x=>x.id==='R54'&&x.from==='the_green_park_bostanci'&&x.to==='the_green_park_pendik'));
 
