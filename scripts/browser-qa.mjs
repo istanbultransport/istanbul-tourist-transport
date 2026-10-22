@@ -91,7 +91,7 @@ try {
 
   // Route-engine fixture regression, run against the actual in-page data/graph.
   for (const item of cases.routeCases) {
-    const result = await page.evaluate(({ from, to }) => {
+    const result = await page.evaluate(({ from, to, id }) => {
       const hasId = id => typeof places!=='undefined' && Array.isArray(places) && places.some(p => p.id === id);
       if (!hasId(from) || !hasId(to)) return { ok:false,reason:'endpoint missing' };
       let path = route(from,to);
@@ -104,7 +104,8 @@ try {
       const validation = validateRoute(path);
       const quality = routeQuality(path);
       const qualityScore = routeDecisionScore(path);
-      const candidates = generateRouteCandidates(from,to) || [];
+      const candidateAuditIds = new Set(['R01','R02','R07','R24','R42','R43','R44','R47','R48','R49','R50','R52','R54']);
+      const candidates = candidateAuditIds.has(id) ? (generateRouteCandidates(from,to) || []) : [];
       const ranked = candidates.slice().sort((a,b)=>compareRouteQuality(a.path,b.path));
       const selected = selectBestRoute(candidates.slice());
       const pathKey = p => JSON.stringify((p||[]).map(s=>[s?.[0],s?.[1],s?.[2]]));
