@@ -104,7 +104,7 @@ try {
       const validation = validateRoute(path);
       const quality = routeQuality(path);
       const qualityScore = routeDecisionScore(path);
-      const candidateAuditIds = new Set(['R01','R02','R07','R24','R42','R43','R44','R47','R48','R49','R50','R52','R54']);
+      const candidateAuditIds = new Set(['R01','R02','R07','R13','R24','R42','R43','R44','R47','R48','R49','R50','R52','R54']);
       const candidates = candidateAuditIds.has(id) ? (generateRouteCandidates(from,to) || []) : [];
       const ranked = candidates.slice().sort((a,b)=>compareRouteQuality(a.path,b.path));
       const selected = selectBestRoute(candidates.slice());
@@ -119,6 +119,7 @@ try {
           localSteps:quality.localSteps,busSteps:quality.busSteps,railStops:quality.railStops,
           surfaceMinutes:quality.surfaceMinutes,surfacePenalty:quality.surfacePenalty},
         candidateCount:candidates.length,candidateAuditPerformed:candidateAuditIds.has(id),
+        candidateSummary:ranked.map(candidate=>{const q=routeQuality(candidate.path);return {title:candidate.title,score:routeDecisionScore(candidate.path),transitTransfers:q.transitTransfers,walkMinutes:q.walkMinutes,localSteps:q.localSteps,busSteps:q.busSteps,railStops:q.railStops,legs:candidate.path.map(s=>({from:s[0],to:s[1],mode:s[2]}))};}),
         qualityMetricsFinite:Number.isFinite(qualityScore) && Object.values(quality).every(value=>Number.isFinite(value)),
         candidateRankingOk,selectedCandidateMatchesFirst
       };
@@ -137,7 +138,7 @@ try {
     if (q.transitTransfers>=3) reviewFlags.push('transfers>=3');
     if (q.localSteps>=2) reviewFlags.push('local-steps>=2');
     if (q.busSteps>=2) reviewFlags.push('bus-steps>=2');
-    if (reviewFlags.length) console.log('ROUTE_QUALITY_REVIEW '+JSON.stringify({id:item.id,from:item.from,to:item.to,flags:reviewFlags,quality:q,candidateAuditPerformed:result.candidateAuditPerformed,candidateCount:result.candidateAuditPerformed?result.candidateCount:null,legs:(result.path||[]).map(s=>({from:s[0],to:s[1],mode:s[2]}))}));
+    if (reviewFlags.length) console.log('ROUTE_QUALITY_REVIEW '+JSON.stringify({id:item.id,from:item.from,to:item.to,flags:reviewFlags,quality:q,candidateAuditPerformed:result.candidateAuditPerformed,candidateCount:result.candidateAuditPerformed?result.candidateCount:null,candidates:result.candidateAuditPerformed?result.candidateSummary:undefined,legs:(result.path||[]).map(s=>({from:s[0],to:s[1],mode:s[2]}))}));
     if (item.id === 'R48') {
       const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
       record('R48 Kanlıca → Bostancı preserves the Kanlıca → Üsküdar ferry leg and names the correct hub',
