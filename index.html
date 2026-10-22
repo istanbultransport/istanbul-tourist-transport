@@ -4368,7 +4368,13 @@ function multimodalFerryCandidate(a,b){
   // are directly connected by ferry. Do not force a rail loop when the direct
   // surface connection is valid and competitive.
   const startAccess=resolveStationAccess(a,b);
-  const endAccessForHub=getEndAccess(b);
+  // Galata is usually reached from Şişhane M2, but it is also a walkable
+  // last-mile destination from Karaköy pier. Keep this ferry-only override
+  // separate from getEndAccess(), so the primary rail access remains intact.
+  const ferryEndAccessOverrides={
+    galata:{station:'karakoy',mode:'Vapur',label:'Karaköy İskelesi',local:true,direct:false}
+  };
+  const endAccessForHub=ferryEndAccessOverrides[b] || getEndAccess(b);
   const startHub=startAccess?.station;
   const endHubForHub=endAccessForHub?.station;
   if(startHub && endHubForHub && startHub!==endHubForHub && endAccessForHub?.local===true){
@@ -4393,7 +4399,7 @@ function multimodalFerryCandidate(a,b){
   // If the destination has a verified surface/ferry access hub, also
   // evaluate ferry-to-access-hub + final-mile access. This is deliberately
   // generic: the destination is not hard-coded into the routing decision.
-  const endAccess=getEndAccess(b);
+  const endAccess=endAccessForHub;
   const endHub=endAccess?.station;
   if(endHub && endHub!==b && endAccess?.local===true){
     for(const hub of ferryHubs){
