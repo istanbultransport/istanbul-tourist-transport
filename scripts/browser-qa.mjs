@@ -311,7 +311,7 @@ try {
       const busRailCases = {
         R07: { bus: ['KM13','RouteDetail?hkod=KM13'], rail: ['Sirkeci Marmaray','Ayrılık Çeşmesi Marmaray','Pendik M4'] },
         R24: { bus: ['KM46','RouteDetail?hkod=KM46'], rail: ['Kozyatağı M4','Ayrılık Çeşmesi M4','Yenikapı Marmaray','Gayrettepe M2','İstanbul Havalimanı M11'] },
-        R42: { bus: ['15 İETT','RouteDetail?hkod=15'], rail: ['Üsküdar Marmaray'] },
+        R42: { bus: ['15F','RouteDetail?hkod=15F'], rail: ['Üsküdar Marmaray'] },
         R43: { bus: ['15F','RouteDetail?hkod=15F'], rail: ['Sabiha Gökçen Havalimanı M4','Ayrılık Çeşmesi M4','Üsküdar Marmaray'] },
         R44: { bus: ['15F','RouteDetail?hkod=15F'], rail: ['İstanbul Havalimanı M11','Gayrettepe M11','Yenikapı M2','Üsküdar Marmaray'] },
         R47: { bus: ['U1','RouteDetail?hkod=U1'], rail: ['Taksim M2','Şişli-Mecidiyeköy M2','Yıldız M7'] }
