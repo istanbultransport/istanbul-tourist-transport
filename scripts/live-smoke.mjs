@@ -224,10 +224,11 @@ try {
           flow.routeText.includes('Ayrılık Çeşmesi M4') &&
           flow.routeText.includes('Kaynarca Marmaray') &&
           flow.routeText.includes('The Green Park Pendik') &&
-          flow.routeText.includes('yürüyüş süresi doğrulanamadı') &&
-          flow.routeText.includes('Tahmin · son erişim hariç') &&
+          flow.routeText.includes('yaklaşık 6 dakika yürümelisiniz') &&
+          !flow.routeText.includes('yürüyüş süresi doğrulanamadı') &&
+          !flow.routeText.includes('Tahmin · son erişim hariç') &&
           !flow.routeText.includes('Tavşantepe');
-        record('live R54 targets Kaynarca Marmaray and discloses ETA excludes unverified hotel walk',
+        record('live R54 targets Kaynarca Marmaray and includes verified six-minute hotel walk',
           greenParkPendikValid, flow.routeText.slice(0, 1600));
       }
     } catch (error) {
