@@ -301,7 +301,7 @@ try {
         headingStepLabel: document.querySelector('#route .routehead .pill')?.textContent?.trim() || '',
         summaryStepCount: Number(document.querySelectorAll('#route .route-summary .route-stat b')[2]?.textContent || NaN)
       }));
-      const hasJourneySummary = ['Tahmini yolculuk','aktarma','ulaşım adımı'].every(label => flow.summaryLabels.includes(label));
+      const hasJourneySummary = (flow.summaryLabels.includes('Tahmini yolculuk') || flow.summaryLabels.includes('Tahmin · son erişim hariç')) && ['aktarma','ulaşım adımı'].every(label => flow.summaryLabels.includes(label));
       const headingStepMatch = flow.headingStepLabel.match(/^(\d+)\s+ULAŞIM ADIMI$/i);
       const stepCountConsistent = headingStepMatch
         ? Number(headingStepMatch[1]) === flow.summaryStepCount
@@ -750,8 +750,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.39-greenpark-core' &&
-    htmlBuild === 'V230.12.39-GREEN-PARK-HOTEL-ACCESS' &&
+    cacheName === 'itp-v230.12.40-greenpark-core' &&
+    htmlBuild === 'V230.12.40-UNKNOWN-LAST-MILE-ETA-DISCLOSURE' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
