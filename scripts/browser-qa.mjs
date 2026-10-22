@@ -319,7 +319,7 @@ try {
       const railOnlyCases = {
         R01: ['Pendik M4','Ayrılık Çeşmesi M4','Yenikapı Marmaray','Gayrettepe M2','İstanbul Havalimanı M11'],
         R02: ['Kadıköy M4','Ayrılık Çeşmesi M4','Sirkeci Marmaray','Sultanahmet T1'],
-        R05: ['Taksim M2','Yenikapı Marmaray','Ayrılık Çeşmesi Marmaray','Sabiha Gökçen Havalimanı M4'],
+        R05: ['Taksim M2','Yenikapı M2','Ayrılık Çeşmesi Marmaray','Sabiha Gökçen Havalimanı M4'],
         R06: ['Sabiha Gökçen Havalimanı M4','Kadıköy M4'],
         R08: ['Üsküdar Marmaray','Sirkeci Marmaray','Sultanahmet T1'],
         R10: ['Yıldız M7','Mecidiyeköy M7','Taksim M2'],
