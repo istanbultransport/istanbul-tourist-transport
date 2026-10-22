@@ -23,8 +23,9 @@ A fixture is printed for human review if one or more thresholds are met:
 - `transitTransfers >= 3`
 - `localSteps >= 2`
 - `busSteps >= 2`
+- `airport-alternative-coverage<2` for the Pendik, Four Seasons Sultanahmet, and Radisson Blu Asia airport fixtures when the candidate builder returns fewer than two valid candidates.
 
-These thresholds prioritize review; they do not fail the build. A long walk may be the only realistic access, and the estimates can be incomplete.
+These thresholds prioritize review; they do not fail the build. A long walk may be the only realistic access, and the estimates can be incomplete. The airport candidate-coverage flag indicates that QA cannot compare multiple generated candidates; it does **not** mean the selected route is incorrect or that an unverified alternative should be invented.
 
 ## Automated guarantees
 
