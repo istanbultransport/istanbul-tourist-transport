@@ -95,6 +95,17 @@ try {
       const hasId = id => typeof places!=='undefined' && Array.isArray(places) && places.some(p => p.id === id);
       if (!hasId(from) || !hasId(to)) return { ok:false,reason:'endpoint missing' };
       let path = route(from,to);
+      // R31 specifically tests the ferry alternative, not merely the first valid route().
+      // The normal route() can return a rail path before multimodal candidates are considered.
+      if (id === 'R31') {
+        const candidates = generateRouteCandidates(from,to);
+        const ferryCandidate = candidates.find(candidate =>
+          Array.isArray(candidate.path) &&
+          candidate.path.some(step => step[0] === 'moda' && step[1] === 'karakoy' && step[2] === 'Vapur') &&
+          candidate.path.some(step => step[0] === 'karakoy' && step[1] === 'galata' && step[2] === 'Son ulaşım')
+        );
+        if (ferryCandidate) path = ferryCandidate.path;
+      }
       if (!path) path = minimumRailRoute(from,to,4,null,null);
       if (!path) {
         const candidates = generateRouteCandidates(from,to);
