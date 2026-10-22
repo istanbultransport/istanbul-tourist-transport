@@ -1675,6 +1675,12 @@ function route(a,b){
      const mins=Math.max(2,Math.round(walkKm/0.08));
      return [[a,b,'Yürüyüş',`<b>${aObj.name}</b> noktasından <b>${bObj.name}</b> noktasına yaklaşık <b>${mins} dakika</b> yürü.`]];
    }
+   // For Galata, evaluate the verified Moda–Karaköy ferry candidate before falling back to rail-only routing.
+   // This keeps Şişhane M2 as the default rail access while allowing a competitive ferry + walk route.
+   if(b==='galata'){
+     const ferryCandidate=multimodalFerryCandidate(a,b);
+     if(ferryCandidate) return ferryCandidate.path;
+   }
    return ensureFinalLocalAccess(minimumRailRoute(a,b,4),b);
  }
  // İlçe→ilçe rotalarında da önce doğrulanmış direkt vapur, sonra
