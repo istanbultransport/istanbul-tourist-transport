@@ -2693,8 +2693,10 @@ const lastMileWalkMinutes = {
  * another. Legacy target-only values remain usable only when the target's
  * verified end-access station is the same physical station we actually reached. */
 const lastMileStationWalkMinutes = {
-  // Explicitly audited live example: Haliç M2 → Arap Camii ≈ 2 min.
-  'halic|arap_camii': 2
+  // Explicitly audited live examples.
+  'halic|arap_camii': 2,
+  // Hotel access registry specifies a 6-minute walk from Kaynarca Marmaray to The Green Park Pendik.
+  'kaynarca_m|the_green_park_pendik': 6
 };
 
 function hasKnownWalkMinutes(value){
@@ -2751,12 +2753,14 @@ function lastMileStep(access,targetId){
   const busPlan=lastMileBusPlanFor(access,targetId);
   if(busPlan && (!hasKnownMins || Number(mins)>16)){
     return [access.station,targetId,'Son ulaşım',
-      `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${renderLastMileBusPlan(busPlan,target)}`];
+      `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${renderLastMileBusPlan(busPlan,target)}`,
+      {surfaceTransfer:{type:'surface_long',walkMinutes:null,difficulty:1}}];
   }
   if(hasKnownMins && Number(mins)<=16){
     const walkSentence=`🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine <b>yaklaşık ${Math.round(Number(mins))} dakika yürümelisiniz.</b>`;
     return [access.station,targetId,'Son ulaşım',
-      `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} ${nav}`];
+      `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} ${nav}`,
+      {surfaceTransfer:{walkMinutes:Number(mins),difficulty:1}}];
   }
 
   // 16 dakikayı aşan erişimde doğrulanmış otobüs kaydı yoksa hat uydurma.
@@ -2765,7 +2769,8 @@ function lastMileStep(access,targetId){
     : `🚶 <b>${station}</b> istasyonundan <b>${target}</b> hedefine yürüyüş süresi doğrulanamadı.`;
   const fallback=hasKnownMins ? ` ${nav}` : ` Doğrulanmış yaya süresi bulunmadığından tahmini süre vermiyorum.`;
   return [access.station,targetId,'Son ulaşım',
-    `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} 16 dakikayı aşan bu erişim için doğrulanmış otobüs bağlantısı bulunamadı; yanlış hat önermiyorum.${fallback}`];
+    `<b>📍 ${target} için en yakın istasyon olan ${station} istasyonundasınız.</b><br><br>${walkSentence} 16 dakikayı aşan bu erişim için doğrulanmış otobüs bağlantısı bulunamadı; yanlış hat önermiyorum.${fallback}`,
+    {surfaceTransfer:{walkMinutes:null,difficulty:1}}];
 }
 
 const touristWalkDistanceKmMap = {
@@ -4520,10 +4525,15 @@ function etaSegmentMinutes(from,to,mode){
 }
 function estimatePath(path){
   if(!path||!path.length) return {low:0,high:0,transfers:0,base:0,hasUnverifiedFinalAccess:false};
-  let ride=0,transfers=0,firstTransitType=null;
+  let ride=0,transfers=0,firstTransitType=null,hasUnverifiedFinalAccess=false;
   let previousTransit=stationSearchAccess[start?.id]?.mode || null;
   for(let i=0;i<path.length;i++){
     const [from,to,mode]=path[i],type=etaModeType(mode);
+    if(mode==='Son ulaşım' && /yürüyüş süresi doğrulanamadı|yürüme süresi doğrulanamadı/i.test(String(path[i]?.[3]||''))){
+      // Never add the generic 10-minute local-leg fallback for an explicitly unverified final walk.
+      hasUnverifiedFinalAccess=true;
+      continue;
+    }
     ride+=etaSegmentMinutes(from,to,mode,path[i]);
     if(!firstTransitType&&type!=='walk'&&type!=='local') firstTransitType=type;
     if(type==='walk'||type==='local') continue;
@@ -4549,7 +4559,6 @@ function estimatePath(path){
   const low=Math.max(5,Math.round((base*0.9)/5)*5);
   const high=Math.max(low+5,Math.ceil((base*1.1)/5)*5);
   // Do not present an incomplete estimate as the whole journey when the final access has no verified walking duration.
-  const hasUnverifiedFinalAccess=path.some(step=>step?.[2]==='Son ulaşım' && /yürüyüş süresi doğrulanamadı|yürüme süresi doğrulanamadı/i.test(String(step?.[3]||'')));
   return {low,high,transfers,base:Math.round(base*10)/10,hasUnverifiedFinalAccess};
 }
 function compressConsecutiveTransitStepsForDisplay(path){
