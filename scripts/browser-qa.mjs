@@ -334,12 +334,14 @@ try {
       const busLinePattern = /(?:\b15F\b|\b15S\b|\b15 İETT\b|\bFB1\b|\bFB2\b|\bU1\b|\b48G\b|\b48U\b|\b139A\b|\bKM13\b|\bKM46\b)/i;
       if (busRailCases[item.id]) {
         const test = busRailCases[item.id];
-        const verifiedBusPresent = test.bus.every(token => flow.routeText.includes(token) || flow.routeHtml.includes(token));
+        const busTokenMatches = test.bus.map(token => ({token, present:flow.routeText.includes(token) || flow.routeHtml.includes(token)}));
+        const verifiedBusPresent = busTokenMatches.every(match => match.present);
+        const busLinks = [...flow.routeHtml.matchAll(/href=["']([^"']*(?:RouteDetail|StationDetail)[^"']*)["']/gi)].map(match => match[1]).filter(href => /(?:RouteDetail|StationDetail)/i.test(href));
         const railBackbonePreserved = test.rail.every(label => routeSummary.includes(label));
         const busKeptOutOfPrimarySummary = !busLinePattern.test(routeSummary);
         record(item.id+' keeps verified bus as an access option without replacing the rail backbone',
           verifiedBusPresent && railBackbonePreserved && busKeptOutOfPrimarySummary,
-          JSON.stringify({verifiedBusPresent,railBackbonePreserved,busKeptOutOfPrimarySummary,routeSummary:routeSummary.trim(),expectedBus:test.bus,expectedRail:test.rail}));
+          JSON.stringify({verifiedBusPresent,busTokenMatches,busLinks,railBackbonePreserved,busKeptOutOfPrimarySummary,routeSummary:routeSummary.trim(),expectedBus:test.bus,expectedRail:test.rail}));
       }
       if (railOnlyCases[item.id]) {
         const railBackbonePreserved = railOnlyCases[item.id].every(label => routeSummary.includes(label));
