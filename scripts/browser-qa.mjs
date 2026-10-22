@@ -107,6 +107,14 @@ try {
     }, item);
     record('route fixture '+item.id, result.ok === true, result.reason || JSON.stringify(result));
     routeResultsById[item.id] = {from:item.from,to:item.to,...result};
+    if (item.id === 'R49') {
+      const ferryLeg = result.path.find(step => step[2] === 'Vapur');
+      const reverseFerryValid = result.path[0]?.[0] === 'bostanci' &&
+        result.path[result.path.length-1]?.[1] === 'kanlica' &&
+        !!ferryLeg;
+      record('R49 Bostancı → Kanlıca preserves reverse route endpoints and includes a ferry leg',
+        reverseFerryValid, JSON.stringify(result.path));
+    }
     if (item.id === 'R48') {
       const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
       record('R48 Kanlıca → Bostancı preserves the Kanlıca → Üsküdar ferry leg and names the correct hub',
