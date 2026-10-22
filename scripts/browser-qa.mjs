@@ -129,6 +129,27 @@ try {
     airportEtaAudit.marmarayPendikToYenikapi >= 45 && airportEtaAudit.marmarayPendikToYenikapi <= 55,
     JSON.stringify(airportEtaAudit));
 
+  // End-to-end ETA sanity checks for representative airport routes.
+  const airportRouteEtaAudit = await page.evaluate(() => [
+    {id:'R01',from:'pendik',to:'istanbul-airport',min:95,max:125},
+    {id:'R13',from:'four_seasons_sultanahmet',to:'istanbul-airport',min:65,max:95},
+    {id:'R24',from:'radisson_blu_istanbul_asia',to:'istanbul-airport',min:80,max:115}
+  ].map(item => {
+    let path=route(item.from,item.to);
+    if(!path) path=minimumRailRoute(item.from,item.to,4,null,null);
+    if(!path) {
+      const candidates=generateRouteCandidates(item.from,item.to);
+      path=selectBestRoute(candidates)?.path || candidates?.[0]?.path || null;
+    }
+    const eta=path ? estimatePath(path) : null;
+    return {id:item.id,base:eta?.base ?? null,low:eta?.low ?? null,high:eta?.high ?? null,min:item.min,max:item.max,modes:(path||[]).map(s=>s[2])};
+  }));
+  for (const item of airportRouteEtaAudit) {
+    record('airport route '+item.id+' has a plausible end-to-end ETA estimate',
+      Number.isFinite(item.base) && item.base >= item.min && item.base <= item.max,
+      JSON.stringify(item));
+  }
+
   // A disconnected pair of transit legs must never pass route validation.
   const internalTransferAudit = await page.evaluate(() => {
     const path = annotateSurfaceTransfers([
