@@ -102,9 +102,41 @@ try {
       }
       if (!Array.isArray(path) || !path.length) return { ok:false,reason:'route missing' };
       const validation = validateRoute(path);
-      return { ok:validation.ok,reason:validation.reason,steps:path.length,modes:path.map(s=>s[2]),path:path.map(s=>[s[0],s[1],s[2],s[3]]),finalMile:path.some(s=>s[2]==='Son ulaşım'),walk:path.some(s=>s[2]==='Yürüyüş') };
+      const quality = routeQuality(path);
+      const qualityScore = routeDecisionScore(path);
+      const candidates = generateRouteCandidates(from,to) || [];
+      const ranked = candidates.slice().sort((a,b)=>compareRouteQuality(a.path,b.path));
+      const selected = selectBestRoute(candidates.slice());
+      const pathKey = p => JSON.stringify((p||[]).map(s=>[s?.[0],s?.[1],s?.[2]]));
+      const candidateRankingOk = ranked.every((candidate,index) => index===0 || compareRouteQuality(ranked[index-1].path,candidate.path)<=0);
+      const selectedCandidateMatchesFirst = ranked.length===0 || pathKey(selected?.path)===pathKey(ranked[0].path);
+      return {
+        ok:validation.ok,reason:validation.reason,steps:path.length,modes:path.map(s=>s[2]),
+        path:path.map(s=>[s[0],s[1],s[2],s[3]]),
+        finalMile:path.some(s=>s[2]==='Son ulaşım'),walk:path.some(s=>s[2]==='Yürüyüş'),
+        quality:{score:qualityScore,transitTransfers:quality.transitTransfers,walkMinutes:quality.walkMinutes,
+          localSteps:quality.localSteps,busSteps:quality.busSteps,railStops:quality.railStops,
+          surfaceMinutes:quality.surfaceMinutes,surfacePenalty:quality.surfacePenalty},
+        candidateCount:candidates.length,
+        qualityMetricsFinite:Number.isFinite(qualityScore) && Object.values(quality).every(value=>Number.isFinite(value)),
+        candidateRankingOk,selectedCandidateMatchesFirst
+      };
     }, item);
     record('route fixture '+item.id, result.ok === true, result.reason || JSON.stringify(result));
+    record('route fixture '+item.id+' has finite route-quality metrics',
+      result.qualityMetricsFinite === true, JSON.stringify(result.quality));
+    if (result.candidateCount > 0) {
+      record('route fixture '+item.id+' candidate ranking is consistent',
+        result.candidateRankingOk === true && result.selectedCandidateMatchesFirst === true,
+        JSON.stringify({candidateCount:result.candidateCount,rankingOk:result.candidateRankingOk,selectedMatchesFirst:result.selectedCandidateMatchesFirst}));
+    }
+    const q=result.quality||{};
+    const reviewFlags=[];
+    if (q.walkMinutes>=20) reviewFlags.push('walk>=20m');
+    if (q.transitTransfers>=3) reviewFlags.push('transfers>=3');
+    if (q.localSteps>=2) reviewFlags.push('local-steps>=2');
+    if (q.busSteps>=2) reviewFlags.push('bus-steps>=2');
+    if (reviewFlags.length) console.log('ROUTE_QUALITY_REVIEW '+JSON.stringify({id:item.id,from:item.from,to:item.to,flags:reviewFlags,quality:q,candidateCount:result.candidateCount}));
     if (item.id === 'R48') {
       const ferryLeg = result.path.find(step => step[0] === 'kanlica' && step[2] === 'Vapur');
       record('R48 Kanlıca → Bostancı preserves the Kanlıca → Üsküdar ferry leg and names the correct hub',
