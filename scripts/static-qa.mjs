@@ -170,7 +170,7 @@ check('Green Park Bostancı → Pendik route fixture exists', regression.routeCa
 
 check('Havaist Sultanahmet airport alternative uses official stop, timetable, and unknown-duration metadata', html.includes('function havaistSultanahmetAirportCandidate') && html.includes('Çatladıkapı Nikah Sarayı Karşısı İETT Durağı (Sultanahmet)') && html.includes('web.hava.ist/sefer-saatleri.php') && html.includes('durationUnknown:true'));
 check('unknown-duration Havaist candidates rank behind routes with known duration heuristics', html.includes('function routeHasUnknownDuration(path)') && html.includes('if(aUnknown!==bUnknown) return aUnknown ? 1 : -1;'));
-check('browser QA covers both directions of the Havaist Sultanahmet airport alternative', read('scripts/browser-qa.mjs').includes('Havaist airport alternative forward direction is source-backed and duration-safe') && read('scripts/browser-qa.mjs').includes('Havaist airport alternative reverse direction is source-backed and duration-safe'));
+check('browser QA covers both directions of the Havaist Sultanahmet airport alternative', read('scripts/browser-qa.mjs').includes("Havaist airport alternative '+direction+' direction is source-backed and duration-safe") && read('scripts/browser-qa.mjs').includes("Havaist unknown-duration option stays behind known route '+direction"));
 console.log(`Static QA: ${pass.length} passed, ${fail.length} failed`);
 for (const name of pass) console.log(`PASS  ${name}`);
 for (const name of fail) console.error(`FAIL  ${name}`);
