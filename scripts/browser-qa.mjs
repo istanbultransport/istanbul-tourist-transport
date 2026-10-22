@@ -379,6 +379,24 @@ try {
         record('R24 Radisson access names official KM46 route and the exact alighting stop',
           km46Access, flow.routeText.slice(0,1300));
       }
+      if (['R42','R43','R44'].includes(item.id)) {
+        const uskudarBusAccess = flow.routeText.includes('Üsküdar Camii Önü') &&
+          flow.routeText.includes('Anadolu Hisarı') &&
+          flow.routeText.includes('G işareti olan sefer') &&
+          flow.routeHtml.includes('RouteDetail?hkod=15') &&
+          flow.routeHtml.includes('RouteDetail?hkod=15F');
+        record(item.id+' verifies official 15/15F stops and 15F limited-trip warning',
+          uskudarBusAccess, JSON.stringify({uskudarBusAccess,routeText:flow.routeText.slice(-1600)}));
+      }
+      if (item.id === 'R47') {
+        const u1StopsVerified = flow.routeText.includes('Yıldız Teknik Üniversitesi - Beşiktaş Yönü') &&
+          flow.routeText.includes('Yahya Efendi') &&
+          flow.routeHtml.includes('RouteDetail?hkod=U1') &&
+          flow.routeHtml.includes('StationDetail?dkod=113401') &&
+          flow.routeHtml.includes('EnStationDetail?dkod=112041');
+        record('R47 verifies official U1 boarding/alighting stops and source links',
+          u1StopsVerified, JSON.stringify({u1StopsVerified,routeText:flow.routeText.slice(-1400)}));
+      }
       if(item.id==='R21'){
         const routeSummary=flow.routeText.split('🧭 Yolculuk özeti')[1]?.split('🔄 Aktarmada ne yapacaksın?')[0]||'';
         const verifiedMarriottAccess=flow.routeText.includes('Kozyatağı M8') && flow.routeText.includes('7 dakika') &&
