@@ -167,6 +167,8 @@ check('Marmaray omits Zeytinburnu and separates same-name M4 nodes', !marmarayBl
   check('The Green Park Pendik walking access targets Kaynarca Marmaray', html.includes("hotelWalkingAccessText('The Green Park Pendik','40.87251,29.25102','Kaynarca Marmaray',6)"));
 check('known Green Park hotel last-mile walks are included in ETA calculation', html.includes("'bostanci|the_green_park_bostanci': 10") && html.includes("'kaynarca_m|the_green_park_pendik': 6"));
 check('unverified final walking duration is excluded from the displayed journey ETA', html.includes('hasUnverifiedFinalAccess=true') && html.includes('Tahmin · son erişim hariç'));
+check('M11 and Marmaray ETA use calibrated full-line timings', html.includes("'M11 Metro':64,'Marmaray':108"));
+check('browser QA covers long-distance airport ETA sanity checks', read('scripts/browser-qa.mjs').includes('M11 Gayrettepe → İstanbul Havalimanı ETA') && read('scripts/browser-qa.mjs').includes('Marmaray Pendik → Yenikapı ETA'));
   check('Green Park Bostancı → Yeldeğirmeni route fixtures exist', regression.routeCases.some(x=>x.id==='R53'&&x.from==='the_green_park_bostanci'&&x.to==='yeldegirmeni'));
 check('Green Park Bostancı → Pendik route fixture exists', regression.routeCases.some(x=>x.id==='R54'&&x.from==='the_green_park_bostanci'&&x.to==='the_green_park_pendik'));
 
