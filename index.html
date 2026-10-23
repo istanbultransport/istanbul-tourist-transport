@@ -786,7 +786,7 @@ function stepExplanation(mode,fromLabel,toLabel,direction,nextMode){
   return `${fromLabel} noktasından hareket et ve <b>${toLabel}</b> noktasında in.`;
 }
 function stepTitle(mode){
- const icons={"M6 Metro":"🚇","F4 Füniküler":"🚇","T6 Tramvay":"🚋","M8 Metro":"🚇","M1A Metro":"🚇","M4 Metro":"🚇","T3 Tramvay":"🚋","T5 Tramvay":"🚋","M11 Metro":"🚇","M2 Metro":"🚇","Marmaray":"🚆","T1 Tramvay":"🚋","F1 Füniküler":"🚇","F2 Füniküler":"🚇","T2 Tramvay":"🚋","TF1 Teleferik":"🚠","TF2 Teleferik":"🚠","Vapur":"🚢","Yürüyüş":"🚶","Son ulaşım":"📍","İlçe içi ulaşım":"🚌 🚶‍♂️ 🚕","Metrobüs":"🚌","M1 / Metrobüs":"🚌","M1":"🚇","M3 / M1B":"🚇","M7 / T4":"🚇","M7 / M11":"🚇","M5 Metro":"🚇","Otobüs / yürüyüş":"🚌","Yerel ulaşım":"🚌 🚶‍♂️"};
+ const icons={"M6 Metro":"🚇","F4 Füniküler":"🚇","T6 Tramvay":"🚋","M8 Metro":"🚇","M1A Metro":"🚇","M4 Metro":"🚇","T3 Tramvay":"🚋","T5 Tramvay":"🚋","M11 Metro":"🚇","M2 Metro":"🚇","Marmaray":"🚆","T1 Tramvay":"🚋","F1 Füniküler":"🚇","F2 Füniküler":"🚇","T2 Tramvay":"🚋","TF1 Teleferik":"🚠","TF2 Teleferik":"🚠","Vapur":"🚢","Otobüs (Havaist)":"🚌","Yürüyüş":"🚶","Son ulaşım":"📍","İlçe içi ulaşım":"🚌 🚶‍♂️ 🚕","Metrobüs":"🚌","M1 / Metrobüs":"🚌","M1":"🚇","M3 / M1B":"🚇","M7 / T4":"🚇","M7 / M11":"🚇","M5 Metro":"🚇","Otobüs / yürüyüş":"🚌","Yerel ulaşım":"🚌 🚶‍♂️"};
  return `${icons[mode]||'🚉'} ${mode}`;
 }
 function stepNodeLabel(id,mode){
@@ -4660,7 +4660,7 @@ function renderPath(path,targetId){
       return null;
     }).filter(Boolean).join('');
   }
-  const icons={"M6 Metro":"🚇","F4 Füniküler":"🚇","T6 Tramvay":"🚋","M8 Metro":"🚇","M1A Metro":"🚇","M4 Metro":"🚇","T3 Tramvay":"🚋","T5 Tramvay":"🚋","M11 Metro":"🚇","M2 Metro":"🚇","Marmaray":"🚆","T1 Tramvay":"🚋","F1 Füniküler":"🚇","TF1 Teleferik":"🚠","TF2 Teleferik":"🚠","Vapur":"🚢","Yürüyüş":"🚶","İlçe içi ulaşım":"🚌 🚶‍♂️ 🚕","Metrobüs":"🚌","M1 / Metrobüs":"🚌","M1":"🚇","M3 / M1B":"🚇","M7 / T4":"🚇","M7 / M11":"🚇","M5 Metro":"🚇","Otobüs / yürüyüş":"🚌","Yerel ulaşım":"🚌 🚶‍♂️"};
+  const icons={"M6 Metro":"🚇","F4 Füniküler":"🚇","T6 Tramvay":"🚋","M8 Metro":"🚇","M1A Metro":"🚇","M4 Metro":"🚇","T3 Tramvay":"🚋","T5 Tramvay":"🚋","M11 Metro":"🚇","M2 Metro":"🚇","Marmaray":"🚆","T1 Tramvay":"🚋","F1 Füniküler":"🚇","TF1 Teleferik":"🚠","TF2 Teleferik":"🚠","Vapur":"🚢","Otobüs (Havaist)":"🚌","Yürüyüş":"🚶","İlçe içi ulaşım":"🚌 🚶‍♂️ 🚕","Metrobüs":"🚌","M1 / Metrobüs":"🚌","M1":"🚇","M3 / M1B":"🚇","M7 / T4":"🚇","M7 / M11":"🚇","M5 Metro":"🚇","Otobüs / yürüyüş":"🚌","Yerel ulaşım":"🚌 🚶‍♂️"};
   return path.map((e,i)=>{
     const [from,to,mode,text,meta]=e;
 
