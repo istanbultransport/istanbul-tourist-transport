@@ -3,7 +3,7 @@
 <html lang="tr"><head>
 <!-- V188 universal place access layer: Florya Akvaryum Marmaray, 5 min walk, alternatives --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build-id" content="V230.12.41-AIRPORT-ETA-CALIBRATION">
+<meta name="build-id" content="V230.12.42-HAVAIST-SULTANAHMET-ALTERNATIVE">
 <meta name="theme-color" content="#10243b">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
@@ -4297,6 +4297,22 @@ function validateRoute(path){
   if(!hasVerifiedTransitTransfers(path)) return {ok:false,reason:'unverified transit transfer'};
   return {ok:true,reason:null};
 }
+function havaistSultanahmetAirportCandidate(a,b){
+  const stopId='havaist_sultanahmet';
+  const officialRoute='https://blog.hava.ist/havaist-sultanahmet-hatti-yeniden-hizmette/';
+  const timetable='https://web.hava.ist/sefer-saatleri.php';
+  const stopQuery='Çatladıkapı Nikah Sarayı Karşısı İETT Durağı (Sultanahmet)';
+  const walkToStop='<b>'+stopQuery+'</b> durağına yürüyün. Yürüme süresi doğrulanmadığı için dakika tahmini verilmemiştir. <a href="https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(stopQuery)+'&travelmode=walking&dir_action=navigate" target="_blank" rel="noopener noreferrer">Durağa yürüyüş yolunu aç</a>.';
+  const busToAirport='<b>Çatladıkapı Nikah Sarayı karşısındaki Sultanahmet Havaist durağında</b> Havaist Sultanahmet hattına binip <b>İstanbul Havalimanı</b> durağında inin. Resmî hat durakları: Sirkeci, Şişhane 6, Türabi Baba Parkı, Hasköy Parkı ve Miniatürk. Trafiğe bağlı yolculuk süresi tahmin edilmemiştir. <a href="'+timetable+'" target="_blank" rel="noopener noreferrer">Resmî sefer saatlerini kontrol et</a>.';
+  const busFromAirport='<b>İstanbul Havalimanı</b> durağından Havaist Sultanahmet hattına binip <b>'+stopQuery+'</b> durağında inin. Trafiğe bağlı yolculuk süresi tahmin edilmemiştir. <a href="'+timetable+'" target="_blank" rel="noopener noreferrer">Resmî sefer saatlerini kontrol et</a>.';
+  const walkToHotel='<b>Sultanahmet Havaist durağından Four Seasons Hotel Istanbul at Sultanahmet yönüne yürüyün.</b> Yürüme süresi doğrulanmadığı için dakika tahmini verilmemiştir. <a href="https://www.google.com/maps/dir/?api=1&destination=Four%20Seasons%20Hotel%20Istanbul%20at%20Sultanahmet&travelmode=walking&dir_action=navigate" target="_blank" rel="noopener noreferrer">Otele yürüyüş yolunu aç</a>.';
+  const unknownWalk={surfaceTransfer:{type:'surface_long',walkMinutes:null,difficulty:1,sourceUrl:officialRoute}};
+  const unknownBus={durationUnknown:true,sourceUrl:officialRoute};
+  if(a==='four_seasons_sultanahmet' && b==='istanbul-airport') return [[a,stopId,'Yürüyüş',walkToStop,unknownWalk],[stopId,b,'Otobüs (Havaist)',busToAirport,unknownBus]];
+  if(a==='istanbul-airport' && b==='four_seasons_sultanahmet') return [[a,stopId,'Otobüs (Havaist)',busFromAirport,unknownBus],[stopId,b,'Yürüyüş',walkToHotel,unknownWalk]];
+  return null;
+}
+
 function generateRouteCandidates(a,b){
   const candidates=[];
   const add=(title,subtitle,path)=>{
