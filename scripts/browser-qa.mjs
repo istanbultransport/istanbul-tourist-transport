@@ -814,8 +814,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.41-airporteta-core' &&
-    htmlBuild === 'V230.12.41-AIRPORT-ETA-CALIBRATION' &&
+    cacheName === 'itp-v230.12.42-havaist-core' &&
+    htmlBuild === 'V230.12.42-HAVAIST-SULTANAHMET-ALTERNATIVE' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
