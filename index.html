@@ -4272,7 +4272,10 @@ function busWinsOnlyWithMeaningfulAdvantage(busPath,otherPath){
   // A small time advantage is not enough. A very large access improvement can be.
   return busReason;
 }
+function routeHasUnknownDuration(path){ return (path||[]).some(s=>s?.[4]?.durationUnknown===true); }
 function compareRouteQuality(a,b){
+  const aUnknown=routeHasUnknownDuration(a), bUnknown=routeHasUnknownDuration(b);
+  if(aUnknown!==bUnknown) return aUnknown ? 1 : -1;
   const x=routeQuality(a), y=routeQuality(b);
   if(routeHasBus(a)!==routeHasBus(b)){
     const busPath=routeHasBus(a)?a:b;
@@ -4308,6 +4311,8 @@ function generateRouteCandidates(a,b){
   if(rail) add('Rota',`${countModeTransfers(rail)} aktarma`,rail);
   const ferry=multimodalFerryCandidate(a,b);
   if(ferry?.path) add('Ana ulaşım + vapur',`${ferry.transfers} aktarma`,ferry.path);
+  const havaist=havaistSultanahmetAirportCandidate(a,b);
+  if(havaist) add('Havaist Sultanahmet hattı','Durağa yürüyüş + direkt otobüs; süre doğrulanmadı',havaist);
   const nearby=nearbyDirectRoute(a,b);
   if(nearby) add('Yerel erişim', 'Yakın bağlantı', nearby);
   // Gerçek IETT verisi bağlanmadan otobüs hattı UYDURMA. Bus adayları yalnızca
