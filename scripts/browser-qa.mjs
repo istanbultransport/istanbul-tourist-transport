@@ -167,6 +167,37 @@ try {
       JSON.stringify(item));
   }
 
+  // Havaist Sultanahmet airport route: both directions, no invented travel or walk duration.
+  const havaistAudit = await page.evaluate(() => {
+    const inspect = (from,to) => {
+      const candidates = generateRouteCandidates(from,to) || [];
+      const busIndex = candidates.findIndex(c=>c.path.some(s=>s[2]==='Otobüs (Havaist)'));
+      const bus = busIndex >= 0 ? candidates[busIndex] : null;
+      const busStep = bus?.path.find(s=>s[2]==='Otobüs (Havaist)');
+      const walkStep = bus?.path.find(s=>s[2]==='Yürüyüş');
+      return {
+        candidates:candidates.map(c=>({title:c.title,unknown:routeHasUnknownDuration(c.path)})),
+        busIndex,busFound:!!bus,unknownDuration:!!busStep?.[4]?.durationUnknown,
+        officialStop:String(busStep?.[3]||'').includes('Çatladıkapı'),
+        timetableLink:String(busStep?.[3]||'').includes('web.hava.ist/sefer-saatleri.php'),
+        walkHasMapLink:String(walkStep?.[3]||'').includes('google.com/maps/dir/'),
+        noInventedDuration:!(/\d+\s*dakika/i.test(String(busStep?.[3]||''))) &&
+          !(/\d+\s*dakika/i.test(String(walkStep?.[3]||'')))
+      };
+    };
+    return {forward:inspect('four_seasons_sultanahmet','istanbul-airport'),
+      reverse:inspect('istanbul-airport','four_seasons_sultanahmet')};
+  });
+  for (const direction of ['forward','reverse']) {
+    const audit=havaistAudit[direction];
+    record('Havaist airport alternative '+direction+' direction is source-backed and duration-safe',
+      audit.busFound&&audit.unknownDuration&&audit.officialStop&&audit.timetableLink&&audit.walkHasMapLink&&audit.noInventedDuration,
+      JSON.stringify(audit));
+    record('Havaist unknown-duration option stays behind known route '+direction,
+      audit.busFound&&audit.busIndex===audit.candidates.length-1&&audit.candidates[0]?.unknown===false,
+      JSON.stringify(audit.candidates));
+  }
+
   // A disconnected pair of transit legs must never pass route validation.
   const internalTransferAudit = await page.evaluate(() => {
     const path = annotateSurfaceTransfers([
@@ -783,8 +814,8 @@ try {
   const sw = read('sw.js');
   const cacheName = (sw.match(/const CACHE_NAME='([^']+)'/) || [])[1] || '';
   record('versioned PWA cache matches the restaurant-and-bus-access release and includes QA fixtures',
-    cacheName === 'itp-v230.12.41-airporteta-core' &&
-    htmlBuild === 'V230.12.41-AIRPORT-ETA-CALIBRATION' &&
+    cacheName === 'itp-v230.12.42-havaist-core' &&
+    htmlBuild === 'V230.12.42-HAVAIST-SULTANAHMET-ALTERNATIVE' &&
     sw.includes('./qa/location-regression-cases.json') && sw.includes('./qa.html'));
   const offlineContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
