@@ -171,6 +171,9 @@ check('M11 and Marmaray ETA use calibrated full-line timings', html.includes("'M
 check('browser QA covers long-distance airport ETA sanity checks', read('scripts/browser-qa.mjs').includes('M11 Gayrettepe → İstanbul Havalimanı ETA') && read('scripts/browser-qa.mjs').includes('Marmaray Pendik → Yenikapı ETA'));
   check('Green Park Bostancı → Yeldeğirmeni route fixtures exist', regression.routeCases.some(x=>x.id==='R53'&&x.from==='the_green_park_bostanci'&&x.to==='yeldegirmeni'));
 check('Green Park Bostancı → Pendik route fixture exists', regression.routeCases.some(x=>x.id==='R54'&&x.from==='the_green_park_bostanci'&&x.to==='the_green_park_pendik'));
+check('Havaist Sultanahmet airport alternative uses official stop and timetable with unknown-duration metadata', html.includes('function havaistSultanahmetAirportCandidate') && html.includes('Çatladıkapı Nikah Sarayı Karşısı İETT Durağı (Sultanahmet)') && html.includes('web.hava.ist/sefer-saatleri.php') && html.includes('durationUnknown:true'));
+check('unknown-duration Havaist candidates rank behind known-duration routes', html.includes('function routeHasUnknownDuration(path)') && html.includes('if(aUnknown!==bUnknown) return aUnknown ? 1 : -1;'));
+check('browser QA checks Havaist alternative in both directions', read('scripts/browser-qa.mjs').includes('Havaist airport alternative '+direction+' direction is source-backed and duration-safe'));
 
 check('Galata has a ferry-only access override that preserves rail access elsewhere', html.includes("ferryEndAccessOverrides") && html.includes("galata:{station:'karakoy',mode:'Vapur',label:'Karaköy İskelesi',local:true,direct:false}"));
 check('Galata route branch evaluates ferry alternative before rail-only fallback', html.includes("if(b==='galata'){\n     const ferryCandidate=multimodalFerryCandidate(a,b);\n     if(ferryCandidate) return ferryCandidate.path;\n   }"));
